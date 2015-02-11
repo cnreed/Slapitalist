@@ -6,6 +6,41 @@ public class Grid {
 	String [] stringArray = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
 	Tile [][] grid = new Tile[9][12];
 	
+	
+	public class Player {
+		
+		int totalCash;
+		String name;
+		
+		public Player (String name) {
+			this.name = name;
+			this.totalCash = 6000;
+		}
+		
+		
+	}
+	
+	public class Company {
+		
+		String name;
+		int size;
+		
+		public Company (String name) {
+			this.name = name;
+			this.size = 2;
+		}	
+		
+		public int updateSize () {
+			size++;
+			
+			return size;
+		}
+		
+		public int getSize() {
+			return size;
+		}
+	}
+	
 	/**
 	 * Individual Tiles for the game board.
 	 * @author Carolyn
@@ -74,8 +109,6 @@ public class Grid {
 	 * @param y
 	 */
 	public void checkBoundaries(Tile tile, int x, int y) {
-		System.out.print("x: " + x);
-		System.out.println(" y: " + y);
 		if(x <= 0) {
 			tile.top = false;
 		}
