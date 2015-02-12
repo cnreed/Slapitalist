@@ -6,7 +6,8 @@ class Company {
 	private static Color company_Color; //specific color associated with the company
 	private static ArrayList<Tile> company_tiles; //all tiles owned by the company
 	private static int safe_size;
-	//Player ownership
+	
+	//Player interaction with company
 	private static playerNode LinkedList share_Holders // Head: largest Tail: smallest
 
 		private class Node playerNode{
@@ -20,12 +21,26 @@ class Company {
 
 	private static final int company_Tier;
 
-	//board state
-	bool is_safe;    	//start false
-	bool game_endable; 	//start false
-	bool on_board; 		//start false
 
-	//METHODS
+	/*
+		We'll need to implement the pricing cliff here. it'll have to be weighted based on company_Tier;
+		Im the future we can create a base value and tier growth scale to make it more flexible for
+		player options.  but for now. we can hardcode the base value in. His code has  good schema for it.
+			-j
+
+	*/
+
+	/*
+		state of company 	
+	*/
+
+	boolean is_safe;    	//start false
+	boolean game_endable; 	//start false
+	boolean on_board; 		//start false
+
+	/*
+		Company Methods
+	*/
 	int get_Cid(){
 		return this.Cid;
 	}
