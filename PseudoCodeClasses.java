@@ -1,27 +1,81 @@
 class Company {
 
-	int Cid; //company number ID;
-	String company_Name; //name of company intialized 
-	int company_Size;    //company_tiles.length(), can't be 1
-	Color company_Color; //specific color associated with the company
-	Tile[] company_Tiles; //all tiles owned by the company
-
+	public static int Cid; //company number ID;
+	private static final String company_Name; //name of company intialized 
+	private static int company_Size = company_tiles.size();    //company_tiles.length(), can't be 1, always starts as 2 or not on board
+	private static Color company_Color; //specific color associated with the company
+	private static ArrayList<Tile> company_tiles; //all tiles owned by the company
+	private static int safe_size;
 	//Player ownership
-	playerNode LinkedList share_Holders // Head: largest Tail: smallest
+	private static playerNode LinkedList share_Holders // Head: largest Tail: smallest
 
-		Node playerNode{
+		private class Node playerNode{
 			String playerName;
 			int shareCount;
 			playerNode next;
 			playerNode prev;
+
+			//implement getters and setters for Linked List here. I don't want to.
 		}
 
-	int company_Tier;
+	private static final int company_Tier;
 
 	//board state
 	bool is_safe;    	//start false
 	bool game_endable; 	//start false
 	bool on_board; 		//start false
+
+	//METHODS
+	int get_Cid(){
+		return this.Cid;
+	}
+
+	String get_Name(){
+		return this.company_Name;
+	}
+
+	int get_size(){
+		return this.company_Size;
+	}
+
+	void increment_size(){
+		this.company_Size++;
+		if(company_Size==safe_size){is_safe=true;} //makes company safe if safe_size is achieved
+	}
+
+
+	int get_Color(){
+		return this.company_Color; // this will be a hex value but it can be returned as an int i think
+	}
+
+	String get_Majority(){
+		return this.shareHolders_get(0).playerName; // this will just the String from the node at position 0
+	}
+
+	String get_Minority(){
+		return this.shareHolders_get(1).playerName;
+	}
+
+	void set_safe(){
+		this.is_safe=true;
+	}
+
+	void set_endable(){
+		this.game_endable = true;
+	}
+
+	void set_onboard(){
+		this.on_board = true;
+	}
+
+	void dissolve(){ 			// drops all backend values to 0, which cascades to prices, etc.
+		this.on_board = false;  // doesn't affect people that have stock 
+		this.is_safe = false;
+		this.game_endable = false;
+		this.company_Size = 2;
+
+	}
+
 
 }
 
@@ -68,5 +122,5 @@ class Tile {
 	}
 
 	boolean safe = getCompany(ownerCompany).is_safe; // so the whole company's tiles will have the same response
-	
+
 }
