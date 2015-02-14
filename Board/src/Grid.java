@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Random;
 
 
@@ -5,20 +6,11 @@ public class Grid {
 	
 	String [] stringArray = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
 	Tile [][] grid = new Tile[9][12];
+	boolean[][] inBag = new boolean[9][12];
+	LinkedList<Tile>bag = new LinkedList<Tile>();
+	Tile[][] randArray= grid;
+
 	
-	
-	public class Player {
-		
-		int totalCash;
-		String name;
-		
-		public Player (String name) {
-			this.name = name;
-			this.totalCash = 6000;
-		}
-		
-		
-	}
 	
 	public class Company {
 		
@@ -41,28 +33,28 @@ public class Grid {
 		}
 	}
 	
-	/**
-	 * Individual Tiles for the game board.
-	 * @author Carolyn
-	 *
-	 */
-	public class Tile {
-		String row;
-		int col;
-		boolean top;
-		boolean bottom;
-		boolean left;
-		boolean right;
-		
-		public Tile(String row, int col) {
-			this.row = row;
-			this.col = col;
-			top = bottom = left = right =true;
-		}
-	}
+//	/**
+//	 * Individual Tiles for the game board.
+//	 * @author Carolyn
+//	 *
+//	 */
+//	public class Tile {
+//		String row;
+//		int col;
+//		boolean top;
+//		boolean bottom;
+//		boolean left;
+//		boolean right;
+//		
+//		public Tile(String row, int col) {
+//			this.row = row;
+//			this.col = col;
+//			top = bottom = left = right =true;
+//		}
+//	}
 	
 	/**
-	 * Intializes the board on start up.
+	 * Initializes the board on start up.
 	 */
 	public void initialize() {
 		
@@ -72,6 +64,7 @@ public class Grid {
 				String row = stringArray[i];
 				Tile tile = new Tile(row, j);
 				grid[i][j] = tile;
+				inBag[i][j] = true;
 			}
 		}
 	}
@@ -88,15 +81,32 @@ public class Grid {
 	}
 	
 	/**
+	 * Prints a specific Tile array
+	 * @param array
+	 */
+	private void print(Tile[][] array) {
+		for(int i = 0; i <array.length; i++) {
+			for(int j = 0; j <array[i].length; j++) {
+				System.out.print(array[i][j].row + "" + array[i][j].col + ", ");
+			}
+			System.out.println();
+		}
+	}
+	
+	/**
 	 * Randomly selects a tile from the grid.
 	 * @return
 	 */
-	public Tile selectRandom() {
+	public Tile draw() {
 		Random rand = new Random();
 		Tile tile = null;
 		int x = rand.nextInt(9);
 		int y = rand.nextInt(12);
+		if(!inBag[x][y]) {
+			return null;
+		}
 		tile = grid[x][y];
+		inBag[x][y] = false;
 		checkBoundaries(tile, x, y);
 		return tile;
 	}
@@ -135,22 +145,57 @@ public class Grid {
 		System.out.println("Left: " + tile.left);
 	}
 	
+	/**TODO: Actually make a stack or queue of the bag
+	 * 
+	 */
+	public void randomizeGrid() {
+		
+		Random rand = new Random();
+		int i, j;
+		for(i = 0; i < grid.length-1; i++) {
+			for(j = 0; j < grid[i].length-1; j++) {
+				int x = rand.nextInt(i+1);
+				int y = rand.nextInt(j+1);
+				
+				Tile temp = randArray[i][j];
+				randArray[i][j] = randArray[x][y];
+				randArray[x][y] = temp;
+			}
+		}
+//		print(randArray);
+		
+	}
+	
+	public void initBag() {
+		
+		for(int i = 0; i < randArray.length; i++) {
+			for(int j = 0; j < randArray[i].length;j++) {
+				Tile tile = randArray[i][j];
+				bag.add(tile);
+			}
+		}
+		
+	}
+	
 	public static void main (String [] args) {
 		Grid board = new Grid();
 		board.initialize();
 		board.print();
-		Tile tile = board.selectRandom();
+		Tile tile = board.draw();
 		System.out.println("Row: " + tile.row + " Col: " + tile.col);
-		Tile tile1 = board.selectRandom();
+		Tile tile1 = board.draw();
 		System.out.println("Row: " + tile1.row + " Col: " + tile1.col);
-		Tile tile2 = board.selectRandom();
+		Tile tile2 = board.draw();
 		System.out.println("Row: " + tile2.row + " Col: " + tile2.col);
-		Tile tile3 = board.selectRandom();
+		Tile tile3 = board.draw();
 		System.out.println("Row: " + tile3.row + " Col: " + tile3.col);
 		board.printBoundaries(tile);
 		board.printBoundaries(tile1);
 		board.printBoundaries(tile2);
 		board.printBoundaries(tile3);
+		
+		board.randomizeGrid();
+		board.initBag();
 	}
 	
 	/*
