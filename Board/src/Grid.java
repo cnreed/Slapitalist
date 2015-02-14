@@ -177,6 +177,10 @@ public class Grid {
 		
 	}
 	
+	/**
+	 * This is a testing Main.
+	 * @param args
+	 */
 	public static void main (String [] args) {
 		Grid board = new Grid();
 		board.initialize();
