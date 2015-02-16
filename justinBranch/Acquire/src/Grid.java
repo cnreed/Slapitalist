@@ -190,6 +190,10 @@ public class Grid {
 		}
 
 	}
+	
+	public Tile bagPop() {
+		return bag.pop();
+	}
 
 	/**
 	 * This is a testing Main.
