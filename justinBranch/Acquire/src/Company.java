@@ -1,16 +1,18 @@
-import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 class Company {
+
+	public static final String RESET = "\u001B[0m";
 
 	public int CID; // company number ID;
 	private String companyName; // name of company intialized
 	private int companySize;
 	private static ArrayList<Tile> companyTiles; // all tiles owned by the
 													// company
-	private static Color companyColor; // specific color associated with the
+	private static String companyColor; // specific color associated with the
 										// company
 	private static List<playerNode> shareHolders;
 	private int companyTier;
@@ -18,7 +20,7 @@ class Company {
 	boolean gameEndable; // start false
 	boolean onBoard; // start false
 
-	public Company(String companyName, int companyTier, Color companyColor,
+	public Company(String companyName, int companyTier, String companyColor,
 			int companySize, int occurence) {
 		this.companyName = companyName;
 		this.companyTier = companyTier;
@@ -27,6 +29,8 @@ class Company {
 		this.CID = occurence;
 
 		shareHolders = new LinkedList();
+
+		System.out.println(companyColor + companyName + " initiated." + RESET);
 	}
 
 	/*
@@ -47,26 +51,18 @@ class Company {
 		} // makes company safe if safe_size is achieved
 	}
 
-	public static Color getCompany_Color() {
-		return companyColor;
-	}
-
 	void insertShareHolder(String name, int shareCount) {
-
-		playerNode tempNode = new playerNode(name, shareCount);
-		shareHolders.add(tempNode);
+		shareHolders.add(new playerNode(name, shareCount));
 	}
 
-	Player getMajority() {
+	String getMajority() {
+		Collections.sort(shareHolders);
+		return shareHolders.get(0).playerName;
+	}
 
-		playerNode maj = shareHolders.get(0);
-		for (playerNode player : shareHolders) {
-			if (player.shareCount > maj.shareCount) {
-				maj = player;
-			}
-		}
-
-		return Main.getPlayer(maj.playerName);
+	String getMinority() {
+		Collections.sort(shareHolders);
+		return shareHolders.get(1).playerName;
 	}
 
 	void set_safe() {
