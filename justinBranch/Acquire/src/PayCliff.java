@@ -1,6 +1,6 @@
 class PayCliff {
 
-	private static int tier;
+	private int tier;
 	private static int sharePrice[] = new int[42];
 	private static int majorityPayout;
 	private static int minorityPayout;
