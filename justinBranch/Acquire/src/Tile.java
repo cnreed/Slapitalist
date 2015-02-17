@@ -38,5 +38,13 @@ public class Tile {
 		this.ownerPlayer = ownerPlayer;
 		this.thisTileState = thisTileState;
 	}
+	
+	public String getRow() {
+		return row;
+	}
+	
+	public int getCol() {
+		return col;
+	}
 
 }

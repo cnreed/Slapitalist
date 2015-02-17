@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Main {
 	
+	Grid board = new Grid(9,12);
 	static int playercount = 0;
 	private static int safeSize = 11;
 	private static ArrayList<Player> Players = new ArrayList<>();
@@ -11,21 +12,26 @@ public class Main {
 	public static void main(String[] args) {
 		
 		
+		Grid board = new Grid(9,12);
+		board.initialize();
+		board.randomizeGrid();
+		board.initBag();
 	
-	
-		Player carolyn = new Player("Carolyn");
+		Player carolyn = new Player("Carolyn", board.bagPop());
 		playercount++;
-		Player matt = new Player("Matt");
+		Player matt = new Player("Matt", board.bagPop());
 		playercount++;
-		Player justin = new Player("Justin");
+		Player justin = new Player("Justin", board.bagPop());
 		
 		Players.add(carolyn);
 		Players.add(matt);
 		Players.add(justin);
+		board.print();
+		System.out.println(carolyn.getName() +  " " + carolyn.printTile(carolyn.getInitTile()));
+		System.out.println(justin.getName() +  " " + justin.printTile(justin.getInitTile()));
+		System.out.println(matt.getName() +  " " + matt.printTile(matt.getInitTile()));
 		
-	
-		
-		
+		System.out.println(carolyn.compareTo(carolyn.getInitTile(), justin.getInitTile()));
 		
 		
 	}

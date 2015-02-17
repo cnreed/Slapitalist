@@ -6,10 +6,10 @@ public class Grid {
 	int x_size;
 	int y_size;
 	String[] stringArray = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
-	Tile[][] grid = new Tile[x_size][y_size];
-	boolean[][] inBag = new boolean[x_size][y_size];
+	Tile[][] grid;
+	boolean[][] inBag;
 	LinkedList<Tile> bag = new LinkedList<Tile>();
-	Tile[][] randArray = grid;
+	Tile[][] randArray;
 
 	int turns; // total turns across all players
 	int merges; // total merges across all players
@@ -18,48 +18,10 @@ public class Grid {
 	public Grid(int x_size, int y_size) {
 		this.x_size = x_size;
 		this.y_size = y_size;
+		grid = new Tile[x_size][y_size];
+		inBag = new boolean[x_size][y_size];
+		randArray = new Tile[x_size][y_size];
 	}
-
-	// public class Company {
-	//
-	// String name;
-	// int size;
-	//
-	// public Company (String name) {
-	// this.name = name;
-	// this.size = 2;
-	// }
-	//
-	// public int updateSize () {
-	// size++;
-	//
-	// return size;
-	// }
-	//
-	// public int getSize() {
-	// return size;
-	// }
-	// }
-
-	// /**
-	// * Individual Tiles for the game board.
-	// * @author Carolyn
-	// *
-	// */
-	// public class Tile {
-	// String row;
-	// int col;
-	// boolean top;
-	// boolean bottom;
-	// boolean left;
-	// boolean right;
-	//
-	// public Tile(String row, int col) {
-	// this.row = row;
-	// this.col = col;
-	// top = bottom = left = right =true;
-	// }
-	// }
 
 	/**
 	 * Initializes the board on start up.
@@ -72,9 +34,12 @@ public class Grid {
 				String row = stringArray[i];
 				Tile tile = new Tile(row, j);
 				grid[i][j] = tile;
+				randArray[i][j] = tile;
 				inBag[i][j] = true;
 			}
 		}
+		System.out.println("Board initialized");
+
 	}
 
 	/**
@@ -83,7 +48,7 @@ public class Grid {
 	public void print() {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				System.out.print(grid[i][j].row + "" + grid[i][j].col + ", ");
+				System.out.print(grid[i][j].row + grid[i][j].col + ", ");
 			}
 			System.out.println();
 		}
@@ -190,7 +155,7 @@ public class Grid {
 		}
 
 	}
-	
+
 	public Tile bagPop() {
 		return bag.pop();
 	}
@@ -201,7 +166,7 @@ public class Grid {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Grid board = new Grid(12, 9);
+		Grid board = new Grid(9, 12);
 		board.initialize();
 		board.print();
 		Tile tile = board.draw();
