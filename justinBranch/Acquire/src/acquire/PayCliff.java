@@ -1,3 +1,4 @@
+package acquire;
 class PayCliff {
 
 	private int tier;

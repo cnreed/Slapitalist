@@ -1,3 +1,4 @@
+package acquire;
 class playerNode implements Comparable<playerNode> {
 	String playerName;
 	int shareCount;

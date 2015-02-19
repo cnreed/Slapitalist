@@ -1,6 +1,11 @@
+package acquire;
 import java.util.LinkedList;
 import java.util.Random;
 
+import acquire.Tile.tileState;
+import acquire.Tile.tileState.*;
+
+//import static package.enum;
 public class Grid {
 
 	int x_size;
@@ -32,7 +37,7 @@ public class Grid {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				String row = stringArray[i];
-				Tile tile = new Tile(row, j);
+				Tile tile = new Tile(row, j, null, null, tileState.INBAG);
 				grid[i][j] = tile;
 				randArray[i][j] = tile;
 				inBag[i][j] = true;
