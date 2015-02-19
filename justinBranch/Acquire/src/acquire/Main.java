@@ -35,6 +35,13 @@ public class Main {
 		System.out.println(carolyn.compareTo(carolyn.getInitTile(), justin.getInitTile()));
 		
 		
+		for(int i = 0; i <= 7; i++) {
+//			System.out.println("Hello i:" + i);
+			Tile tile = board.bagPop();
+			carolyn.addHand(tile);
+		}
+		
+		
 	}
 	public static int getSafeSize() {
 		return safeSize;

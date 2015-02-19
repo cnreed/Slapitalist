@@ -5,7 +5,7 @@ public class Player {
 	int totalCash;
 	String name;
 	
-	int pid;  			// game session unique id
+	int pid;  				// game session unique id
 	Tile [] hand;
 	Tile initTile;
 	int companies_started;
@@ -13,6 +13,7 @@ public class Player {
 	int number_of_turns;
 	int money;
 	int [] shares;
+	static int numHand = 0; //The number of Tiles in the hand.
 
 	boolean my_turn;
 	boolean my_merge_turn;
@@ -26,6 +27,16 @@ public class Player {
 		this.name = name;
 		this.totalCash = 6000;
 		this.initTile = initTile;
+		this.hand = new Tile[6];
+	}
+	
+	public void addHand(Tile tile) {
+		if(numHand >= 6) {
+			System.out.println("Cheating is prohibited");
+			return;
+		}
+		hand[numHand] = tile;
+		numHand++;
 	}
 	
 	public int getCash() {

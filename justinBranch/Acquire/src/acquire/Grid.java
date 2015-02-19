@@ -58,7 +58,7 @@ public class Grid {
 	}
 
 	/**
-	 * Prints a specific Tile array
+	 * Prints a specific Tile array.
 	 * 
 	 * @param array
 	 */
@@ -160,7 +160,9 @@ public class Grid {
 	}
 
 	public Tile bagPop() {
-		return bag.pop();
+		Tile tile = bag.pop();
+		tile.statusUpdate(1);
+		return tile;
 	}
 
 	/**

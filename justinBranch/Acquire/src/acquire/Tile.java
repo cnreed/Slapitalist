@@ -37,10 +37,18 @@ public class Tile {
 		this.status = statuses[statusIndex];
 	}
 	
+	/**
+	 * Return the row of a particular tile.
+	 * @return
+	 */
 	public String getRow() {
 		return row;
 	}
 	
+	/**
+	 * Return the col of a particular tile.
+	 * @return
+	 */
 	public int getCol() {
 		return col;
 	}
