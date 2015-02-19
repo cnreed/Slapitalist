@@ -16,12 +16,8 @@ public class Tile {
 
 	String ownerCompany; // what company owns it
 	String ownerPlayer; // what player owns it
-
-	public enum tileState {
-		INBAG, INHAND, ONBOARD, QUARANTINED, UNPLAYABLE
-	}
-
-	public tileState thisTileState;
+	String status;
+	String []statuses = {"INBAG", "INHAND", "ONBOARD", "QUARANTINED", "UNPLAYABLE"};
 
 	boolean safe;
 
@@ -32,13 +28,13 @@ public class Tile {
 	}
 
 	public Tile(String row, int col, String ownerCompany, String ownerPlayer,
-			tileState thisTileState) {
+			int statusIndex) {
 		this.row = row;
 		this.col = col;
 		top = bottom = left = right = true;
 		this.ownerCompany = ownerCompany;
 		this.ownerPlayer = ownerPlayer;
-		this.thisTileState = thisTileState;
+		this.status = statuses[statusIndex];
 	}
 	
 	public String getRow() {
@@ -47,6 +43,14 @@ public class Tile {
 	
 	public int getCol() {
 		return col;
+	}
+	
+	/**
+	 * Updates the status of the tile.
+	 * @param statusIndex
+	 */
+	public void statusUpdate(int statusIndex) {
+		this.status = statuses[statusIndex];
 	}
 
 }
