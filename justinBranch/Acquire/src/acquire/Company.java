@@ -25,11 +25,11 @@ class Company {
 			int companySize, int occurence) {
 		this.companyName = companyName;
 		this.companyTier = companyTier;
-		this.companyColor = companyColor;
+		Company.companyColor = companyColor;
 		this.companySize = companySize;
 		this.CID = occurence;
 
-		shareHolders = new LinkedList();
+		shareHolders = new LinkedList<playerNode>();
 
 		System.out.println(companyColor + companyName + " initiated." + RESET);
 	}

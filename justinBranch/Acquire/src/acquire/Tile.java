@@ -60,5 +60,9 @@ public class Tile {
 	public void statusUpdate(int statusIndex) {
 		this.status = statuses[statusIndex];
 	}
+	
+	public String getStatus(Tile tile) {
+		return tile.status;
+	}
 
 }

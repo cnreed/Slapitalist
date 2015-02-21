@@ -1,6 +1,5 @@
 package acquire;
 import java.util.Scanner;
-
 public class Game {
 
 	private static int numPlayers;
