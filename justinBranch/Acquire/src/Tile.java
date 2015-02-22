@@ -1,4 +1,4 @@
-package acquire;
+
 
 /**
  * Individual Tiles for the game board.

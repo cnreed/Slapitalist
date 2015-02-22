@@ -1,4 +1,5 @@
-package acquire;
+
+
 
 public class Player {
 
@@ -57,6 +58,19 @@ public class Player {
 	}
 	
 	/**
+	 * Do something with the board.
+	 * @param loc - the location in the hand.
+	 */
+	public void placeTile(int loc) {
+		
+	}
+	
+	public void removeTile(int loc) {
+		hand[loc] = null;
+		numHand--;
+	}
+	
+	/**
 	 * Returns -1 if tile1 is smaller. Returns 1 if tile 1 is bigger.
 	 * @param tile1
 	 * @param tile2
@@ -79,6 +93,21 @@ public class Player {
 			return 1;
 		}
 		
+	}
+	
+	public void stockAquisition() {
+		int numStock = 0;
+		while(numStock != 3) {
+			buyStock();
+		}
+	}
+	
+	/**
+	 * TODO: have a switch statement of stocks.
+	 * @return
+	 */
+	public int buyStock() {
+		return 0;
 	}
 	
 	
