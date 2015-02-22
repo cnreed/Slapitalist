@@ -11,7 +11,7 @@ class Company {
 	public int CID; // company number ID;
 	private String companyName; // name of company intialized
 	private int companySize;
-	private static ArrayList<Tile> companyTiles; // all tiles owned by the
+	public ArrayList<Tile> companyTiles; // all tiles owned by the
 													// company
 	private static String companyColor; // specific color associated with the
 										// company
@@ -66,15 +66,19 @@ class Company {
 		return shareHolders.get(1).playerName;
 	}
 
-	void set_safe() {
+	void setSafe() {
 		isSafe = true;
 	}
+	
+	public boolean getSafe() {
+		return isSafe;
+	}
 
-	void set_endable() {
+	void setEndable() {
 		gameEndable = true;
 	}
 
-	void set_onboard() {
+	void setOnboard() {
 		onBoard = true;
 	}
 
@@ -85,6 +89,10 @@ class Company {
 		gameEndable = false;
 		companySize = 2;
 
+	}
+	
+	public void addTile(Tile tile) {
+		companyTiles.add(tile);
 	}
 
 }
