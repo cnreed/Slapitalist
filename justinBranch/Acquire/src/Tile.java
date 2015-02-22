@@ -14,10 +14,11 @@ public class Tile {
 	boolean left;
 	boolean right;
 
-	String ownerCompany; // what company owns it
-	String ownerPlayer; // what player owns it
-	String status;
-	String []statuses = {"INBAG", "INHAND", "ONBOARD", "QUARANTINED", "UNPLAYABLE"};
+	String ownerCompany; 	// what company owns it
+	String ownerPlayer; 	// what player owns it
+	String status;			//Current status of the tile
+	String []statuses = {"INBAG", "INHAND", "ONBOARD", "QUARANTINED", "UNPLAYABLE"}; 
+							//List of statuses the tile can have.
 
 	boolean safe;
 
@@ -60,9 +61,30 @@ public class Tile {
 	public void statusUpdate(int statusIndex) {
 		this.status = statuses[statusIndex];
 	}
+	/**
+	 * Returns the status of the tile.
+	 * @return
+	 */
+	public String getStatus() {
+		return status;
+	}
 	
-	public String getStatus(Tile tile) {
-		return tile.status;
+	
+	public boolean getTop() {
+		return top;
+	}
+	
+	public boolean getRight() {
+		return right;
+	}
+	
+	
+	public boolean getBottom() {
+		return bottom;
+	}
+	
+	public boolean getLeft() {
+		return left;
 	}
 
 }

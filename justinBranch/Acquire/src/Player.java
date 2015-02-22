@@ -36,7 +36,18 @@ public class Player {
 			System.out.println("Cheating is prohibited");
 			return;
 		}
+		tile.statusUpdate(1);
 		hand[numHand] = tile;
+		numHand++;
+	}
+	
+	/**
+	 * Places a new tile in the location of an old tile.
+	 * @param loc - Location in the hand
+	 * @param tile - Tile to add to the hand
+	 */
+	public void updateHand(int loc, Tile tile) {
+		hand[loc] = tile;
 		numHand++;
 	}
 	
@@ -61,13 +72,13 @@ public class Player {
 	 * Do something with the board.
 	 * @param loc - the location in the hand.
 	 */
-	public void placeTile(int loc) {
-		
-	}
-	
-	public void removeTile(int loc) {
+	public int placeTile(int loc) {
+		Tile tile = hand[loc];
+		tile.statusUpdate(2);
 		hand[loc] = null;
 		numHand--;
+		return loc;
+		//TODO: Might not have to return the location.
 	}
 	
 	/**

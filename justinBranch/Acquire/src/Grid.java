@@ -62,6 +62,7 @@ public class Grid {
 	 * 
 	 * @param array
 	 */
+	@SuppressWarnings("unused")
 	private void print(Tile[][] array) {
 		for (int i = 0; i < array.length; i++) {
 			for (int j = 0; j < array[i].length; j++) {
@@ -112,6 +113,36 @@ public class Grid {
 			tile.right = false;
 		}
 	}
+	
+	public void checkAdjaceny(Tile tile, int x, int y) {
+		Tile compare;
+		if(tile.getTop()) {
+			compare = grid[x][y+1];
+			if(compare.getStatus().equals("ONBOARD")) {
+				//TODO: DO SOMETHING
+			}
+		}
+		if(tile.getLeft()) {
+			compare = grid[x+1][y];
+			if(compare.getStatus().equals("ONBOARD")) {
+				//TODO: DO SOMETHING
+			}
+		}
+		if(tile.getBottom()) {
+			compare = grid[x][y-1];
+			if(compare.getStatus().equals("ONBOARD")) {
+				//TODO: DO SOMETHING
+			}
+		}
+		if(tile.getRight()) {
+			compare = grid[x-1][y];
+			if(compare.getStatus().equals("ONBOARD")) {
+				//TODO: DO SOMETHING
+			}
+		}
+	}
+	
+	
 
 	/**
 	 * Prints if the corresponding move is possible according to the limits of
