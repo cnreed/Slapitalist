@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -31,15 +30,9 @@ class Company {
 
 		shareHolders = new LinkedList<playerNode>();
 
-		System.out.println(companyColor + companyName + " initiated." + RESET);
+		// System.out.println(companyColor + companyName + " initiated." +
+		// RESET);
 	}
-
-	/*
-	 * We'll need to implement the pricing cliff here. it'll have to be weighted
-	 * based on company_Tier; Im the future we can create a base value and tier
-	 * growth scale to make it more flexible for player options. but for now. we
-	 * can hardcode the base value in. His code has good schema for it. -j
-	 */
 
 	int getCID() {
 		return this.CID;

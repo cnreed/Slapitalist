@@ -1,14 +1,10 @@
-
 import java.util.LinkedList;
 import java.util.Random;
 
-
-//import static package.enum;
 public class Grid {
 
 	int x_size;
 	int y_size;
-	String[] stringArray = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 	Tile[][] grid;
 	boolean[][] inBag;
 	LinkedList<Tile> bag = new LinkedList<Tile>();
@@ -24,6 +20,10 @@ public class Grid {
 		grid = new Tile[x_size][y_size];
 		inBag = new boolean[x_size][y_size];
 		randArray = new Tile[x_size][y_size];
+		initialize();
+		randomizeGrid();
+		initBag();
+
 	}
 
 	/**
@@ -31,17 +31,16 @@ public class Grid {
 	 */
 	public void initialize() {
 
-		System.out.println();
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				String row = stringArray[i];
-				Tile tile = new Tile(row, j, null, null, 0);
+		for (int i = 0; i < x_size; i++) {
+			for (int j = 0; j < y_size; j++) {
+				Tile tile = new Tile(i, j, null, null, 0);
 				grid[i][j] = tile;
 				randArray[i][j] = tile;
 				inBag[i][j] = true;
 			}
 		}
-		System.out.println("Board initialized");
+
+		// System.out.println("Board initialized");
 
 	}
 
@@ -49,46 +48,22 @@ public class Grid {
 	 * Prints the board.
 	 */
 	public void print() {
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				System.out.print(grid[i][j].row + grid[i][j].col + ", ");
+
+		String statusIndicator = "";
+		for (int i = 0; i < x_size; i++) {
+			for (int j = 0; j < y_size; j++) {
+				Tile thisTile = grid[i][j];
+				if (thisTile.getStatus().equals("ONBOARD")) {
+					System.out.print("[" + ((char) (grid[i][j].row + 65))
+							+ (grid[i][j].col + 1) + "]\t");
+				} else {
+					System.out.print("" + ((char) (grid[i][j].row + 65))
+							+ (grid[i][j].col + 1) + "\t");
+				}
 			}
+			statusIndicator = "";
 			System.out.println();
 		}
-	}
-
-	/**
-	 * Prints a specific Tile array.
-	 * 
-	 * @param array
-	 */
-	@SuppressWarnings("unused")
-	private void print(Tile[][] array) {
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array[i].length; j++) {
-				System.out.print(array[i][j].row + "" + array[i][j].col + ", ");
-			}
-			System.out.println();
-		}
-	}
-
-	/**
-	 * Randomly selects a tile from the grid.
-	 * 
-	 * @return
-	 */
-	public Tile draw() {
-		Random rand = new Random();
-		Tile tile = null;
-		int x = rand.nextInt(9);
-		int y = rand.nextInt(12);
-		if (!inBag[x][y]) {
-			return null;
-		}
-		tile = grid[x][y];
-		inBag[x][y] = false;
-		checkBoundaries(tile, x, y);
-		return tile;
 	}
 
 	/**
@@ -113,36 +88,34 @@ public class Grid {
 			tile.right = false;
 		}
 	}
-	
+
 	public void checkAdjaceny(Tile tile, int x, int y) {
 		Tile compare;
-		if(tile.getTop()) {
-			compare = grid[x][y+1];
-			if(compare.getStatus().equals("ONBOARD")) {
-				//TODO: DO SOMETHING
+		if (tile.getTop()) {
+			compare = grid[x][y + 1];
+			if (compare.getStatus().equals("ONBOARD")) {
+				// TODO: DO SOMETHING
 			}
 		}
-		if(tile.getLeft()) {
-			compare = grid[x+1][y];
-			if(compare.getStatus().equals("ONBOARD")) {
-				//TODO: DO SOMETHING
+		if (tile.getLeft()) {
+			compare = grid[x + 1][y];
+			if (compare.getStatus().equals("ONBOARD")) {
+				// TODO: DO SOMETHING
 			}
 		}
-		if(tile.getBottom()) {
-			compare = grid[x][y-1];
-			if(compare.getStatus().equals("ONBOARD")) {
-				//TODO: DO SOMETHING
+		if (tile.getBottom()) {
+			compare = grid[x][y - 1];
+			if (compare.getStatus().equals("ONBOARD")) {
+				// TODO: DO SOMETHING
 			}
 		}
-		if(tile.getRight()) {
-			compare = grid[x-1][y];
-			if(compare.getStatus().equals("ONBOARD")) {
-				//TODO: DO SOMETHING
+		if (tile.getRight()) {
+			compare = grid[x - 1][y];
+			if (compare.getStatus().equals("ONBOARD")) {
+				// TODO: DO SOMETHING
 			}
 		}
 	}
-	
-	
 
 	/**
 	 * Prints if the corresponding move is possible according to the limits of
@@ -175,7 +148,7 @@ public class Grid {
 				randArray[x][y] = temp;
 			}
 		}
-		// print(randArray);
+		// System.out.println("random Array initialized");
 
 	}
 
@@ -187,6 +160,7 @@ public class Grid {
 				bag.add(tile);
 			}
 		}
+		// System.out.println("bag initialized sized: " + bag.size());
 
 	}
 
@@ -196,30 +170,8 @@ public class Grid {
 		return tile;
 	}
 
-	/**
-	 * This is a testing Main.
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Grid board = new Grid(9, 12);
-		board.initialize();
-		board.print();
-		Tile tile = board.draw();
-		System.out.println("Row: " + tile.row + " Col: " + tile.col);
-		Tile tile1 = board.draw();
-		System.out.println("Row: " + tile1.row + " Col: " + tile1.col);
-		Tile tile2 = board.draw();
-		System.out.println("Row: " + tile2.row + " Col: " + tile2.col);
-		Tile tile3 = board.draw();
-		System.out.println("Row: " + tile3.row + " Col: " + tile3.col);
-		board.printBoundaries(tile);
-		board.printBoundaries(tile1);
-		board.printBoundaries(tile2);
-		board.printBoundaries(tile3);
+	public void playTile(Grid board, Tile tile) {
 
-		board.randomizeGrid();
-		board.initBag();
 	}
 
 	/*
