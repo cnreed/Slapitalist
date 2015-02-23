@@ -34,6 +34,7 @@ public class Grid {
 		for (int i = 0; i < x_size; i++) {
 			for (int j = 0; j < y_size; j++) {
 				Tile tile = new Tile(i, j, null, null, 0);
+
 				grid[i][j] = tile;
 				randArray[i][j] = tile;
 				inBag[i][j] = true;
@@ -168,6 +169,40 @@ public class Grid {
 		Tile tile = bag.pop();
 		tile.statusUpdate(1);
 		return tile;
+	}
+
+	public void setUnplayable(Company company) {
+		Tile change;
+		for (int i = 0; i < company.companyTiles.size(); i++) {
+			Tile tile = company.companyTiles.get(i);
+			int x = tile.getRow_x();
+			int y = tile.getCol();
+			if (tile.getTop()) {
+				change = grid[x][y + 1];
+				if (!company.companyTiles.contains(change)) {
+
+					change.subStatusUpdate(4);
+				}
+			}
+			if (tile.getRight()) {
+				change = grid[x + 1][y];
+				if (!company.companyTiles.contains(change)) {
+					change.subStatusUpdate(4);
+				}
+			}
+			if (tile.getBottom()) {
+				change = grid[x][y - 1];
+				if (!company.companyTiles.contains(change)) {
+					change.subStatusUpdate(4);
+				}
+			}
+			if (tile.getLeft()) {
+				change = grid[x - 1][y];
+				if (!company.companyTiles.contains(change)) {
+					change.subStatusUpdate(4);
+				}
+			}
+		}
 	}
 
 	public void playTile(Grid board, Tile tile) {
