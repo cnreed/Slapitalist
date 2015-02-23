@@ -114,6 +114,12 @@ public class Grid {
 		}
 	}
 	
+	/**
+	 * Possibly a test method?
+	 * @param tile
+	 * @param x
+	 * @param y
+	 */
 	public void checkAdjaceny(Tile tile, int x, int y) {
 		Tile compare;
 		if(tile.getTop()) {
