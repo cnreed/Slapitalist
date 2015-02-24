@@ -50,6 +50,12 @@ public class Game {
 		scan.close();
 	}
 
+	/**
+	 * 
+	 * @param playerIndex
+	 * @param board
+	 * @return
+	 */
 	private boolean getMove(int playerIndex, Grid board) {
 		Player player = players[playerIndex];
 		board.print();
@@ -72,6 +78,11 @@ public class Game {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param tileInPlay
+	 * @return
+	 */
 	private boolean playTile(Tile tileInPlay) {
 		/*
 		 * this casting back and forth between string and index for
@@ -86,6 +97,12 @@ public class Game {
 		return true;
 	}
 
+	/**
+	 * Depending upon who is first, the players are reorganized based on
+	 * seniority. 
+	 * @param first
+	 * @return
+	 */
 	private Player[] rearrangePlayerSequence(int first) {
 		Player[] tempPlayers = new Player[players.length];
 
@@ -96,6 +113,10 @@ public class Game {
 		return tempPlayers;
 	}
 
+	/**
+	 * Draws the tiles into the player's hand.
+	 * @param board
+	 */
 	private void drawStartingTiles(Grid board) {
 		for (Player player : players) {
 			Player.numHand = 0;
@@ -106,6 +127,11 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Chooses which player will go first.
+	 * @param board
+	 * @return
+	 */
 	private int whoIsFirst(Grid board) {
 		int pLength = players.length;
 		Tile tempTile;
@@ -127,7 +153,7 @@ public class Game {
 	}
 
 	/**
-	 * GEts the 
+	 * Initializes the list of players.
 	 * @return
 	 */
 	private static Player[] getPlayers() {
@@ -150,11 +176,35 @@ public class Game {
 
 		return players;
 	}
+	
+	
+	/**
+	 * Prints the companies and their tiers.
+	 * TODO: List which companies are on the board and which ones are not on
+	 * the board.
+	 */
+	private void companyListing() {
+		
+	}
 
-	public String selectCompany (int i) {
+	/**
+	 * TODO: To be written
+	 * @param i
+	 * @return
+	 */
+	public String selectCompany () {
 		
-		
-		switch (i) {
+		System.out.println("Would you like to list the companies and their tiers?"
+				+ "1 for Yes, 0 for No");
+		int answer = scan.nextInt();
+		if(answer == 1) {
+			companyListing();
+		}
+	
+		System.out.println(" 1: Rahoi, 2: Tower, 3: American, 4: Worldwide,"
+				+ "5: Festival, 6: Continental, 7: Imperial");
+		int index = scan.nextInt();
+		switch (index-1) {
 			case 0:
 				//Rahoi
 				return "You have selected Rahoi";
@@ -182,6 +232,9 @@ public class Game {
 		
 	}
 
+	/**
+	 * Initializes all the companies in the game.
+	 */
 	static void initCompanies() {
 
 		/* Tier 0 */
