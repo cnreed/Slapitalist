@@ -108,14 +108,14 @@ public class Player {
 		for (int i = 0; i < hand.length; i++) {
 			if (!hand[i].getSubStatus().equals("UNPLAYABLE")
 					|| !(hand[i].getStatus().equals("UNPLAYABLE"))) {
-				//hand[i].print();
+				hand[i].toString();
 			}
 		}
 		System.out.println();
 		System.out.print("Unplayable tiles in your hand: ");
 		for (int i = 0; i < hand.length; i++) {
 			if (hand[i].getSubStatus().equals("UNPLAYABLE")) {
-				//hand[i].print();
+				hand[i].toString();
 			}
 		}
 	}

@@ -8,7 +8,7 @@ public class Game {
 	private static int numPlayers;
 	private static Company Rahoi, Imperial, Worldwide, Tower, American,
 			Festival, Continental;
-	private static Grid board;
+	private static Grid board; //TODO: This board here! - Carolyn
 	private static int x, y;
 
 	private static Player[] players;
@@ -21,7 +21,7 @@ public class Game {
 		scan = new Scanner(System.in);
 
 		/* initialize board */
-		Grid board = new Grid(x, y);
+		Grid board = new Grid(x, y); //TODO: This board here? - Carolyn
 
 		/* initialize players */
 		players = getPlayers();
@@ -126,6 +126,10 @@ public class Game {
 		return distances.indexOf(Collections.min(distances));
 	}
 
+	/**
+	 * GEts the 
+	 * @return
+	 */
 	private static Player[] getPlayers() {
 
 		boolean gate = false;
@@ -145,6 +149,37 @@ public class Game {
 		}
 
 		return players;
+	}
+
+	public String selectCompany (int i) {
+		
+		
+		switch (i) {
+			case 0:
+				//Rahoi
+				return "You have selected Rahoi";
+			case 1:
+				//Tower
+				return "You have selected Tower";
+			case 2:
+				//American
+				return "You have selected American";
+			case 3:
+				//Worldwide
+				return "You have selected Worldwide";
+			case 4:
+				//Festival
+				return "You have selected Festival";
+			case 5:
+				//Continental
+				return "You have selected Continental";
+			case 6:
+				//Imperial
+				return "You have selected Imperial";
+		}
+		
+		return null;
+		
 	}
 
 	static void initCompanies() {

@@ -10,6 +10,7 @@ public class Grid {
 	LinkedList<Tile> bag = new LinkedList<Tile>();
 	Tile[][] randArray;
 
+	
 	int turns; // total turns across all players
 	int merges; // total merges across all players
 	int companies_started; // total for game - started and re-started
@@ -101,7 +102,11 @@ public class Grid {
 		if (tile.getTop()) {
 			compare = grid[x][y + 1];
 			if (compare.getStatus().equals("ONBOARD")) {
-				// TODO: DO SOMETHING
+				/*
+				 * TODO: See if this belongs to a company add it to the company
+				 * If. There it doesn't belong to a company then make it into a
+				 * company of the player's choice. 
+				 */
 			}
 		}
 		if (tile.getLeft()) {
@@ -138,7 +143,8 @@ public class Grid {
 	}
 
 	/**
-	 * TODO: Actually make a stack or queue of the bag
+	 * Randomizes the values in the array. I think this can be combined with
+	 * with init bag, later on.
 	 * 
 	 */
 	public void randomizeGrid() {
@@ -171,12 +177,21 @@ public class Grid {
 
 	}
 
+	/**
+	 * Pops a Tile off the top of the bag. 
+	 * @return
+	 */
 	public Tile bagPop() {
 		Tile tile = bag.pop();
 		tile.statusUpdate(1);
 		return tile;
 	}
 
+	/**
+	 * TODO: Test this function.
+	 * 
+	 * @param company
+	 */
 	public void setUnplayable(Company company) {
 		Tile change;
 		for (int i = 0; i < company.companyTiles.size(); i++) {
