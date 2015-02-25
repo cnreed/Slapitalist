@@ -91,43 +91,11 @@ public class Grid {
 		}
 	}
 	
-	/**
-	 * Possibly a test method?
-	 * @param tile
-	 * @param x
-	 * @param y
-	 */
-	public void checkAdjaceny(Tile tile, int x, int y) {
-		Tile compare;
-		if (tile.getTop()) {
-			compare = grid[x][y + 1];
-			if (compare.getStatus().equals("ONBOARD")) {
-				/*
-				 * TODO: See if this belongs to a company add it to the company
-				 * If. There it doesn't belong to a company then make it into a
-				 * company of the player's choice. 
-				 */
-			}
-		}
-		if (tile.getLeft()) {
-			compare = grid[x + 1][y];
-			if (compare.getStatus().equals("ONBOARD")) {
-				// TODO: DO SOMETHING
-			}
-		}
-		if (tile.getBottom()) {
-			compare = grid[x][y - 1];
-			if (compare.getStatus().equals("ONBOARD")) {
-				// TODO: DO SOMETHING
-			}
-		}
-		if (tile.getRight()) {
-			compare = grid[x - 1][y];
-			if (compare.getStatus().equals("ONBOARD")) {
-				// TODO: DO SOMETHING
-			}
-		}
+	public Tile getTile(int x, int y) {
+		Tile tile = grid[x][y];
+		return tile;
 	}
+	
 
 	/**
 	 * Prints if the corresponding move is possible according to the limits of
@@ -201,7 +169,6 @@ public class Grid {
 			if (tile.getTop()) {
 				change = grid[x][y + 1];
 				if (!company.companyTiles.contains(change)) {
-
 					change.subStatusUpdate(4);
 				}
 			}

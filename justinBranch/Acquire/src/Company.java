@@ -28,6 +28,7 @@ class Company {
 		this.companySize = companySize;
 		this.CID = occurence;
 
+		companyTiles = new ArrayList<Tile>();
 		shareHolders = new LinkedList<playerNode>();
 
 		// System.out.println(companyColor + companyName + " initiated." +
@@ -86,6 +87,10 @@ class Company {
 	
 	public void addTile(Tile tile) {
 		companyTiles.add(tile);
+	}
+	
+	public String getCommpanyName() {
+		return companyName;
 	}
 
 }
