@@ -50,4 +50,5 @@ var tier, 				// level of price structure
 	}
 
 	function getMinorityPayout(companySize) {
-		return sharePrice[companySize] * 5;
+        return sharePrice[companySize] * 5;
+    }

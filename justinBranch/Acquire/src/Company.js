@@ -4,10 +4,10 @@ var CID, 				// Company ID
 	companyName,		// name of company
 	companySize,		// size of company
 	Tiles,			    // var to occupy companyTiles, not sure if this is needed or not
-	companyTiles[Tiles],// list of all tiles owned by company
+	companyTiles,// list of all tiles owned by company
 	companyColor,		// color. will implement later
 	playerNode,			// playerNode object for shareHolders
-	shareHolders[playerNode], // list of players who own stock
+	shareHolders, // list of players who own stock
 	companyTier,		// pay tier for company, 0 to 2
 	isSafe,				// boolean is tile safe to play?
 	gameEndable,		// boolean is game endable 
@@ -45,17 +45,18 @@ var CID, 				// Company ID
 	}
 
 	function getMinority() {
-		Collections.sort(comparator());
-		return shareHolders[1].playerName;
-	
-	function dissolve(){
-		onboard = false;
-		isSafe = false;
-		gameEndable = false;
-		companySize = 2;
-	}
+        Collections.sort(comparator());
+        return shareHolders[1].playerName;
+    }
+        function dissolve() {
+            onboard = false;
+            isSafe = false;
+            gameEndable = false;
+            companySize = 2;
+        }
 
-	function addTile(tile){
-		companyTiles.add(tile);
-	}
+    function addTile(tile) {
+            companyTiles.add(tile);
+    }
+
 
