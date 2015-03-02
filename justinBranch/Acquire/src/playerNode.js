@@ -13,6 +13,6 @@ function playerNode(playerName, shareCount){
 	*/
 function compareTo(other){
 	var last = other.shareCount.compareTo(this.shareCount);
-	return last == 0 ? 
+	return last === 0 ? 
 		this.playerName.compareTo(other.playerName) : last;
 }

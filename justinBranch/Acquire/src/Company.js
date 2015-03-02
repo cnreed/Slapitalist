@@ -25,7 +25,7 @@ var CID, 				// Company ID
 
 	function increment_size(){
 		companySize ++;
-		if (companySize == Main.getSafeSize()) {
+		if (companySize === Main.getSafeSize()) {
 			isSafe = true;
 		}
 	}

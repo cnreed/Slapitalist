@@ -40,7 +40,7 @@ var tier,
 				sharePrice[i] = (800) + tierValue;
 			if (i > 30 && i < 41)
 				sharePrice[i] = (900) + tierValue;
-			if (i == 41)
+			if (i === 41)
 				sharePrice[i] = 1000 + tierValue;
 		}
 	}
