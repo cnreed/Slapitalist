@@ -1,10 +1,10 @@
 /* Pay Cliff */
 
-var tier, 
-	sharePrice,
-	sharePriceLength = 42,  // we don't initialize length ! rad!
-	majorityPayout,
-	minorityPayout;
+var tier, 				// level of price structure
+	sharePrice,			// price per share of company
+	sharePriceLength = 42,  // standard length of prices
+	majorityPayout,		// majority payout for this company
+	minorityPayout;		// minority payout for this company
 
 	function PayCliff(tier){
 		this.tier = tier;

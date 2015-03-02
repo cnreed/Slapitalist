@@ -1,17 +1,17 @@
 /* Company */
 
 var CID, 				// Company ID	
-	companyName,
-	companySize,
-	Tiles,
-	companyTiles[Tiles],
-	companyColor,
-	playerNode,
-	shareHolders[playerNode],
-	companyTier,
-	isSafe,
-	gameEndable,
-	onBoard;
+	companyName,		// name of company
+	companySize,		// size of company
+	Tiles,			    // var to occupy companyTiles, not sure if this is needed or not
+	companyTiles[Tiles],// list of all tiles owned by company
+	companyColor,		// color. will implement later
+	playerNode,			// playerNode object for shareHolders
+	shareHolders[playerNode], // list of players who own stock
+	companyTier,		// pay tier for company, 0 to 2
+	isSafe,				// boolean is tile safe to play?
+	gameEndable,		// boolean is game endable 
+	onBoard;			// boolean is company in active play?
 
 	function Company(companyName, companyTier, companySize, occurence){
 		this.companyName = companyName;

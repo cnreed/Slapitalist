@@ -1,6 +1,7 @@
 /* Player Node */
 
-var playerName, shareCount;
+var playerName, 	// name for player who owns shares
+	shareCount;		// amount of shares owned by player
 
 function playerNode(playerName, shareCount){
 		this.playerName = playerName;
