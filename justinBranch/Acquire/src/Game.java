@@ -91,8 +91,6 @@ public class Game {
 		String results;
 		board.checkBoundaries(tile, x, y);
 		if (tile.getTop()) {
-			System.out.println("I got top");
-			System.out.println("x: " + (x-1) + " y: " + y);
 			compare = board.getTile(x-1, y);
 			if (compare.getStatus().equals("ONBOARD")) {
 				if(compare.getOwnerCompany() == null) {
@@ -107,7 +105,6 @@ public class Game {
 			}
 		}
 		if (tile.getLeft()) {
-			System.out.println("I got left");
 			compare = board.getTile(x, y-1);
 			if (compare.getStatus().equals("ONBOARD")) {
 				if(compare.getOwnerCompany() == null) {
@@ -122,7 +119,6 @@ public class Game {
 			}
 		}
 		if (tile.getBottom()) {
-			System.out.println("I got bottom");
 			compare = board.getTile(x+1, y);
 			if (compare.getStatus().equals("ONBOARD")) {
 				if(compare.getOwnerCompany() == null) {
@@ -137,7 +133,6 @@ public class Game {
 			}
 		}
 		if (tile.getRight()) {
-			System.out.println("I got right");
 			compare = board.getTile(x, y+1);
 			if (compare.getStatus().equals("ONBOARD")) {
 				if(compare.getOwnerCompany() == null) {
