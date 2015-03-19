@@ -9,7 +9,7 @@ class Company {
 
 	public int CID; // company number ID;
 	private String companyName; // name of company intialized
-	private int companySize;
+	public int companySize;
 	public ArrayList<Tile> companyTiles; // all tiles owned by the
 													// company
 	private static String companyColor; // specific color associated with the
@@ -19,6 +19,7 @@ class Company {
 	boolean isSafe; // start false
 	boolean gameEndable; // start false
 	boolean onBoard; // start false
+	
 
 	public Company(String companyName, int companyTier, String companyColor,
 			int companySize, int occurence) {
@@ -87,10 +88,12 @@ class Company {
 	
 	public void addTile(Tile tile) {
 		companyTiles.add(tile);
+		//increment_size();
 	}
 	
 	public String getCommpanyName() {
 		return companyName;
 	}
+	
 
 }

@@ -10,11 +10,12 @@ public class Game {
 			Festival, Continental;
 	private static Grid board; //TODO: This board here! - Carolyn
 	private static int x, y;
-
+	
 	private static Player[] players;
 	private static int whosTurn;
 
 	private static boolean gameInPlay = true;
+	private static boolean testingGame = true;
 
 	public Game(int x, int y) {
 
@@ -39,7 +40,11 @@ public class Game {
 
 		/* initialize and build payCliff for companies */
 		initCompanies();
-
+		
+		if(testingGame) {
+			testingMerge();
+		}
+		System.exit(0);
 		while (gameInPlay) {
 
 			getMove(whosTurn, board);
@@ -48,6 +53,47 @@ public class Game {
 		}
 
 		scan.close();
+	}
+	
+	private void testingMerge() {
+		
+		Tile tile = board.getTile(0, 0);
+		Tile tile2 = board.getTile(1,0);
+		tile.statusUpdate(2);
+		tile2.statusUpdate(2);
+		tile.setOwnerPlayer(players[0]);
+		tile2.setOwnerPlayer(players[0]);
+		selectCompany(tile, tile2);
+		Company comp = tile.getOwnerCompany();
+//		for(int i = 0; i < 3; i++) {
+//			for(int j = 0; j < 3; j++) {
+//				Tile mTile = board.getTile(i, j);
+//				mTile.statusUpdate(2);
+//				comp.addTile(mTile);
+//				
+//			}
+//		}
+//		printTiles(comp);
+		board.print();
+		
+		Tile tile3 = board.getTile(0, 2);
+		Tile tile4 = board.getTile(1, 2);
+		tile3.statusUpdate(2);
+		tile4.statusUpdate(2);
+		tile3.setOwnerPlayer(players[1]);
+		tile4.setOwnerPlayer(players[1]);
+		selectCompany(tile3, tile4);
+		Company comp1 = tile3.getOwnerCompany();
+		
+		board.print();
+		
+		Tile tile5 = board.getTile(0, 1);
+		tile5.statusUpdate(2);
+		merge(comp, comp1, tile5);
+		board.print();
+//		System.out.println(tile.toString());
+		printTiles(comp1);
+		
 	}
 
 	/**
@@ -308,9 +354,9 @@ public class Game {
 	}
 	
 	public void setCompany(Company company, Tile tile, Tile tile2) {
-		System.out.println(company.getCommpanyName());
-		System.out.println(tile.toString());
-		System.out.println(tile2.toString());
+//		System.out.println(company.getCommpanyName());
+//		System.out.println(tile.toString());
+//		System.out.println(tile2.toString());
 		company.addTile(tile);
 		company.addTile(tile2);
 		company.increment_size();
@@ -342,4 +388,28 @@ public class Game {
 
 		System.out.println("All Companies Initialized");
 	}
+	
+	public static void merge(Company comp1, Company comp2, Tile mTile) {
+		
+		System.out.println("company 2 companySize: " + comp2.companySize);
+		for(int i = 0; i < comp2.companySize; i++) {
+			Tile tile = comp2.companyTiles.get(i);
+			tile.setOwnerCompany(comp1);
+			comp1.addTile(tile);	
+		}
+		comp1.addTile(mTile);
+		comp2 = null;
+		
+	}
+	
+	
+	public void printTiles(Company comp) {
+		System.out.println(comp.companySize);
+		for(int i = 0; i < comp.companySize-1; i++) {
+			Tile tile = comp.companyTiles.get(i);
+			System.out.println(tile.toString() + " ");
+		}
+	}
+	
+	
 }
