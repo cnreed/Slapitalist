@@ -1,4 +1,3 @@
-
 class PayCliff {
 
 	private int tier;
@@ -18,16 +17,16 @@ class PayCliff {
 	 * payout calculation for Majority and Minority
 	 */
 
-	public static void main(String[] args) {
-		PayCliff test = new PayCliff(2);
-		for (int i = 2; i < sharePrice.length; i++) {
-			System.out.println(i + " " + sharePrice[i]);
-		}
-		System.out.println("Majority payout for level 20: "
-				+ getMajorityPayout(20));
-		System.out.println("Minority payout for level 10: "
-				+ getMinorityPayout(20));
-	}
+	// public static void main(String[] args) {
+	// PayCliff test = new PayCliff(2);
+	// for (int i = 2; i < sharePrice.length; i++) {
+	// System.out.println(i + " " + sharePrice[i]);
+	// }
+	// System.out.println("Majority payout for level 20: "
+	// + getMajorityPayout(20));
+	// System.out.println("Minority payout for level 10: "
+	// + getMinorityPayout(20));
+	// }
 
 	private void calculateSharePrice(int tier) {
 		int tierValue = 0;
@@ -58,7 +57,7 @@ class PayCliff {
 		return sharePrice[companySize] * 5;
 	}
 
-	private static int[] getSharePrice() {
-		return sharePrice;
+	public static int getSharePrice(int companySize) {
+		return sharePrice[companySize];
 	}
 }

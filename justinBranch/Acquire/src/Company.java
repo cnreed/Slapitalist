@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 class Company {
@@ -11,15 +9,18 @@ class Company {
 	private String companyName; // name of company intialized
 	public int companySize;
 	public ArrayList<Tile> companyTiles; // all tiles owned by the
-													// company
+											// company
 	private static String companyColor; // specific color associated with the
 										// company
+
+	private static ArrayList<StockCertificate> companySharesList;
+
 	private static List<playerNode> shareHolders;
 	private int companyTier;
+	private int stockCount;
 	boolean isSafe; // start false
 	boolean gameEndable; // start false
 	boolean onBoard; // start false
-	
 
 	public Company(String companyName, int companyTier, String companyColor,
 			int companySize, int occurence) {
@@ -28,10 +29,9 @@ class Company {
 		Company.companyColor = companyColor;
 		this.companySize = companySize;
 		this.CID = occurence;
-
+		this.stockCount = 25;
 		companyTiles = new ArrayList<Tile>();
-		shareHolders = new LinkedList<playerNode>();
-
+		PayCliff paycliff = new PayCliff(this.companyTier);
 		// System.out.println(companyColor + companyName + " initiated." +
 		// RESET);
 	}
@@ -47,24 +47,10 @@ class Company {
 		} // makes company safe if safe_size is achieved
 	}
 
-	void insertShareHolder(String name, int shareCount) {
-		shareHolders.add(new playerNode(name, shareCount));
-	}
-
-	String getMajority() {
-		Collections.sort(shareHolders);
-		return shareHolders.get(0).playerName;
-	}
-
-	String getMinority() {
-		Collections.sort(shareHolders);
-		return shareHolders.get(1).playerName;
-	}
-
 	void setSafe() {
 		isSafe = true;
 	}
-	
+
 	public boolean getSafe() {
 		return isSafe;
 	}
@@ -85,15 +71,34 @@ class Company {
 		companySize = 2;
 
 	}
-	
+
 	public void addTile(Tile tile) {
 		companyTiles.add(tile);
-		//increment_size();
+		// increment_size();
 	}
-	
-	public String getCommpanyName() {
+
+	public String getCompanyName() {
 		return companyName;
 	}
-	
 
+	public int getStockCount() {
+		return this.stockCount;
+	}
+
+	public int getSharePrice(int companySize) {
+		return PayCliff.getSharePrice(companySize);
+	}
+
+	/*
+	 * verifies that we can sellstock by decrementing stock count and return
+	 * result
+	 */
+	public boolean soldStock(int quantity) {
+		if (stockCount > quantity) {
+			stockCount -= quantity;
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
