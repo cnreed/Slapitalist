@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Player {
 
 	int totalCash;
@@ -9,9 +11,9 @@ public class Player {
 	int companies_started;
 	int companies_merged;
 	int number_of_turns;
-	int money;
-	int[] shares;
 	static int numHand = 0; // The number of Tiles in the hand.
+
+	public static HashMap<Company, StockCertificate> playerStockList = new HashMap<>();
 
 	boolean my_turn;
 	boolean my_merge_turn;
@@ -120,4 +122,31 @@ public class Player {
 		}
 	}
 
+	public void addCertificate(StockCertificate certificate) {
+
+		/* if they already have stock in this company, just add quantity */
+		if (playerStockList.get(certificate.companyOwner) != null) {
+			StockCertificate tempCert = playerStockList
+					.get(certificate.companyOwner);
+			int oldQuantity = tempCert.quantity;
+			tempCert.setQuantity(oldQuantity + certificate.quantity);
+			playerStockList.put(certificate.companyOwner, tempCert);
+		}
+		/* else just add to list */
+		else {
+			playerStockList.put(certificate.companyOwner, certificate);
+		}
+		System.out.println("Congratulations on your acquisition of "
+				+ certificate.quantity + " share(s) of "
+				+ certificate.companyOwner.getCompanyName() + "!");
+
+	}
+
+	public int sharesQuery(Company company) {
+
+		if (playerStockList.get(company) != null)
+			return playerStockList.get(company).quantity;
+
+		return 0;
+	}
 }

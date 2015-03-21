@@ -1,4 +1,3 @@
-
 class PayCliff {
 
 	private int tier;
@@ -19,7 +18,7 @@ class PayCliff {
 	 */
 
 	public static void main(String[] args) {
-		PayCliff test = new PayCliff(2);
+		PayCliff test = new PayCliff(0);
 		for (int i = 2; i < sharePrice.length; i++) {
 			System.out.println(i + " " + sharePrice[i]);
 		}
@@ -58,7 +57,7 @@ class PayCliff {
 		return sharePrice[companySize] * 5;
 	}
 
-	private static int[] getSharePrice() {
-		return sharePrice;
+	public static int getSharePrice(int companySize) {
+		return sharePrice[companySize];
 	}
 }
