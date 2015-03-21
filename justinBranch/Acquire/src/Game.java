@@ -390,8 +390,8 @@ public class Game {
 				tiles.add(tileRight);
 			}
 		}
-		System.out.println("companyCount is: " + companyCount);
-		System.out.println("onBoardCount is: " + onBoardCount);
+//		System.out.println("companyCount is: " + companyCount);
+//		System.out.println("onBoardCount is: " + onBoardCount);
 		if(companyCount > 1) {
 			merge(companies, tile);
 			return;
@@ -527,11 +527,46 @@ public class Game {
 	 */
 	private void companyListing() {
 
-		System.out.println("Tier 1 Hotel Chains:\n\t Rahoi, Tower");
-		System.out.println("Tier 2 Hotel Chains:\n\t American, Worldwide, "
-				+ "Festival");
-		System.out.println("Tier 3 Hotel Chains:\n\t Continental, Imperial");
+		String print = "Tier 1 Hotel Chains: \n\t\t";
+//		System.out.println("Tier 1 Hotel Chains:\n\t ");
+		if(!Rahoi.onBoard) {
+			print += "Rahoi ";
+		}
+		if(!Tower.onBoard) {
+			print += "Tower ";
+		}
+		print += "\nTier 2 Hotel Chains: \n\t\t ";
+		if(!American.onBoard) {
+			print += "American ";
+		}
+		if(!Worldwide.onBoard) {
+			print += "WorldWide ";
+		}
+		if(!Festival.onBoard) {
+			print += "Festival ";
+		}
+		print += "\nTier 3 Hotel Chains: \n\t\t";
+		if(!Continental.onBoard) {
+			print += "Continental ";
+		}
+		if(!Imperial.onBoard) {
+			print += "Imperial ";
+		}
+		System.out.println(print);
 
+	}
+	
+	private String companiesRemaining() {
+		String print = "";
+		if(!Rahoi.onBoard) print += "1: Rahoi\n";
+		if(!Tower.onBoard) print += "2: Tower\n";
+		if(!American.onBoard) print += "3: American\n";
+		if(!Worldwide.onBoard) print += "4: Worldwide\n";
+		if(!Festival.onBoard) print += "5: Festival\n";
+		if(!Continental.onBoard) print += "6: Continental\n";
+		if(!Imperial.onBoard) print += "7: Imperial";
+		return print;
+		
 	}
 
 	/**
@@ -540,7 +575,6 @@ public class Game {
 	 * @param i
 	 * @return
 	 */
-
 	public Company selectCompany(ArrayList<Tile>tiles) {
 
 		System.out.println("You have an opportunity to create a company!\n"
@@ -551,10 +585,8 @@ public class Game {
 			companyListing();
 		}
 
-		// We need to print out only companies !ONBOARD
-		System.out
-				.println(" 1: Rahoi\n 2: Tower\n 3: American\n 4: Worldwide\n"
-						+ " 5: Festival\n 6: Continental\n 7: Imperial");
+		String results = companiesRemaining();
+		System.out.println(results);
 		int index = scan.nextInt();
 		switch (index-1) {
 
