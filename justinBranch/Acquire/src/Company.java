@@ -44,6 +44,7 @@ class Company {
 		companySize++;
 		if (companySize == Main.getSafeSize()) {
 			isSafe = true;
+			//TODO - Set unplayable
 		} // makes company safe if safe_size is achieved
 	}
 
@@ -88,7 +89,6 @@ class Company {
 	
 	public void addTile(Tile tile) {
 		companyTiles.add(tile);
-		//increment_size();
 	}
 	
 	public String getCommpanyName() {

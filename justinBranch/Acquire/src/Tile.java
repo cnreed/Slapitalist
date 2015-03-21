@@ -6,7 +6,6 @@
  */
 public class Tile {
 	int row;
-	int row_x;
 	int col;
 	boolean top;
 	boolean bottom;
@@ -33,7 +32,6 @@ public class Tile {
 			int statusIndex) {
 		this.row = row;
 		this.col = col;
-		this.row_x = row_x;
 		top = bottom = left = right = true;
 		this.ownerCompany = ownerCompany;
 		this.ownerPlayer = ownerPlayer;
@@ -48,10 +46,6 @@ public class Tile {
 	 */
 	public int getRow() {
 		return row;
-	}
-
-	public int getRow_x() {
-		return row_x;
 	}
 
 	/**

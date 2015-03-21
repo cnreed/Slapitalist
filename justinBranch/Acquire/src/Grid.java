@@ -164,7 +164,7 @@ public class Grid {
 		Tile change;
 		for (int i = 0; i < company.companyTiles.size(); i++) {
 			Tile tile = company.companyTiles.get(i);
-			int x = tile.getRow_x();
+			int x = tile.getRow();
 			int y = tile.getCol();
 			if (tile.getTop()) {
 				change = grid[x][y + 1];
@@ -192,16 +192,5 @@ public class Grid {
 			}
 		}
 	}
-
-	public void playTile(Grid board, Tile tile) {
-
-	}
-
-	/*
-	 * TODO: Possibly instead of making a true/false 2D array would it be better
-	 * to make a stack instead? We can just push on the tile that is now in use.
-	 * Then check to see if its in the stack when removing another tile from the
-	 * grid. Just a suggestion. -Carolyn
-	 */
 
 }
