@@ -336,7 +336,7 @@ public class Game {
 	public void checkAdj(Tile tile, int x, int y, Player player) {
 		
 		Tile tileTop, tileLeft, tileRight, tileBottom;
-		Company top = null, left = null, right = null, bottom = null;
+		Company top, left, right, bottom;
 		int companyCount = 0;
 		int onBoardCount = 0;
 		ArrayList<Tile> tiles = new ArrayList<Tile>();
@@ -397,20 +397,21 @@ public class Game {
 			return;
 		}
 		else if(companyCount == 1) { //This seems redundant. 
-			/*
-			 * There's only one company on the board. Find
-			 * the company and add the tile to the company.
-			 */
+			Company comp = companies.get(0);
+			comp.addTile(tile);
+			if(tiles.size() > 0) {
+				for(int i = 0; i < tiles.size(); i++) {
+					Tile aTile = tiles.get(i);
+					comp.addTile(aTile);
+				}
+			}
 			return;
 		}
-		
+		//Creates a new company
 		if(onBoardCount >= 1 && onBoardCount < 5) {
-			/*
-			 * CREATE A COMPANY
-			 */
-			System.out.println("I'M CREATING A COMPANY");
+			tiles.add(tile);
 			Company results = selectCompany(tiles);
-			System.out.println("You have selected: " + results);
+			System.out.println("You have selected: " + results.getCompanyName());
 			new StockCertificate(results, 1, player);
 //			System.out.println(results);
 		}
@@ -583,7 +584,11 @@ public class Game {
 		return null;
 
 	}
-	
+	/**
+	 * Initializes individual companies on the board.
+	 * @param company - The company to be set on the board.
+	 * @param tiles - The tiles that are going to be put into the company
+	 */
 	public void setCompany(Company company, ArrayList<Tile>tiles) {
 
 //		company.insertShareHolder(tiles.get(0).getOwnerPlayer().getName(), 1);
@@ -593,12 +598,13 @@ public class Game {
 			company.addTile(tile);
 			tile.setOwnerCompany(company);
 			companiesOnBoard++; // increment companies on board
-//			company.increment_size();
+			company.increment_size();
 			
 		}
+		System.out.println("The company size: "+ company.companySize);
+		
 	}
 		
-//		System.out.println("The company size: "+ );
 
 	/**
 	 * Initializes all the companies in the game.
@@ -633,24 +639,19 @@ public class Game {
 	public void merge(ArrayList<Company> companies, Tile mTile) {
 		
 		Company largest = findLargest(companies);
+		System.out.println("Largest Company: " + largest.getCompanyName());
 		int index = companies.indexOf(largest);
 		companies.remove(index);
 		for(int i = 0; i < companies.size(); i++) {
 			Company comp = companies.get(i);
+			System.out.println("Merging " + comp.getCompanyName() + "...");
 			for(int j = 0; j < comp.companySize; i++) {
 				Tile tile = comp.companyTiles.get(j);
 				tile.setOwnerCompany(largest);
 				largest.addTile(tile);
 			}
 		}
-//		/System.out.println("company 2 companySize: " + comp2.companySize);
-//		for (int i = 0; i < comp2.companySize; i++) {
-//			Tile tile = comp2.companyTiles.get(i);
-//			tile.setOwnerCompany(comp1);
-//			comp1.addTile(tile);
-//		}
-//		comp1.addTile(mTile);
-//		comp2 = null;
+		largest.addTile(mTile);
 
 	}
 	
@@ -659,7 +660,6 @@ public class Game {
 		Scanner scan = new Scanner(System.in);
 		Company largest = companies.get(0);
 		int size = companies.get(0).companySize;
-		int index;
 		ArrayList<Company>equal = new ArrayList<Company>();
 		equal.addAll(equal);
 		for(int i = 1; i < companies.size(); i++) {
@@ -668,13 +668,13 @@ public class Game {
 			if(sCompare > size) {
 				largest = compare;
 				size = sCompare;
-				index = i;
 			}
 			if(sCompare == size) {
 				equal.add(compare);
 			}
 		}
 		if(equal.size() > 1) {
+			
 			String print = "";
 			System.out.println("There are companies of equal size");
 			for(int i = 0; i < equal.size(); i++) {
@@ -684,10 +684,8 @@ public class Game {
 			System.out.println(print);
 			int sel = scan.nextInt();
 			largest = equal.get(sel);
-//			companies.remove(sel);
-			
 		}
-//		compa
+		scan.close();
 		return largest;
 	}
 
