@@ -358,8 +358,11 @@ public class Game {
 			tileLeft = board.getTile(x, y-1);
 			left = tileLeft.getOwnerCompany();
 			if(left != null) {
-				companyCount++;
-				companies.add(left);
+//				companyCount++;
+				if(!companies.contains(left)) {
+					companyCount++;
+					companies.add(left);
+				}
 			} 
 			else if(tileLeft.getStatus().equals("ONBOARD")) {
 				onBoardCount++;
@@ -370,8 +373,11 @@ public class Game {
 			tileBottom = board.getTile(x+1, y);
 			bottom = tileBottom.getOwnerCompany();
 			if(bottom != null) {
-				companyCount++;
-				companies.add(bottom);
+				
+				if(!companies.contains(bottom)) {
+					companyCount++;
+					companies.add(bottom);
+				}
 			} 
 			else if(tileBottom.getStatus().equals("ONBOARD")) {
 				onBoardCount++;
@@ -382,8 +388,11 @@ public class Game {
 			tileRight = board.getTile(x, y+1);
 			right = tileRight.getOwnerCompany();
 			if(right != null) {
-				companyCount++;
-				companies.add(right);
+				
+				if(!companies.contains(right)) {
+					companyCount++;
+					companies.add(right);
+				}
 			} 
 			else if(tileRight.getStatus().equals("ONBOARD")) {
 				onBoardCount++;
