@@ -98,7 +98,7 @@ public class Game {
 
 		Tile tile5 = board.getTile(0, 1);
 		tile5.statusUpdate(2);
-		merge(comp, comp1, tile5);
+//		merge(comp, comp1, tile5);
 		board.print();
 		// System.out.println(tile.toString());
 		printTiles(comp1);
@@ -340,12 +340,14 @@ public class Game {
 		int companyCount = 0;
 		int onBoardCount = 0;
 		ArrayList<Tile> tiles = new ArrayList<Tile>();
+		ArrayList<Company> companies = new ArrayList<Company>();
 		board.checkBoundaries(tile, x, y);
 		if(tile.getTop()) {
 			tileTop = board.getTile(x-1, y);
 			top = tileTop.getOwnerCompany();
 			if(top != null) {
 				companyCount++;
+				companies.add(top);
 			}
 			else if(tileTop.getStatus().equals("ONBOARD")) {
 				onBoardCount++;
@@ -357,6 +359,7 @@ public class Game {
 			left = tileLeft.getOwnerCompany();
 			if(left != null) {
 				companyCount++;
+				companies.add(left);
 			} 
 			else if(tileLeft.getStatus().equals("ONBOARD")) {
 				onBoardCount++;
@@ -368,6 +371,7 @@ public class Game {
 			bottom = tileBottom.getOwnerCompany();
 			if(bottom != null) {
 				companyCount++;
+				companies.add(bottom);
 			} 
 			else if(tileBottom.getStatus().equals("ONBOARD")) {
 				onBoardCount++;
@@ -379,6 +383,7 @@ public class Game {
 			right = tileRight.getOwnerCompany();
 			if(right != null) {
 				companyCount++;
+				companies.add(right);
 			} 
 			else if(tileRight.getStatus().equals("ONBOARD")) {
 				onBoardCount++;
@@ -388,10 +393,7 @@ public class Game {
 		System.out.println("companyCount is: " + companyCount);
 		System.out.println("onBoardCount is: " + onBoardCount);
 		if(companyCount > 1) {
-			/*
-			 * There are a couple of companies on the board!
-			 * Check size and MERGE
-			 */
+			merge(companies, tile);
 			return;
 		}
 		else if(companyCount == 1) { //This seems redundant. 
@@ -603,7 +605,7 @@ public class Game {
 	 */
 	static ArrayList<Company> initCompanies() {
 
-		ArrayList<Company> companyList = new ArrayList<Company>();
+		companyList = new ArrayList<Company>();
 		/* Tier 0 */
 		Rahoi = new Company("Rahoi", 0, "\u001B[34m", 0, 0);
 		companyList.add(Rahoi);
@@ -628,17 +630,65 @@ public class Game {
 		return companyList;
 	}
 
-	public static void merge(Company comp1, Company comp2, Tile mTile) {
-
-		System.out.println("company 2 companySize: " + comp2.companySize);
-		for (int i = 0; i < comp2.companySize; i++) {
-			Tile tile = comp2.companyTiles.get(i);
-			tile.setOwnerCompany(comp1);
-			comp1.addTile(tile);
+	public void merge(ArrayList<Company> companies, Tile mTile) {
+		
+		Company largest = findLargest(companies);
+		int index = companies.indexOf(largest);
+		companies.remove(index);
+		for(int i = 0; i < companies.size(); i++) {
+			Company comp = companies.get(i);
+			for(int j = 0; j < comp.companySize; i++) {
+				Tile tile = comp.companyTiles.get(j);
+				tile.setOwnerCompany(largest);
+				largest.addTile(tile);
+			}
 		}
-		comp1.addTile(mTile);
-		comp2 = null;
+//		/System.out.println("company 2 companySize: " + comp2.companySize);
+//		for (int i = 0; i < comp2.companySize; i++) {
+//			Tile tile = comp2.companyTiles.get(i);
+//			tile.setOwnerCompany(comp1);
+//			comp1.addTile(tile);
+//		}
+//		comp1.addTile(mTile);
+//		comp2 = null;
 
+	}
+	
+	public Company findLargest(ArrayList<Company> companies) {
+		
+		Scanner scan = new Scanner(System.in);
+		Company largest = companies.get(0);
+		int size = companies.get(0).companySize;
+		int index;
+		ArrayList<Company>equal = new ArrayList<Company>();
+		equal.addAll(equal);
+		for(int i = 1; i < companies.size(); i++) {
+			Company compare = companies.get(i);
+			int sCompare = compare.companySize;
+			if(sCompare > size) {
+				largest = compare;
+				size = sCompare;
+				index = i;
+			}
+			if(sCompare == size) {
+				equal.add(compare);
+			}
+		}
+		if(equal.size() > 1) {
+			String print = "";
+			System.out.println("There are companies of equal size");
+			for(int i = 0; i < equal.size(); i++) {
+				print += (i+1) + ": " + equal.get(i).getCompanyName() + "\n";
+			}
+			System.out.println("Which company would you prefer? : ");
+			System.out.println(print);
+			int sel = scan.nextInt();
+			largest = equal.get(sel);
+//			companies.remove(sel);
+			
+		}
+//		compa
+		return largest;
 	}
 
 	public void printTiles(Company comp) {
