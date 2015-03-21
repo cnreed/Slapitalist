@@ -11,7 +11,6 @@ public class Player {
 	int companies_started;
 	int companies_merged;
 	int number_of_turns;
-	int money;
 	static int numHand = 0; // The number of Tiles in the hand.
 
 	public static HashMap<Company, StockCertificate> playerStockList = new HashMap<>();
@@ -124,11 +123,9 @@ public class Player {
 	}
 
 	public void addCertificate(StockCertificate certificate) {
-		System.err.println("Stock size: " + playerStockList.size());
 
 		/* if they already have stock in this company, just add quantity */
 		if (playerStockList.get(certificate.companyOwner) != null) {
-			System.err.println("Already owned");
 			StockCertificate tempCert = playerStockList
 					.get(certificate.companyOwner);
 			int oldQuantity = tempCert.quantity;
@@ -137,10 +134,11 @@ public class Player {
 		}
 		/* else just add to list */
 		else {
-
-			System.err.println("Adding new");
 			playerStockList.put(certificate.companyOwner, certificate);
 		}
+		System.out.println("Congratulations on your acquisition of "
+				+ certificate.quantity + " share(s) of "
+				+ certificate.companyOwner.getCompanyName() + "!");
 
 	}
 

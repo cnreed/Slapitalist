@@ -6,6 +6,8 @@ public class Game {
 
 	private static Scanner scan;
 	private static int numPlayers;
+
+	private static int companiesOnBoard; // tells Phase 2 that we can buy stock
 	private static Company Rahoi, Imperial, Worldwide, Tower, American,
 			Festival, Continental;
 	private static ArrayList<Company> companyList;
@@ -13,7 +15,7 @@ public class Game {
 	private static int x, y;
 
 	private static Player[] players;
-	private static int whosTurn;
+	private static int playerIndex; // global who's turn is it.
 	private static boolean companyOnBoard = false; /*
 													 * if we can buy stock at
 													 * all
@@ -32,12 +34,10 @@ public class Game {
 		players = getPlayers();
 
 		/* figure out who goes first */
-		int firstPlayer = whoIsFirst(board);
-		whosTurn = firstPlayer;
-		System.out.println(players[firstPlayer].getName() + " goes first!");
+		playerIndex = whoIsFirst(board);
 
 		/* Rearrange turn sequence so first player is first in array */
-		players = rearrangePlayerSequence(firstPlayer);
+		players = rearrangePlayerSequence(playerIndex);
 
 		/* draw tiles for each player */
 		drawStartingTiles(board);
@@ -51,17 +51,17 @@ public class Game {
 
 		}
 		while (gameInPlay) {
-
-			getMove(whosTurn, board);
-			whosTurn++;
-			whosTurn = whosTurn % numPlayers;
+			Player player = players[playerIndex];
+			getMove(player, board);
+			playerIndex++;
+			playerIndex = playerIndex % numPlayers;
 		}
 
 		scan.close();
 	}
 
 	private void testingMerge() {
-
+		Player player = players[playerIndex];
 		Tile tile = board.getTile(0, 0);
 		Tile tile2 = board.getTile(1, 0);
 		tile.statusUpdate(2);
@@ -107,24 +107,26 @@ public class Game {
 	 * @param board
 	 * @return
 	 */
-	private boolean getMove(int playerIndex, Grid board) {
-		Player player = players[playerIndex];
+	private boolean getMove(Player player, Grid board) {
+
+		/* Phase 1 - Tile Placement / Company Creation / Merge */
 		int choice = playerTurnPartOne(player, board);
 
-		for (Company co : companyList) {
-			if (co.onBoard) {
-				playerTurnPartTwo(player, board);
-			}
-			continue;
+		/* Phase 2 - Stock Purchase */
+		if (companiesOnBoard > 0) {
+			playerTurnPartTwo(player, board);
+		} else {
+			System.out.println("Sorry, no investment opportunities yet.");
 		}
+		/* Phase 3 - Draw from bag */
 		return playerTurnPartThree(player, board, choice);
 
 	}
 
 	private int playerTurnPartOne(Player player, Grid board) {
 		board.print();
-		System.out.println("Player " + player.getName());
-		System.out.println("\nWhat tile would you like to place?");
+		System.out.println("\nPlayer " + player.getName());
+		System.out.println("\nWhich tile would you like to place?");
 		player.showHand();
 
 		int choice = scan.nextInt() - 1;
@@ -135,9 +137,9 @@ public class Game {
 		if (playable) {
 			System.out.println(player.getName()
 					+ " successfully placed down tile "
-					+ player.hand[choice].toString());
+					+ player.hand[choice].toString() + ".");
 			checkAdjaceny(player.hand[choice], player.hand[choice].getRow(),
-					player.hand[choice].getCol());
+					player.hand[choice].getCol(), player);
 
 		}
 		return choice;
@@ -158,48 +160,51 @@ public class Game {
 				for (Company company : companyList) {
 					if (company.onBoard && company.getStockCount() > 0) {
 						tempBuyList.add(company);
+						System.out.println("Company Size: "
+								+ company.companySize);
 						System.out.println(displayCount + ". "
 								+ company.getCompanyName() + " @ $"
 								+ company.getSharePrice(company.companySize)
 								+ " with " + company.getStockCount()
-								+ " shares remaining. You currently own "
+								+ " shares remaining. \nYou currently own "
 								+ player.sharesQuery(company) + " shares.");
 						displayCount++;
 					}
 				}
 				// player chooses stock to buy
-				int stockBuyChoice = scan.nextInt() - 1;
-				// how many stock do you want in this company?
-				Company companyToBuy = tempBuyList.get(stockBuyChoice);
+				Company companyToBuy = tempBuyList.get(scan.nextInt() - 1);
+
 				int companyStockPrice = companyToBuy
 						.getSharePrice(companyToBuy.companySize);
+
+				// how many stock do you want in this company?
 				System.out.println("How many shares of stock in "
 						+ companyToBuy.getCompanyName()
-						+ " would you like to purchase?");
-				System.out.println("Available shares for purchase: "
-						+ (3 - stockTotal));
+						+ " would you like to purchase? \n (current limit: "
+						+ (3 - stockTotal) + ", current balance: "
+						+ player.totalCash + ")");
+
 				// get amount
-				int selectionCount = scan.nextInt() - 1;
+				int selectionCount = scan.nextInt();
 				// if player can afford the value wanted and it's below the
 				// maximum purchase count
-				if (selectionCount > -1
-						&& (player.money >= (companyStockPrice * selectionCount))) {
-
-					// first take their money.
-					player.money -= (companyStockPrice * selectionCount);
-					System.out.println("Money subtracted!");
+				if (selectionCount > 0
+						&& (player.totalCash >= (companyStockPrice * selectionCount))) {
+					player.totalCash -= (companyStockPrice * selectionCount);
+					System.out.println("New cash balance: " + player.totalCash);
 
 					// add stock to player's stocklist,
 					// remove amount from comapny's stock list
 					StockCertificate newStock = new StockCertificate(
-							companyToBuy, selectionCount + 1, player);
+							companyToBuy, selectionCount, player);
 
 					// rebalance majority/minority
 					// TODO: figure out a better rebalancing of
 					// majority/minority and tie-cases
-					stockTotal += selectionCount + 1;
-					System.err.println("StockTotal: " + stockTotal);
+					stockTotal += selectionCount;
 
+				} else if (player.totalCash == 0) {
+					break;
 				}
 			}
 		}
@@ -219,16 +224,18 @@ public class Game {
 	 * @param x
 	 * @param y
 	 */
-	public void checkAdjaceny(Tile tile, int x, int y) {
+	public void checkAdjaceny(Tile tile, int x, int y, Player player) {
 		Tile compare;
-		String results;
+		Company results;
 		board.checkBoundaries(tile, x, y);
 		if (tile.getTop()) {
 			compare = board.getTile(x - 1, y);
 			if (compare.getStatus().equals("ONBOARD")) {
 				if (compare.getOwnerCompany() == null) {
 					results = selectCompany(tile, compare);
-					System.out.println(results);
+					System.out.println("You have chosen " + results);
+					new StockCertificate(results, 1, player);
+
 				} else {
 					Company com = compare.getOwnerCompany();
 					com.addTile(tile);
@@ -241,7 +248,9 @@ public class Game {
 			if (compare.getStatus().equals("ONBOARD")) {
 				if (compare.getOwnerCompany() == null) {
 					results = selectCompany(tile, compare);
-					System.out.println(results);
+					System.out.println("You have chosen " + results);
+					new StockCertificate(results, 1, player);
+
 				} else {
 					Company com = compare.getOwnerCompany();
 					com.addTile(tile);
@@ -254,7 +263,9 @@ public class Game {
 			if (compare.getStatus().equals("ONBOARD")) {
 				if (compare.getOwnerCompany() == null) {
 					results = selectCompany(tile, compare);
-					System.out.println(results);
+					System.out.println("You have chosen " + results);
+					new StockCertificate(results, 1, player);
+
 				} else {
 					Company com = compare.getOwnerCompany();
 					com.addTile(tile);
@@ -267,7 +278,8 @@ public class Game {
 			if (compare.getStatus().equals("ONBOARD")) {
 				if (compare.getOwnerCompany() == null) {
 					results = selectCompany(tile, compare);
-					System.out.println(results);
+					System.out.println("You have chosen " + results);
+					new StockCertificate(results, 1, player);
 				} else {
 					Company com = compare.getOwnerCompany();
 					com.addTile(tile);
@@ -290,7 +302,7 @@ public class Game {
 		 */
 
 		if (tileInPlay.getStatus().equals("INHAND")) {
-			tileInPlay.setOwnerPlayer(players[whosTurn]);
+			tileInPlay.setOwnerPlayer(players[playerIndex]);
 			tileInPlay.statusUpdate(2);
 		}
 		return true;
@@ -399,41 +411,43 @@ public class Game {
 	 * @param i
 	 * @return
 	 */
-	public String selectCompany(Tile tile, Tile tile2) {
+	public Company selectCompany(Tile tile, Tile tile2) {
 
-		System.out
-				.println("Would you like to list the companies and their tiers?"
-						+ "1 for Yes, 0 for No");
+		System.out.println("You have an opportunity to create a company!\n"
+				+ "Would you like to list the companies and their tiers?"
+				+ "\n (1) Yes (2) No");
 		int answer = scan.nextInt();
 		if (answer == 1) {
 			companyListing();
 		}
 
-		System.out.println(" 1: Rahoi, 2: Tower, 3: American, 4: Worldwide,"
-				+ "5: Festival, 6: Continental, 7: Imperial");
+		// We need to print out only companies !ONBOARD
+		System.out
+				.println(" 1: Rahoi\n 2: Tower\n 3: American\n 4: Worldwide\n"
+						+ " 5: Festival\n 6: Continental\n 7: Imperial");
 		int index = scan.nextInt();
 		switch (index - 1) {
 		case 0:
 			setCompany(Rahoi, tile, tile2);
-			return "You have selected Rahoi";
+			return Rahoi;
 		case 1:
 			setCompany(Tower, tile, tile2);
-			return "You have selected Tower";
+			return Tower;
 		case 2:
 			setCompany(American, tile, tile2);
-			return "You have selected American";
+			return American;
 		case 3:
 			setCompany(Worldwide, tile, tile2);
-			return "You have selected Worldwide";
+			return Worldwide;
 		case 4:
 			setCompany(Festival, tile, tile2);
-			return "You have selected Festival";
+			return Festival;
 		case 5:
 			setCompany(Continental, tile, tile2);
-			return "You have selected Continental";
+			return Continental;
 		case 6:
 			setCompany(Imperial, tile, tile2);
-			return "You have selected Imperial";
+			return Imperial;
 		}
 
 		return null;
@@ -451,6 +465,8 @@ public class Game {
 		company.setOnboard();
 		tile.setOwnerCompany(company);
 		tile2.setOwnerCompany(company);
+
+		companiesOnBoard++; // increment companies on board
 
 		// System.out.println("The company size: "+ );
 
