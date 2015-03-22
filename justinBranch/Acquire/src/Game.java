@@ -625,9 +625,9 @@ public class Game {
 			System.out.println("Company size: " + comp.companySize);
 			for(int j = 0; j < comp.companySize; j++) {
 				System.out.println("Did I get stuck in here?");
-//				Tile tile = comp.companyTiles.get(j);
-//				tile.setOwnerCompany(largest);
-//				largest.addTile(tile);
+				Tile tile = comp.companyTiles.get(j);
+				tile.setOwnerCompany(largest);
+				largest.addTile(tile);
 //				
 			}
 			companiesOnBoard--;
