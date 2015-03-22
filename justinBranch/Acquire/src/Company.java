@@ -63,7 +63,7 @@ class Company {
 		return this.CID;
 	}
 
-	void increment_size() {
+	void incrementSize() {
 		companySize++;
 		if (companySize == Main.getSafeSize()) {
 			isSafe = true;
@@ -97,6 +97,7 @@ class Company {
 	}
 
 	public void addTile(Tile tile) {
+		incrementSize();
 		companyTiles.add(tile);
 	}
 
