@@ -506,6 +506,7 @@ public class Game {
 	 */
 	public Company selectCompany(ArrayList<Tile>tiles) {
 
+//		Scanner scan = new Scanner(System.in);
 		System.out.println("You have an opportunity to create a company!\n"
 				+ "Would you like to list the companies and their tiers?"
 				+ "\n (1) Yes (2) No");
@@ -513,7 +514,6 @@ public class Game {
 		if (answer == 1) {
 			companyListing();
 		}
-
 		String results = companiesRemaining();
 		System.out.println(results);
 		int index = scan.nextInt();
@@ -522,6 +522,7 @@ public class Game {
 					+ "select another company: ");
 			index = scan.nextInt();
 		}
+//		scan.close();
 		if(companiesOnBoard == 7) {
 			System.out.println("I'm sorry, all companies are on board. ");
 			return null;
@@ -551,6 +552,7 @@ public class Game {
 			return Imperial;
 		}
 
+		
 		return null;
 
 	}
@@ -621,14 +623,13 @@ public class Game {
 		companies.remove(index);
 		for(int i = 0; i < companies.size(); i++) {
 			Company comp = companies.get(i);
-			System.out.println("Merging " + comp.getCompanyName() + "...");
+			System.out.println("Merging " + comp.getCompanyName() + 
+					" into " + largest.getCompanyName() + "...");
 			System.out.println("Company size: " + comp.companySize);
 			for(int j = 0; j < comp.companySize; j++) {
-				System.out.println("Did I get stuck in here?");
 				Tile tile = comp.companyTiles.get(j);
 				tile.setOwnerCompany(largest);
-				largest.addTile(tile);
-//				
+				largest.addTile(tile);		
 			}
 			companiesOnBoard--;
 		}
@@ -645,7 +646,7 @@ public class Game {
 	 */
 	public Company findLargest(ArrayList<Company> companies) {
 		
-		Scanner scan = new Scanner(System.in);
+//		Scanner scan = new Scanner(System.in);
 		Company largest = companies.get(0);
 		int size = companies.get(0).companySize;
 		ArrayList<Company>equal = new ArrayList<Company>();
@@ -675,7 +676,7 @@ public class Game {
 			int sel = scan.nextInt();
 			largest = equal.get(sel);
 		}
-		scan.close();
+//		scan.close();
 		return largest;
 	}
 
