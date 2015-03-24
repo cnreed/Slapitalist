@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+
+
 public class Main {
 
 	Grid board = new Grid(9, 12);
@@ -8,7 +14,21 @@ public class Main {
 	private static ArrayList<Player> Players = new ArrayList<>();
 
 	public static void main(String[] args) {
+		
+		if(!Logger.getRootLogger().getAllAppenders().hasMoreElements()) {
 
+			PatternLayout consoleLayout = new PatternLayout("[%p] %t: %m%n");
+			ConsoleAppender consoleAppender = new ConsoleAppender(consoleLayout);
+			consoleAppender.setThreshold(Level.DEBUG);
+			Logger.getRootLogger().addAppender(consoleAppender);
+
+		}
+
+		Logger.getRootLogger().setLevel(Level.DEBUG); 
+		Logger log = Logger.getLogger(java.sql.Driver.class);
+
+		
+		log.debug("Starting a new Game!");
 		Game game = new Game(9, 12);
 		// Grid board = new Grid(9, 12);
 		// board.initialize();

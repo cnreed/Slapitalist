@@ -2,8 +2,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 public class Game {
 
+	public static Logger log = Logger.getLogger(Game.class);
 	private static Scanner scan;
 	private static int numPlayers;
 
@@ -55,6 +58,7 @@ public class Game {
 			System.exit(0);
 
 		}
+		log.debug("Starting gameInPlay");
 		while (gameInPlay) {
 			Player player = players[playerIndex];
 			getMove(player, board);
@@ -204,6 +208,9 @@ public class Game {
 					StockCertificate newStock = new StockCertificate(
 							companyToBuy, selectionCount, player);
 
+//					player.addCertificate(newStock);
+					
+					
 					// rebalance majority/minority
 					// TODO: figure out a better rebalancing of
 					// majority/minority and tie-cases
@@ -506,7 +513,6 @@ public class Game {
 	 */
 	public Company selectCompany(ArrayList<Tile>tiles) {
 
-//		Scanner scan = new Scanner(System.in);
 		System.out.println("You have an opportunity to create a company!\n"
 				+ "Would you like to list the companies and their tiers?"
 				+ "\n (1) Yes (2) No");
@@ -522,36 +528,34 @@ public class Game {
 					+ "select another company: ");
 			index = scan.nextInt();
 		}
-//		scan.close();
 		if(companiesOnBoard == 7) {
 			System.out.println("I'm sorry, all companies are on board. ");
-			return null;
+			return null; //Let's do something else then return.
 		}
-		switch (index-1) {
+		switch (index - 1) {
 
-		case 0:
-			setCompany(Rahoi, tiles);
-			return Rahoi;
-		case 1:
-			setCompany(Tower, tiles);
-			return Tower;
-		case 2:
-			setCompany(American, tiles);
-			return American;
-		case 3:
-			setCompany(Worldwide, tiles);
-			return Worldwide;
-		case 4:
-			setCompany(Festival, tiles);
-			return Festival;
-		case 5:
-			setCompany(Continental, tiles);
-			return Continental;
-		case 6:
-			setCompany(Imperial, tiles);
-			return Imperial;
+			case 0:
+				setCompany(Rahoi, tiles);
+				return Rahoi;
+			case 1:
+				setCompany(Tower, tiles);
+				return Tower;
+			case 2:
+				setCompany(American, tiles);
+				return American;
+			case 3:
+				setCompany(Worldwide, tiles);
+				return Worldwide;
+			case 4:
+				setCompany(Festival, tiles);
+				return Festival;
+			case 5:
+				setCompany(Continental, tiles);
+				return Continental;
+			case 6:
+				setCompany(Imperial, tiles);
+				return Imperial;
 		}
-
 		
 		return null;
 
@@ -623,6 +627,7 @@ public class Game {
 		companies.remove(index);
 		for(int i = 0; i < companies.size(); i++) {
 			Company comp = companies.get(i);
+			payout(comp);
 			System.out.println("Merging " + comp.getCompanyName() + 
 					" into " + largest.getCompanyName() + "...");
 			System.out.println("Company size: " + comp.companySize);
@@ -678,6 +683,32 @@ public class Game {
 		}
 //		scan.close();
 		return largest;
+	}
+	
+	private void payout(Company company) {
+		
+		int index;
+		System.out.println("What would you like to do?: \t(1) Hold stock\n "
+				+ "\t(2) sell stock\n \t(3) Trade in stock");
+		index = scan.nextInt();
+		switch (index -1) {
+		
+			case 0: //HOLD
+				System.out.println("You decided to hold your stock.");
+				return;
+			case 1: //SELL
+				System.out.println("You decided to sell your stock.");
+				return;
+			case 2: //TRADE
+				System.out.println("You decided to trade your stock.");
+				System.out.println("For every 2 defunct stock trade cards "
+						+ "of company, " + company.getCompanyName() + ", "
+						+ "traded in, you get one stock from the surviving "
+						+ "comany.");
+				return;
+			
+		}
+		
 	}
 
 	/**

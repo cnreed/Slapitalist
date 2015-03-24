@@ -1,8 +1,12 @@
 import java.util.ArrayList;
+
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 class Company {
 
+	public static Logger log = Logger.getLogger(Company.class);
 	public static final String RESET = "\u001B[0m";
 
 	public int CID; // company number ID;

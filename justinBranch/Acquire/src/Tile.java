@@ -4,7 +4,12 @@
  * @author Carolyn
  *
  */
+
+import org.apache.log4j.Logger;
+
 public class Tile {
+	
+	public static Logger log = Logger.getLogger(Tile.class);
 	int row;
 	int col;
 	boolean top;

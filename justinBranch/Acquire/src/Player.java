@@ -1,7 +1,10 @@
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 public class Player {
 
+	public static Logger log = Logger.getLogger(Player.class);
 	int totalCash;
 	String name;
 
@@ -89,22 +92,6 @@ public class Player {
 		// TODO: Might not have to return the location.
 	}
 
-	public void stockAquisition() {
-		int numStock = 0;
-		while (numStock != 3) {
-			buyStock();
-		}
-	}
-
-	/**
-	 * TODO: have a switch statement of stocks.
-	 * 
-	 * @return
-	 */
-	public int buyStock() {
-		return 0;
-	}
-
 	public void printHand() {
 		System.out.print("Your hand: ");
 		for (int i = 0; i < hand.length; i++) {
@@ -125,6 +112,7 @@ public class Player {
 	public void addCertificate(StockCertificate certificate) {
 
 		/* if they already have stock in this company, just add quantity */
+		log.debug("This is the owner of this stock" + certificate.companyOwner);
 		if (playerStockList.get(certificate.companyOwner) != null) {
 			StockCertificate tempCert = playerStockList
 					.get(certificate.companyOwner);

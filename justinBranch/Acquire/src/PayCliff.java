@@ -1,5 +1,8 @@
+import org.apache.log4j.Logger;
+
 class PayCliff {
 
+	public static Logger log = Logger.getLogger(PayCliff.class);
 	private int tier;
 	private static int sharePrice[] = new int[42];
 	private static int majorityPayout;

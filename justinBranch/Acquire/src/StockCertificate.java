@@ -1,5 +1,8 @@
+import org.apache.log4j.Logger;
+
 public class StockCertificate {
 
+	public static Logger log = Logger.getLogger(StockCertificate.class);
 	public Company companyOwner;
 	public int quantity;
 	public Player playerOwner;
@@ -16,6 +19,7 @@ public class StockCertificate {
 		companyOwner.soldStock(quantity);
 		System.out.println("New certificate for "
 				+ companyOwner.getCompanyName() + " x" + quantity);
+		log.debug("The owner of this stock is : " + playerOwner.getName());
 		playerOwner.addCertificate(this);
 	}
 

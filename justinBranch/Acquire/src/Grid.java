@@ -1,8 +1,11 @@
 import java.util.LinkedList;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 public class Grid {
 
+	public static Logger log = Logger.getLogger(Grid.class);
 	int x_size;
 	int y_size;
 	Tile[][] grid;

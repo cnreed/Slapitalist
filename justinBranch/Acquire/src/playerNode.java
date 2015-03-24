@@ -1,5 +1,8 @@
+import org.apache.log4j.Logger;
 
 class playerNode implements Comparable<playerNode> {
+	
+	public static Logger log = Logger.getLogger(playerNode.class);
 	String playerName;
 	int shareCount;
 
