@@ -627,7 +627,6 @@ public class Game {
 		companies.remove(index);
 		for(int i = 0; i < companies.size(); i++) {
 			Company comp = companies.get(i);
-			payout(comp);
 			System.out.println("Merging " + comp.getCompanyName() + 
 					" into " + largest.getCompanyName() + "...");
 			System.out.println("Company size: " + comp.companySize);
@@ -685,7 +684,35 @@ public class Game {
 		return largest;
 	}
 	
-	private void payout(Company company) {
+	private void findMajorityMinority(Company company) {
+		int majority = players[0].sharesQuery(company);
+		int minority = players[0].sharesQuery(company);
+		
+		Player maj = players[0];
+		Player min = players[0];
+		for(int i = 1; i < players.length; i++) {
+			Player play = players[i];
+			if(play.sharesQuery(company) > majority) {
+				minority = majority;
+				min = maj;
+				majority = play.sharesQuery(company);
+				maj = players[i];
+			}
+		}
+		
+		
+		
+	}
+	
+	private void sellStock(Player player) {
+		
+		
+		
+	}
+	
+	
+	
+	private void payout(Company company, Player player) {
 		
 		int index;
 		System.out.println("What would you like to do?: \t(1) Hold stock\n "

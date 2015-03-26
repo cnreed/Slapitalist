@@ -26,7 +26,6 @@ public class Player {
 		this.name = name;
 		this.totalCash = 6000;
 		this.hand = new Tile[handSize];
-		this.numHand = 0;
 	}
 
 	public void addHand(Tile tile) {
@@ -69,10 +68,6 @@ public class Player {
 		return name;
 	}
 
-	// public Tile getInitTile() {
-	// return initTile;
-	// }
-
 	public String printTile(Tile tile) {
 		return tile.row + "" + tile.col;
 	}
@@ -112,7 +107,7 @@ public class Player {
 	public void addCertificate(StockCertificate certificate) {
 
 		/* if they already have stock in this company, just add quantity */
-		log.debug("This is the owner of this stock" + certificate.companyOwner);
+		log.debug("This is the owner of this stock" + certificate.playerOwner.getName());
 		if (playerStockList.get(certificate.companyOwner) != null) {
 			StockCertificate tempCert = playerStockList
 					.get(certificate.companyOwner);
