@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
@@ -15,22 +15,24 @@ public class Player {
 	int companies_merged;
 	int number_of_turns;
 	static int numHand = 0; // The number of Tiles in the hand.
-
-	public static HashMap<Company, StockCertificate> playerStockList = new HashMap<>();
+	private static ArrayList<Integer> playerStockList;
 
 	boolean my_turn;
 	boolean my_merge_turn;
 
 	public Player(String name, Grid board) {
-		// System.out.println("Creating player " + name);
 		this.name = name;
 		this.totalCash = 6000;
 		this.hand = new Tile[handSize];
 		this.numHand = 0;
+		playerStockList = new ArrayList<Integer>();
+		for (int i = 0; i < 6; i++) {
+			playerStockList.add(i, 0);
+		}
+		// System.out.println("LIST SIZE: " + playerStockList.size());
 	}
 
 	public void addHand(Tile tile) {
-		// System.out.println("Tile # " + numHand + " for " + this.name);
 		if (numHand >= 6) {
 			System.out.println("Cheating is prohibited");
 			return;
@@ -109,32 +111,43 @@ public class Player {
 		}
 	}
 
-	public void addCertificate(StockCertificate certificate) {
-
-		/* if they already have stock in this company, just add quantity */
-		log.debug("This is the owner of this stock" + certificate.companyOwner);
-		if (playerStockList.get(certificate.companyOwner) != null) {
-			StockCertificate tempCert = playerStockList
-					.get(certificate.companyOwner);
-			int oldQuantity = tempCert.quantity;
-			tempCert.setQuantity(oldQuantity + certificate.quantity);
-			playerStockList.put(certificate.companyOwner, tempCert);
-		}
-		/* else just add to list */
-		else {
-			playerStockList.put(certificate.companyOwner, certificate);
-		}
-		System.out.println("Congratulations on your acquisition of "
-				+ certificate.quantity + " share(s) of "
-				+ certificate.companyOwner.getCompanyName() + "!");
-
+	/**
+	 * @return the playerStockList
+	 */
+	public static ArrayList<Integer> getPlayerStockList() {
+		return playerStockList;
 	}
 
-	public int sharesQuery(Company company) {
-
-		if (playerStockList.get(company) != null)
-			return playerStockList.get(company).quantity;
-
-		return 0;
+	/**
+	 * @param playerStockList
+	 *            the playerStockList to set
+	 */
+	public static void setPlayerStockList(ArrayList<Integer> playerStockList) {
+		Player.playerStockList = playerStockList;
 	}
+
+	// public void addCertificate(Company company, Integer amount, int
+	// playerIndex) {
+	// System.out.println("LIST SIZE: " + this.playerStockList.size());
+	// /* if they already have stock in this company, just add quantity */
+	// if (this.playerStockList.get(company.CID) != 0) {
+	// this.playerStockList.set(company.CID,
+	// this.playerStockList.get(company.CID) + amount);
+	// }
+	// /* else just add to list */
+	// else {
+	// this.playerStockList.set(company.CID, amount);
+	// }
+	// System.out.println("Congratulations on your acquisition of " + amount
+	// + " share(s) of " + company.getCompanyName() + "!");
+	//
+	// }
+	//
+	// public int sharesQuery(Company company) {
+	//
+	// if (this.playerStockList.get(company.CID) != null)
+	// return this.playerStockList.get(company.CID);
+	//
+	// return 0;
+	// }
 }

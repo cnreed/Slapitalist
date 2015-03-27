@@ -20,7 +20,6 @@ public class StockCertificate {
 		System.out.println("New certificate for "
 				+ companyOwner.getCompanyName() + " x" + quantity);
 		log.debug("The owner of this stock is : " + playerOwner.getName());
-		playerOwner.addCertificate(this);
 	}
 
 	/**
