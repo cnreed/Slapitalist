@@ -20,7 +20,7 @@ public class Game {
 
 	private static Player[] players;
 	private static int playerIndex; // global who's turn is it.
-	private static int[][] playerStockList;
+	private static int[][] playerStockList; // numplayers then companyCID
 	private static boolean companyOnBoard = false; /*
 													 * if we can buy stock at
 													 * all
@@ -143,6 +143,7 @@ public class Game {
 	private int playerTurnPartOne(Player player, Grid board) {
 		board.print();
 		System.out.println("\nPlayer " + player.getName());
+		System.out.println("Money: " + player.getCash());
 		System.out.println("\nWhich tile would you like to place?");
 		player.showHand();
 
@@ -219,9 +220,6 @@ public class Game {
 					System.out.println("Player " + player.name);
 					addCertificate(companyToBuy, selectionCount, playerIndex);
 
-					// rebalance majority/minority
-					// TODO: figure out a better rebalancing of
-					// majority/minority and tie-cases
 					stockTotal += selectionCount;
 
 				} else if (player.totalCash == 0) {
@@ -652,6 +650,7 @@ public class Game {
 		companies.remove(index);
 		for (int i = 0; i < companies.size(); i++) {
 			Company comp = companies.get(i);
+			minMaxPayout(comp);
 			payout(comp);
 			System.out.println("Merging " + comp.getCompanyName() + " into "
 					+ largest.getCompanyName() + "...");
@@ -713,7 +712,6 @@ public class Game {
 	}
 
 	private void payout(Company company) {
-
 		int index;
 		System.out.println("What would you like to do?: \t(1) Hold stock\n "
 				+ "\t(2) sell stock\n \t(3) Trade in stock");
@@ -755,12 +753,12 @@ public class Game {
 	public void addCertificate(Company company, Integer amount, int playerIndex) {
 		// System.out.println("LIST SIZE: " + this.playerStockList.size());
 		/* if they already have stock in this company, just add quantity */
-		if (playerStockList[playerIndex][company.CID] != 0) {
-			playerStockList[playerIndex][company.CID] += amount;
+		if (playerStockList[playerIndex][company.getCID()] != 0) {
+			playerStockList[playerIndex][company.getCID()] += amount;
 		}
 		/* else just add to list */
 		else {
-			playerStockList[playerIndex][company.CID] = amount;
+			playerStockList[playerIndex][company.getCID()] = amount;
 		}
 		System.out.println("Congratulations on your acquisition of " + amount
 				+ " share(s) of " + company.getCompanyName() + "!");
@@ -768,7 +766,136 @@ public class Game {
 	}
 
 	public int sharesQuery(int playerIndex, Company company) {
-		return playerStockList[playerIndex][company.CID];
+		return playerStockList[playerIndex][company.getCID()];
 	}
 
+	public void minMaxPayout(Company company) {
+
+		int ID = company.getCID();
+		int max = 0;
+		int min = 0;
+
+		int majorityPayout = company.getMajorityPayout();
+		int minorityPayout = company.getMinorityPayout();
+		ArrayList<Integer> Max = new ArrayList<>();
+		ArrayList<Integer> Min = new ArrayList<>();
+		Player tempP;
+
+		/*
+		 * Start Majority Work
+		 */
+
+		// Traverse List and Find Max
+		for (int i = 0; i < playerStockList.length; i++) {
+			int thisCheck = playerStockList[ID][i];
+			if (max < thisCheck)
+				max = thisCheck;
+		}
+
+		// Add all Maxes to a list
+		for (int i = 0; i < playerStockList.length; i++) {
+			if (playerStockList[ID][i] == max) {
+				Max.add(i);
+			}
+		}
+
+		// I don't think it's possible for a company to NOT have at least 1
+		// stock owner. If this is true, then we can delete this. i'm just
+		// paranoid.
+
+		// if (Max.size() == 0) {
+		// System.out.println("No one owns any stock in "
+		// + company.getCompanyName() + "; there will no payout.");
+		// return;
+		// }
+
+		/* If one max, then they get the max and we move to min */
+		if (Max.size() == 1) {
+			tempP = players[Max.get(0)];
+			System.out.println(tempP.getName()
+					+ " is a majority stockholder and receives $"
+					+ majorityPayout + "!");
+			tempP.totalCash += majorityPayout;
+
+			/*
+			 * If more than one max, we add max and min and distribute to max
+			 * players only. sorry min!
+			 */
+		} else if (Max.size() > 1) {
+			majorityPayout /= Max.size();
+			// Rounding magic
+			majorityPayout = round(majorityPayout);
+			// Distribute to each Majority
+			for (int i = 0; i < Max.size(); i++) {
+				tempP = players[Max.get(i)];
+				System.out.println(tempP.getName()
+						+ " is a majority stockholder and receives $"
+						+ majorityPayout + "!");
+				tempP.totalCash += majorityPayout;
+			}
+			System.out
+					.println("No money will be distributed to minority shareholder(s) :(");
+			return;
+		}
+
+		/*
+		 * Start Minority Work
+		 */
+
+		// Determine if there are any mins
+		for (int i = 0; i < playerStockList.length; i++) {
+			// if this number is greater than min and it's NOT in the Max list,
+			// then it's a valid min
+			int thisCheck = playerStockList[ID][i];
+			if (min < thisCheck && !Max.contains(i)) {
+				min = thisCheck;
+			}
+		}
+		for (int i = 0; i < playerStockList.length; i++) {
+			if (playerStockList[ID][i] == min) {
+				Min.add(i);
+			}
+		}
+		// If we have no Min, then distribute minPayout to Max. If there was
+		// more than one max, we would have already
+		// consumed the minority, so we would never be here, so no worries!
+		if (Min.size() == 0) {
+			/* There is only one max if we're here */
+			tempP = players[Max.get(0)];
+			System.out.println("Since there is no minority stockholder for "
+					+ company.getCompanyName() + ", " + tempP.getName()
+					+ " will receive the minority payout of $"
+					+ company.getMinorityPayout() + " as well!");
+			tempP.totalCash += company.getMinorityPayout();
+			return;
+		}
+		// We have 1 min, give them the entire getminority amount
+		else if (Min.size() == 1) {
+			tempP = players[Min.get(0)];
+			System.out.println(tempP.getName()
+					+ " is the sole minority shareholder of "
+					+ company.getCompanyName() + " and will receive $"
+					+ company.getMinorityPayout() + "!");
+			tempP.totalCash += company.getMinorityPayout();
+			return;
+
+			// We have multiple min, give them an evenly distributed getminority
+			// amount
+		} else if (Min.size() > 1) {
+
+			// Distriubute payout among all min
+			minorityPayout /= Min.size();
+			minorityPayout = round(minorityPayout);
+			for (int i = 0; i < Max.size(); i++) {
+				players[Min.get(i)].totalCash += minorityPayout;
+			}
+		}
+
+	}
+
+	int round(int number) {
+		number = number % 100 > 50 ? ((number / 100) * 100) + 100
+				: (number / 100) * 100;
+		return number;
+	}
 }

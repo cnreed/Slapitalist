@@ -8,16 +8,13 @@ class Company {
 	public static Logger log = Logger.getLogger(Company.class);
 	public static final String RESET = "\u001B[0m";
 
-	public int CID; // company number ID;
+	private int CID; // company number ID;
 	private String companyName; // name of company intialized
 	public int companySize;
 	public ArrayList<Tile> companyTiles; // all tiles owned by the
 											// company
 	private static String companyColor; // specific color associated with the
 										// company
-
-	private static ArrayList<StockCertificate> companySharesList;
-
 	private static int[] sharePrice = new int[42];
 
 	private static List<playerNode> shareHolders;
@@ -62,7 +59,15 @@ class Company {
 		}
 	}
 
-	int getCID() {
+	public int getMajorityPayout() {
+		return sharePrice[this.companySize] * 10;
+	}
+
+	public int getMinorityPayout() {
+		return sharePrice[this.companySize] * 5;
+	}
+
+	public int getCID() {
 		return this.CID;
 	}
 
