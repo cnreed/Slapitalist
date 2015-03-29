@@ -1,5 +1,7 @@
 import org.apache.log4j.Logger;
 
+
+//DEAD FILE
 public class StockCertificate {
 
 	public static Logger log = Logger.getLogger(StockCertificate.class);
@@ -20,7 +22,6 @@ public class StockCertificate {
 		System.out.println("New certificate for "
 				+ companyOwner.getCompanyName() + " x" + quantity);
 		log.debug("The owner of this stock is : " + playerOwner.getName());
-		playerOwner.addCertificate(this);
 	}
 
 	/**

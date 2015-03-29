@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -38,13 +37,13 @@ class Company {
 		this.stockCount = 25;
 		companyTiles = new ArrayList<Tile>();
 		calculateSharePrice(companyTier);
-		System.out.println(this.companyName + " " + sharePrice[2] + " to "
-				+ sharePrice[41]);
+		// System.out.println(this.companyName + " " + sharePrice[2] + " to "
+		// + sharePrice[41]);
 	}
 
 	private void calculateSharePrice(int tier) {
 		int tierValue = 0;
-		System.out.println("Tier: " + tier);
+		// System.out.println("Tier: " + tier);
 		tierValue = 100 * tier;
 
 		for (int i = 0; i < sharePrice.length; i++) {
@@ -71,7 +70,7 @@ class Company {
 		companySize++;
 		if (companySize == Main.getSafeSize()) {
 			isSafe = true;
-			//TODO - Set unplayable
+			// TODO - Set unplayable
 		} // makes company safe if safe_size is achieved
 	}
 
@@ -96,7 +95,7 @@ class Company {
 		onBoard = false; // doesn't affect people that have stock
 		isSafe = false;
 		gameEndable = false;
-		companySize = 2;
+		companySize = 0;
 
 	}
 
@@ -123,6 +122,10 @@ class Company {
 
 	public int getSharePrice(int companySize) {
 		return sharePrice[companySize];
+	}
+	
+	public void addStockBack(int quantity) {
+		stockCount += quantity;
 	}
 
 	/*
