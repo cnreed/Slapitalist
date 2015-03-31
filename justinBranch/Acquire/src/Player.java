@@ -66,6 +66,10 @@ public class Player {
 
 		return totalCash;
 	}
+	
+	public void updateCash(int money) {
+		totalCash += money;
+	}
 
 	public String getName() {
 		return name;

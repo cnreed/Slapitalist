@@ -530,7 +530,7 @@ public class Game {
 	/**
 	 * The player gets to choose which company they want to found.
 	 * 
-	 * @param i
+	 * @param tiles
 	 * @return
 	 */
 	public Company selectCompany(ArrayList<Tile> tiles) {
@@ -663,13 +663,24 @@ public class Game {
 				tile.setOwnerCompany(largest);
 				largest.addTile(tile);
 			}
-			comp.dissolve();
 			companiesOnBoard--;
 		}
 		largest.addTile(mTile);
 		mergeTurn(companies, largest);
+		dissolveCompanies(companies);
 		
 
+	}
+	
+	/**
+	 * Dissolves the companies that have just been merged.
+	 * @param companies - Companies to be dissolved.
+	 */
+	private void dissolveCompanies(ArrayList<Company> companies) {
+		for(int i = 0; i < companies.size(); i++) {
+			Company comp = companies.get(i);
+			comp.dissolve();
+		}
 	}
 
 	/**
@@ -677,7 +688,7 @@ public class Game {
 	 * of the same size, then the player chooses which company gets to remain on
 	 * the board.
 	 * 
-	 * @param companies
+	 * @param companies - List of companies in which to find the largest.
 	 * @return
 	 */
 	public Company findLargest(ArrayList<Company> companies) {
@@ -717,6 +728,11 @@ public class Game {
 		return largest;
 	}
 	
+	/**
+	 * 
+	 * @param companies
+	 * @param winner
+	 */
 	private void mergeTurn(ArrayList<Company> companies, Company winner) {
 		
 		int numTurns = 0;
@@ -726,7 +742,7 @@ public class Game {
 			for(int i = 0; i < companies.size(); i++) {
 				Company comp = companies.get(i);
 				if(sharesQuery(index, comp) > 0) {
-					payout(comp, winner, players[index]);
+					payout(comp, winner, players[index], index);
 				}
 				index = index % numPlayers;
 				numTurns++;
@@ -735,9 +751,15 @@ public class Game {
 		
 	}
 
-	private void sellBackStock(Company company) {
+	/**
+	 * 
+	 * @param company
+	 * @param index
+	 */
+	private void sellBackStock(Company company, int index) {
 		
-		int shares = sharesQuery(playerIndex, company);
+		//TODO: Update their total money!
+		int shares = sharesQuery(index, company);
 		System.out.println("This is how much stock you own: " + shares);
 		System.out.println("How much stock would you like to sell back?");
 		int stock = scan.nextInt();
@@ -746,12 +768,21 @@ public class Game {
 			System.out.println("How much stock would you like to sell back?");
 			stock = scan.nextInt();
 		}
+		int money = company.getSharePrice(company.companySize);
+		players[index].updateCash(money*shares);
 		
 		
 	}
 	
-	private void tradeBackStock(Company company, Company winner) {
+	/**
+	 * Allows a player to trade back stock when a company is being merged. 
+	 * @param company - The now defunct company.
+	 * @param winner - The largest company.
+	 * @param index - 
+	 */
+	private void tradeBackStock(Company company, Company winner, int index) {
 		
+		//TODO: Make sure people don't cheat
 		int trade = 0;
 		System.out.println("How much stock would you like to trade back?" +
 				" (Remember for every 2 stock you trade back you receieve 1" +
@@ -763,26 +794,31 @@ public class Game {
 			trade = scan.nextInt();
 		}
 		company.addStockBack(trade);
-		winner.soldStock(trade/2);
+//		winner.soldStock(trade/2);
+		addCertificate(winner, trade/2, index);
 	}
 	
-	
-	
-	private void payout(Company company, Company winner, Player player) {
+	/**
+	 * 
+	 * @param company
+	 * @param winner
+	 * @param player
+	 */
+	private void payout(Company company, Company winner, Player player, int index) {
 
 
-		int index;
+		int choice;
 		System.out.println("What would you like to do?: \t(1) Hold stock\n "
 				+ "\t(2) sell stock\n \t(3) Trade in stock");
-		index = scan.nextInt();
-		switch (index - 1) {
+		choice = scan.nextInt();
+		switch (choice - 1) {
 
 		case 0: // HOLD
 			System.out.println("You decided to hold your stock.");
 			return;
 		case 1: // SELL
 			System.out.println("You decided to sell your stock.");
-			sellBackStock(company);
+			sellBackStock(company, index);
 			return;
 		case 2: // TRADE
 			System.out.println("You decided to trade your stock.");
@@ -790,7 +826,7 @@ public class Game {
 					+ "of company, " + company.getCompanyName() + ", "
 					+ "traded in, you get one stock from the surviving "
 					+ "comany.");
-			tradeBackStock(company, winner);
+			tradeBackStock(company, winner, index);
 			return;
 
 		}
