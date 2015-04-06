@@ -56,15 +56,7 @@ class Company {
 				sharePrice[i] = 1000 + tierValue;
 		}
 	}
-	//To Move back?
-	public int getMajorityPayout() {
-		return sharePrice[companySize] * 10;
-	}
-
-	public int getMinorityPayout() {
-		return sharePrice[companySize] * 5;
-	}
-	//To here
+	
 
 	public int getMajorityPayout() {
 		return sharePrice[this.companySize] * 10;

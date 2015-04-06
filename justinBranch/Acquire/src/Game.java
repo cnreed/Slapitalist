@@ -646,11 +646,8 @@ public class Game {
 		companies.remove(index);
 		for (i = 0; i < companies.size(); i++) {
 			Company comp = companies.get(i);
-<<<<<<< HEAD
 			minMaxPayout(comp);
-			payout(comp);
-=======
->>>>>>> b1d2c658afe11e966a3ff5fc96763e7b763f483b
+
 			System.out.println("Merging " + comp.getCompanyName() + " into "
 					+ largest.getCompanyName() + "...");
 			System.out.println("Company size: " + comp.companySize);
@@ -802,13 +799,8 @@ public class Game {
 	 */
 	private void payout(Company company, Company winner, Player player, int index) {
 
-<<<<<<< HEAD
-	private void payout(Company company) {
-		int index;
-=======
-
 		int choice;
->>>>>>> b1d2c658afe11e966a3ff5fc96763e7b763f483b
+
 		System.out.println("What would you like to do?: \t(1) Hold stock\n "
 				+ "\t(2) sell stock\n \t(3) Trade in stock");
 		choice = scan.nextInt();
@@ -856,12 +848,8 @@ public class Game {
 		}
 		/* else just add to list */
 		else {
-<<<<<<< HEAD
 			playerStockList[playerIndex][company.getCID()] = amount;
-=======
-			playerStockList[playerIndex][company.CID] = amount;
-			
->>>>>>> b1d2c658afe11e966a3ff5fc96763e7b763f483b
+
 		}
 		company.soldStock(amount);
 		System.out.println("Congratulations on your acquisition of " + amount
