@@ -66,14 +66,14 @@ public class Player {
 
 		return totalCash;
 	}
+	
+	public void updateCash(int money) {
+		totalCash += money;
+	}
 
 	public String getName() {
 		return name;
 	}
-
-	// public Tile getInitTile() {
-	// return initTile;
-	// }
 
 	public String printTile(Tile tile) {
 		return tile.row + "" + tile.col;
@@ -110,6 +110,7 @@ public class Player {
 			}
 		}
 	}
+
 
 	/**
 	 * @return the playerStockList

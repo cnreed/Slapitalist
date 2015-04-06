@@ -1,2 +1,4 @@
-[15/23 10:15:11:488 DEBUG] main: main() Starting a new Game!
-[15/23 10:15:16:015 DEBUG] main: <init>() Starting gameInPlay
+[25/31 12:25:26:069 DEBUG] main: main() Starting a new Game!
+[25/31 12:25:50:112 DEBUG] main: <init>() Starting gameInPlay
+[25/31 12:25:50:112 DEBUG] main: <init>() Matthew's turn is started.
+[25/31 12:25:50:112 DEBUG] main: <init>() Matthew [0, 0, 0, 0, 0, 0, 0]

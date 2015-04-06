@@ -56,6 +56,15 @@ class Company {
 				sharePrice[i] = 1000 + tierValue;
 		}
 	}
+	//To Move back?
+	public int getMajorityPayout() {
+		return sharePrice[companySize] * 10;
+	}
+
+	public int getMinorityPayout() {
+		return sharePrice[companySize] * 5;
+	}
+	//To here
 
 	public int getMajorityPayout() {
 		return sharePrice[this.companySize] * 10;
@@ -98,7 +107,7 @@ class Company {
 		onBoard = false; // doesn't affect people that have stock
 		isSafe = false;
 		gameEndable = false;
-		companySize = 2;
+		companySize = 0;
 
 	}
 
@@ -125,6 +134,10 @@ class Company {
 
 	public int getSharePrice(int companySize) {
 		return sharePrice[companySize];
+	}
+	
+	public void addStockBack(int quantity) {
+		stockCount += quantity;
 	}
 
 	/*
