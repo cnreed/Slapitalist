@@ -21,10 +21,7 @@ public class Game {
 	private static Player[] players;
 	private static int playerIndex; // global who's turn is it.
 	private static int[][] playerStockList; // numplayers then companyCID
-	private static boolean companyOnBoard = false; /*
-													 * if we can buy stock at
-													 * all
-													 */
+	private static boolean companyOnBoard = false;
 
 	private static boolean gameInPlay = true;
 	private static boolean testingGame = false;
@@ -147,7 +144,9 @@ public class Game {
 		System.out.println("\nWhich tile would you like to place?");
 		player.showHand();
 
-		int choice = scan.nextInt() - 1;
+		// Possible bug: When we have less than 6 tiles. I don't think this is
+		// coded to handle less tiles
+		int choice = validator("", 1, 6) - 1;
 
 		boolean playable = playTile(player.hand[choice]);
 		System.out.println("Playing " + player.hand[choice].toString());
@@ -167,9 +166,9 @@ public class Game {
 	private void playerTurnPartTwo(Player player, Grid board) {
 		log.debug(player.name + " "
 				+ Arrays.toString(player.getPlayerStockList().toArray()));
-		System.out
-				.println("Would you like to buy stock in an active company?\n (1) Yes (2) No");
-		int buyYesOrNo = scan.nextInt();
+		int buyYesOrNo = validator(
+				"Would you like to buy stock in an active company?\n (1) Yes (2) No",
+				1, 2);
 		if (buyYesOrNo == 1) {
 			int stockTotal = 0;
 			while (stockTotal < 3) {
@@ -194,7 +193,8 @@ public class Game {
 					}
 				}
 				// player chooses stock to buy
-				Company companyToBuy = tempBuyList.get(scan.nextInt() - 1);
+				Company companyToBuy = tempBuyList.get(validator("", 1,
+						displayCount) - 1);
 
 				int companyStockPrice = companyToBuy
 						.getSharePrice(companyToBuy.companySize);
@@ -207,7 +207,7 @@ public class Game {
 						+ player.totalCash + ")");
 
 				// get amount
-				Integer selectionCount = scan.nextInt();
+				Integer selectionCount = validator("", 0, (3 - stockTotal));
 				// if player can afford the value wanted and it's below the
 				// maximum purchase count
 				if (selectionCount > 0
@@ -443,14 +443,7 @@ public class Game {
 	 */
 	private static Player[] getPlayers() {
 
-		boolean gate = false;
-		while (!gate) {
-			System.out.print("Enter the number of Players (Max 6): ");
-			numPlayers = scan.nextInt();
-			if (numPlayers > 1 && numPlayers < 7) {
-				gate = true;
-			}
-		}
+		numPlayers = validator("Enter the number of Players (Max 6): ", 2, 6);
 
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {
@@ -534,12 +527,12 @@ public class Game {
 		System.out.println("You have an opportunity to create a company!\n"
 				+ "Would you like to list the companies and their tiers?"
 				+ "\n (1) Yes (2) No");
-		int answer = scan.nextInt();
+		int answer = validator("", 1, 2);
 		if (answer == 1) {
 			companyListing();
 		}
-		String results = companiesRemaining();
-		System.out.println(results);
+
+		System.out.println(companiesRemaining());
 		int index = scan.nextInt();
 		while (companyList.get(index - 1).onBoard) {
 			System.out.println("That company is already on the board. Please "
@@ -897,5 +890,22 @@ public class Game {
 		number = number % 100 > 50 ? ((number / 100) * 100) + 100
 				: (number / 100) * 100;
 		return number;
+	}
+
+	public static int validator(String message, int low, int high) {
+		int poo = 0;
+		Scanner scan = new Scanner(System.in);
+		int check = 50;
+		while (poo == 0) {
+			System.out.println(message);
+			check = scan.nextInt();
+			if (low <= check && check <= high) {
+				poo++;
+			} else {
+				System.out.println("Please enter an number between " + low
+						+ " and " + high + ", inclusively.");
+			}
+		}
+		return check;
 	}
 }

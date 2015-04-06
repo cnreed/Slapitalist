@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -17,7 +16,6 @@ class Company {
 										// company
 	private static int[] sharePrice = new int[42];
 
-	private static List<playerNode> shareHolders;
 	private int companyTier;
 	private int stockCount;
 	boolean isSafe; // start false
