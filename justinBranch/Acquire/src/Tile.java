@@ -16,6 +16,7 @@ public class Tile {
 	boolean bottom;
 	boolean left;
 	boolean right;
+	boolean visited;
 
 	Company ownerCompany; // what company owns it
 	Player ownerPlayer; // what player owns it
@@ -30,6 +31,7 @@ public class Tile {
 	public Tile(int row, int col) {
 		this.row = row;
 		this.col = col;
+		this.visited = false;
 		top = bottom = left = right = true;
 	}
 
@@ -42,6 +44,7 @@ public class Tile {
 		this.ownerPlayer = ownerPlayer;
 		this.status = statuses[statusIndex];
 		this.subStatus = statuses[statusIndex];
+		this.visited = false;
 	}
 
 	/**

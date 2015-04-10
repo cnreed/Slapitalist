@@ -144,4 +144,11 @@ class Company {
 			return false;
 		}
 	}
+	
+	public void logPrintTiles() {
+		for(int i = 0; i < companyTiles.size(); i++) {
+			Tile tile = companyTiles.get(i);
+			log.debug(" " + tile.toString());
+		}
+	}
 }

@@ -263,59 +263,80 @@ public class Game {
 
 		// Check to see where we are on the board.
 		board.checkBoundaries(tile, x, y);
-
+		tile.visited = true;
+		log.debug("tile: " + tile.toString() + " x " + x + " y " + y);
 		if (tile.getTop()) {
+			
 			tileTop = board.getTile(x - 1, y);
 			top = tileTop.getOwnerCompany();
+			log.debug("tileTop.visited: " + tileTop.visited);
 			if (top != null) {
 				companyCount++;
 				companies.add(top);
-			} else if (tileTop.getStatus().equals("ONBOARD")) {
+			} else if (tileTop.getStatus().equals("ONBOARD") && 
+					tileTop.visited == false) {
 				onBoardCount++;
 				tiles.add(tileTop);
+				log.debug("Proceeding into tileTop");
+				checkAdj(tileTop, x-1, y, player);
 			}
 		}
 		if (tile.getLeft()) {
+			
 			tileLeft = board.getTile(x, y - 1);
 			left = tileLeft.getOwnerCompany();
+			log.debug("tileLeft.visited: " + tileLeft.visited);
 			if (left != null) {
 				if (!companies.contains(left)) {
 					companyCount++;
 					companies.add(left);
 				}
-			} else if (tileLeft.getStatus().equals("ONBOARD")) {
+			} else if (tileLeft.getStatus().equals("ONBOARD") &&
+					tileLeft.visited == false) {
 				onBoardCount++;
 				tiles.add(tileLeft);
+				log.debug("Proceeding into tileLeft");
+				checkAdj(tileLeft, x, y-1, player);
 			}
 		}
 		if (tile.getBottom()) {
+			
 			tileBottom = board.getTile(x + 1, y);
 			bottom = tileBottom.getOwnerCompany();
+			log.debug("tileBottom.visited: " + tileBottom.visited);
 			if (bottom != null) {
 
 				if (!companies.contains(bottom)) {
 					companyCount++;
 					companies.add(bottom);
 				}
-			} else if (tileBottom.getStatus().equals("ONBOARD")) {
+			} else if (tileBottom.getStatus().equals("ONBOARD") &&
+					tileBottom.visited == false) {
 				onBoardCount++;
 				tiles.add(tileBottom);
+				log.debug("Proceeding into tileBottom");
+				checkAdj(tileBottom, x+1, y, player);
+
 			}
 		}
 		if (tile.getRight()) {
 			tileRight = board.getTile(x, y + 1);
 			right = tileRight.getOwnerCompany();
+			log.debug("tileRight.visited: " + tileRight.visited);
 			if (right != null) {
-
 				if (!companies.contains(right)) {
 					companyCount++;
 					companies.add(right);
 				}
-			} else if (tileRight.getStatus().equals("ONBOARD")) {
+			} else if (tileRight.getStatus().equals("ONBOARD") &&
+					tileRight.visited == false) {
 				onBoardCount++;
 				tiles.add(tileRight);
+				log.debug("Proceeding into tileRight");
+				checkAdj(tileRight, x, y+1, player);
 			}
 		}
+		tile.visited = false;
 		// System.out.println("companyCount is: " + companyCount);
 		// System.out.println("onBoardCount is: " + onBoardCount);
 
@@ -337,6 +358,9 @@ public class Game {
 					if (!comp.companyTiles.contains(aTile)) {
 						aTile.setOwnerCompany(comp);
 						comp.addTile(aTile);
+						log.debug("Company: " + comp.getCompanyName());
+						log.debug("Tiles");
+						comp.logPrintTiles();
 					}
 				}
 			}
@@ -357,6 +381,7 @@ public class Game {
 								+ "place this tile. Please select another tile.");
 				tile.statusUpdate(3);
 			}
+			return;
 		}
 
 	}
@@ -690,7 +715,6 @@ public class Game {
 		Company largest = companies.get(0);
 		int size = companies.get(0).companySize;
 		ArrayList<Company> equal = new ArrayList<Company>();
-		equal.addAll(equal);
 		for (int i = 1; i < companies.size(); i++) {
 			Company compare = companies.get(i);
 			int sCompare = compare.companySize;
@@ -985,6 +1009,11 @@ public class Game {
 
 	}
 
+	/**
+	 * 
+	 * @param number
+	 * @return
+	 */
 	int round(int number) {
 		number = number % 100 > 50 ? ((number / 100) * 100) + 100
 				: (number / 100) * 100;

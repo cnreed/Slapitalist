@@ -1,4 +1,265 @@
-[25/31 12:25:26:069 DEBUG] main: main() Starting a new Game!
-[25/31 12:25:50:112 DEBUG] main: <init>() Starting gameInPlay
-[25/31 12:25:50:112 DEBUG] main: <init>() Matthew's turn is started.
-[25/31 12:25:50:112 DEBUG] main: <init>() Matthew [0, 0, 0, 0, 0, 0, 0]
+[25/09 10:25:35:904 DEBUG] main: main() Starting a new Game!
+[25/09 10:25:43:941 DEBUG] main: <init>() Starting gameInPlay
+[25/09 10:25:43:942 DEBUG] main: <init>() q's turn is started.
+[25/09 10:25:43:942 DEBUG] main: <init>() q [0, 0, 0, 0, 0, 0, 0]
+[25/09 10:25:58:682 DEBUG] main: checkAdj() tile: G2 x 6 y 1
+[25/09 10:25:58:684 DEBUG] main: checkAdj() tileTop.visited: false
+[25/09 10:25:58:684 DEBUG] main: checkAdj() tileLeft.visited: false
+[25/09 10:25:58:685 DEBUG] main: checkAdj() tileBottom.visited: false
+[25/09 10:25:58:685 DEBUG] main: checkAdj() tileRight.visited: false
+[25/09 10:25:58:685 DEBUG] main: <init>() q's turn is ended.
+[25/09 10:25:58:685 DEBUG] main: <init>() w's turn is started.
+[25/09 10:25:58:685 DEBUG] main: <init>() w [0, 0, 0, 0, 0, 0, 0]
+[26/09 10:26:04:741 DEBUG] main: checkAdj() tile: H10 x 7 y 9
+[26/09 10:26:04:741 DEBUG] main: checkAdj() tileTop.visited: false
+[26/09 10:26:04:741 DEBUG] main: checkAdj() tileLeft.visited: false
+[26/09 10:26:04:741 DEBUG] main: checkAdj() tileBottom.visited: false
+[26/09 10:26:04:743 DEBUG] main: checkAdj() tileRight.visited: false
+[26/09 10:26:04:743 DEBUG] main: <init>() w's turn is ended.
+[26/09 10:26:04:743 DEBUG] main: <init>() e's turn is started.
+[26/09 10:26:04:744 DEBUG] main: <init>() e [0, 0, 0, 0, 0, 0, 0]
+[26/09 10:26:10:868 DEBUG] main: checkAdj() tile: B11 x 1 y 10
+[26/09 10:26:10:868 DEBUG] main: checkAdj() tileTop.visited: false
+[26/09 10:26:10:869 DEBUG] main: checkAdj() tileLeft.visited: false
+[26/09 10:26:10:869 DEBUG] main: checkAdj() tileBottom.visited: false
+[26/09 10:26:10:869 DEBUG] main: checkAdj() tileRight.visited: false
+[26/09 10:26:10:869 DEBUG] main: <init>() e's turn is ended.
+[26/09 10:26:10:869 DEBUG] main: <init>() r's turn is started.
+[26/09 10:26:10:869 DEBUG] main: <init>() r [0, 0, 0, 0, 0, 0, 0]
+[26/09 10:26:17:042 DEBUG] main: checkAdj() tile: C11 x 2 y 10
+[26/09 10:26:17:042 DEBUG] main: checkAdj() tileTop.visited: false
+[26/09 10:26:17:043 DEBUG] main: checkAdj() Proceeding into tileTop
+[26/09 10:26:17:043 DEBUG] main: checkAdj() tile: B11 x 1 y 10
+[26/09 10:26:17:043 DEBUG] main: checkAdj() tileTop.visited: false
+[26/09 10:26:17:043 DEBUG] main: checkAdj() tileLeft.visited: false
+[26/09 10:26:17:043 DEBUG] main: checkAdj() tileBottom.visited: true
+[26/09 10:26:17:043 DEBUG] main: checkAdj() tileRight.visited: false
+[26/09 10:26:17:043 DEBUG] main: checkAdj() tileLeft.visited: false
+[26/09 10:26:17:043 DEBUG] main: checkAdj() tileBottom.visited: false
+[26/09 10:26:17:044 DEBUG] main: checkAdj() tileRight.visited: false
+[26/09 10:26:20:163 DEBUG] main: playerTurnPartTwo() r [0, 0, 0, 0, 0, 0]
+[26/09 10:26:22:491 DEBUG] main: <init>() r's turn is ended.
+[26/09 10:26:22:491 DEBUG] main: <init>() t's turn is started.
+[26/09 10:26:22:491 DEBUG] main: <init>() t [0, 0, 0, 0, 0, 0, 0]
+[26/09 10:26:37:128 DEBUG] main: checkAdj() tile: E2 x 4 y 1
+[26/09 10:26:37:128 DEBUG] main: checkAdj() tileTop.visited: false
+[26/09 10:26:37:128 DEBUG] main: checkAdj() tileLeft.visited: false
+[26/09 10:26:37:128 DEBUG] main: checkAdj() tileBottom.visited: false
+[26/09 10:26:37:128 DEBUG] main: checkAdj() tileRight.visited: false
+[26/09 10:26:37:129 DEBUG] main: playerTurnPartTwo() t [0, 0, 0, 0, 0, 0]
+[26/09 10:26:39:597 DEBUG] main: <init>() t's turn is ended.
+[26/09 10:26:39:597 DEBUG] main: <init>() y's turn is started.
+[26/09 10:26:39:597 DEBUG] main: <init>() y [0, 0, 0, 0, 0, 0, 0]
+[26/09 10:26:46:121 DEBUG] main: checkAdj() tile: B1 x 1 y 0
+[26/09 10:26:46:121 DEBUG] main: checkAdj() tileTop.visited: false
+[26/09 10:26:46:121 DEBUG] main: checkAdj() tileBottom.visited: false
+[26/09 10:26:46:121 DEBUG] main: checkAdj() tileRight.visited: false
+[26/09 10:26:46:122 DEBUG] main: playerTurnPartTwo() y [0, 0, 0, 0, 0, 0]
+[26/09 10:26:47:569 DEBUG] main: <init>() y's turn is ended.
+[26/09 10:26:47:570 DEBUG] main: <init>() q's turn is started.
+[26/09 10:26:47:570 DEBUG] main: <init>() q [0, 0, 0, 0, 0, 0, 0]
+[26/09 10:26:58:761 DEBUG] main: checkAdj() tile: E11 x 4 y 10
+[26/09 10:26:58:761 DEBUG] main: checkAdj() tileTop.visited: false
+[26/09 10:26:58:761 DEBUG] main: checkAdj() tileLeft.visited: false
+[26/09 10:26:58:762 DEBUG] main: checkAdj() tileBottom.visited: false
+[26/09 10:26:58:762 DEBUG] main: checkAdj() tileRight.visited: false
+[26/09 10:26:58:762 DEBUG] main: playerTurnPartTwo() q [0, 0, 0, 0, 0, 0]
+[27/09 10:27:01:657 DEBUG] main: <init>() q's turn is ended.
+[27/09 10:27:01:658 DEBUG] main: <init>() w's turn is started.
+[27/09 10:27:01:658 DEBUG] main: <init>() w [0, 0, 0, 0, 0, 0, 0]
+[27/09 10:27:11:861 DEBUG] main: checkAdj() tile: C10 x 2 y 9
+[27/09 10:27:11:862 DEBUG] main: checkAdj() tileTop.visited: false
+[27/09 10:27:11:862 DEBUG] main: checkAdj() tileLeft.visited: false
+[27/09 10:27:11:862 DEBUG] main: checkAdj() tileBottom.visited: false
+[27/09 10:27:11:862 DEBUG] main: checkAdj() Proceeding into tileBottom
+[27/09 10:27:11:862 DEBUG] main: checkAdj() tile: D10 x 3 y 9
+[27/09 10:27:11:862 DEBUG] main: checkAdj() tileTop.visited: true
+[27/09 10:27:11:862 DEBUG] main: checkAdj() tileLeft.visited: false
+[27/09 10:27:11:862 DEBUG] main: checkAdj() tileBottom.visited: false
+[27/09 10:27:11:862 DEBUG] main: checkAdj() tileRight.visited: false
+[27/09 10:27:11:863 DEBUG] main: checkAdj() tileRight.visited: false
+[27/09 10:27:11:863 DEBUG] main: checkAdj() Company: Rahoi
+[27/09 10:27:11:863 DEBUG] main: checkAdj() Tiles
+[27/09 10:27:11:863 DEBUG] main: logPrintTiles()  B11
+[27/09 10:27:11:863 DEBUG] main: logPrintTiles()  C11
+[27/09 10:27:11:863 DEBUG] main: logPrintTiles()  C10
+[27/09 10:27:11:863 DEBUG] main: logPrintTiles()  D10
+[27/09 10:27:11:863 DEBUG] main: playerTurnPartTwo() w [0, 0, 0, 0, 0, 0]
+[27/09 10:27:15:508 DEBUG] main: <init>() w's turn is ended.
+[27/09 10:27:15:508 DEBUG] main: <init>() e's turn is started.
+[27/09 10:27:15:508 DEBUG] main: <init>() e [0, 0, 0, 0, 0, 0, 0]
+[27/09 10:27:27:812 DEBUG] main: checkAdj() tile: A1 x 0 y 0
+[27/09 10:27:27:812 DEBUG] main: checkAdj() tileBottom.visited: false
+[27/09 10:27:27:812 DEBUG] main: checkAdj() Proceeding into tileBottom
+[27/09 10:27:27:812 DEBUG] main: checkAdj() tile: B1 x 1 y 0
+[27/09 10:27:27:812 DEBUG] main: checkAdj() tileTop.visited: true
+[27/09 10:27:27:812 DEBUG] main: checkAdj() tileBottom.visited: false
+[27/09 10:27:27:812 DEBUG] main: checkAdj() tileRight.visited: false
+[27/09 10:27:27:812 DEBUG] main: checkAdj() tileRight.visited: false
+[27/09 10:27:27:812 DEBUG] main: checkAdj() Proceeding into tileRight
+[27/09 10:27:27:812 DEBUG] main: checkAdj() tile: A2 x 0 y 1
+[27/09 10:27:27:813 DEBUG] main: checkAdj() tileLeft.visited: true
+[27/09 10:27:27:813 DEBUG] main: checkAdj() tileBottom.visited: false
+[27/09 10:27:27:813 DEBUG] main: checkAdj() tileRight.visited: false
+[27/09 10:27:32:955 DEBUG] main: playerTurnPartTwo() e [0, 0, 0, 0, 0, 0]
+[27/09 10:27:34:699 DEBUG] main: <init>() e's turn is ended.
+[27/09 10:27:34:699 DEBUG] main: <init>() r's turn is started.
+[27/09 10:27:34:700 DEBUG] main: <init>() r [1, 0, 0, 0, 0, 0, 0]
+[27/09 10:27:46:817 DEBUG] main: checkAdj() tile: B8 x 1 y 7
+[27/09 10:27:46:817 DEBUG] main: checkAdj() tileTop.visited: false
+[27/09 10:27:46:817 DEBUG] main: checkAdj() tileLeft.visited: false
+[27/09 10:27:46:818 DEBUG] main: checkAdj() tileBottom.visited: false
+[27/09 10:27:46:818 DEBUG] main: checkAdj() tileRight.visited: false
+[27/09 10:27:46:818 DEBUG] main: playerTurnPartTwo() r [0, 0, 0, 0, 0, 0]
+[27/09 10:27:48:337 DEBUG] main: <init>() r's turn is ended.
+[27/09 10:27:48:337 DEBUG] main: <init>() t's turn is started.
+[27/09 10:27:48:337 DEBUG] main: <init>() t [0, 0, 0, 0, 0, 0, 0]
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tile: C8 x 2 y 7
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tileTop.visited: false
+[27/09 10:27:56:022 DEBUG] main: checkAdj() Proceeding into tileTop
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tile: B8 x 1 y 7
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tileTop.visited: false
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tileLeft.visited: false
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tileBottom.visited: true
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tileRight.visited: false
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tileLeft.visited: false
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tileBottom.visited: false
+[27/09 10:27:56:022 DEBUG] main: checkAdj() tileRight.visited: false
+[28/09 10:28:02:217 DEBUG] main: playerTurnPartTwo() t [0, 0, 0, 0, 0, 0]
+[28/09 10:28:03:872 DEBUG] main: <init>() t's turn is ended.
+[28/09 10:28:03:873 DEBUG] main: <init>() y's turn is started.
+[28/09 10:28:03:873 DEBUG] main: <init>() y [0, 0, 0, 0, 0, 0, 0]
+[28/09 10:28:10:292 DEBUG] main: checkAdj() tile: A8 x 0 y 7
+[28/09 10:28:10:292 DEBUG] main: checkAdj() tileLeft.visited: false
+[28/09 10:28:10:292 DEBUG] main: checkAdj() tileBottom.visited: false
+[28/09 10:28:10:292 DEBUG] main: checkAdj() tileRight.visited: false
+[28/09 10:28:10:292 DEBUG] main: playerTurnPartTwo() y [0, 0, 0, 0, 0, 0]
+[28/09 10:28:11:988 DEBUG] main: <init>() y's turn is ended.
+[28/09 10:28:11:988 DEBUG] main: <init>() q's turn is started.
+[28/09 10:28:11:988 DEBUG] main: <init>() q [0, 0, 0, 0, 0, 0, 0]
+[28/09 10:28:20:399 DEBUG] main: checkAdj() tile: G4 x 6 y 3
+[28/09 10:28:20:400 DEBUG] main: checkAdj() tileTop.visited: false
+[28/09 10:28:20:400 DEBUG] main: checkAdj() tileLeft.visited: false
+[28/09 10:28:20:400 DEBUG] main: checkAdj() tileBottom.visited: false
+[28/09 10:28:20:400 DEBUG] main: checkAdj() Proceeding into tileBottom
+[28/09 10:28:20:400 DEBUG] main: checkAdj() tile: H4 x 7 y 3
+[28/09 10:28:20:400 DEBUG] main: checkAdj() tileTop.visited: true
+[28/09 10:28:20:400 DEBUG] main: checkAdj() tileLeft.visited: false
+[28/09 10:28:20:400 DEBUG] main: checkAdj() tileBottom.visited: false
+[28/09 10:28:20:400 DEBUG] main: checkAdj() tileRight.visited: false
+[28/09 10:28:20:400 DEBUG] main: checkAdj() tileRight.visited: false
+[28/09 10:28:24:336 DEBUG] main: playerTurnPartTwo() q [0, 0, 0, 0, 0, 0]
+[28/09 10:28:27:023 DEBUG] main: <init>() q's turn is ended.
+[28/09 10:28:27:024 DEBUG] main: <init>() w's turn is started.
+[28/09 10:28:27:024 DEBUG] main: <init>() w [0, 0, 0, 0, 0, 0, 0]
+[28/09 10:28:34:442 DEBUG] main: checkAdj() tile: A11 x 0 y 10
+[28/09 10:28:34:442 DEBUG] main: checkAdj() tileLeft.visited: false
+[28/09 10:28:34:442 DEBUG] main: checkAdj() tileBottom.visited: false
+[28/09 10:28:34:442 DEBUG] main: checkAdj() tileRight.visited: false
+[28/09 10:28:34:442 DEBUG] main: playerTurnPartTwo() w [0, 0, 0, 0, 0, 0]
+[28/09 10:28:36:106 DEBUG] main: <init>() w's turn is ended.
+[28/09 10:28:36:106 DEBUG] main: <init>() e's turn is started.
+[28/09 10:28:36:106 DEBUG] main: <init>() e [0, 1, 0, 0, 0, 0, 0]
+[28/09 10:28:48:487 DEBUG] main: checkAdj() tile: D1 x 3 y 0
+[28/09 10:28:48:488 DEBUG] main: checkAdj() tileTop.visited: false
+[28/09 10:28:48:488 DEBUG] main: checkAdj() tileBottom.visited: false
+[28/09 10:28:48:488 DEBUG] main: checkAdj() tileRight.visited: false
+[28/09 10:28:48:488 DEBUG] main: playerTurnPartTwo() e [0, 0, 0, 0, 0, 0]
+[28/09 10:28:49:928 DEBUG] main: <init>() e's turn is ended.
+[28/09 10:28:49:928 DEBUG] main: <init>() r's turn is started.
+[28/09 10:28:49:928 DEBUG] main: <init>() r [1, 0, 0, 0, 0, 0, 0]
+[28/09 10:28:55:320 DEBUG] main: checkAdj() tile: A10 x 0 y 9
+[28/09 10:28:55:320 DEBUG] main: checkAdj() tileLeft.visited: false
+[28/09 10:28:55:320 DEBUG] main: checkAdj() tileBottom.visited: false
+[28/09 10:28:55:320 DEBUG] main: checkAdj() tileRight.visited: false
+[28/09 10:28:55:320 DEBUG] main: playerTurnPartTwo() r [0, 0, 0, 0, 0, 0]
+[28/09 10:28:58:875 DEBUG] main: <init>() r's turn is ended.
+[28/09 10:28:58:875 DEBUG] main: <init>() t's turn is started.
+[28/09 10:28:58:875 DEBUG] main: <init>() t [0, 0, 1, 0, 0, 0, 0]
+[29/09 10:29:09:254 DEBUG] main: checkAdj() tile: A3 x 0 y 2
+[29/09 10:29:09:254 DEBUG] main: checkAdj() tileLeft.visited: false
+[29/09 10:29:09:254 DEBUG] main: checkAdj() tileBottom.visited: false
+[29/09 10:29:09:254 DEBUG] main: checkAdj() tileRight.visited: false
+[29/09 10:29:09:254 DEBUG] main: playerTurnPartTwo() t [0, 0, 0, 0, 0, 0]
+[29/09 10:29:10:664 DEBUG] main: <init>() t's turn is ended.
+[29/09 10:29:10:665 DEBUG] main: <init>() y's turn is started.
+[29/09 10:29:10:665 DEBUG] main: <init>() y [0, 0, 0, 0, 0, 0, 0]
+[29/09 10:29:17:439 DEBUG] main: checkAdj() tile: G11 x 6 y 10
+[29/09 10:29:17:439 DEBUG] main: checkAdj() tileTop.visited: false
+[29/09 10:29:17:442 DEBUG] main: checkAdj() tileLeft.visited: false
+[29/09 10:29:17:442 DEBUG] main: checkAdj() tileBottom.visited: false
+[29/09 10:29:17:442 DEBUG] main: checkAdj() tileRight.visited: false
+[29/09 10:29:17:442 DEBUG] main: playerTurnPartTwo() y [0, 0, 0, 0, 0, 0]
+[29/09 10:29:19:175 DEBUG] main: <init>() y's turn is ended.
+[29/09 10:29:19:175 DEBUG] main: <init>() q's turn is started.
+[29/09 10:29:19:175 DEBUG] main: <init>() q [0, 0, 0, 1, 0, 0, 0]
+[29/09 10:29:30:691 DEBUG] main: checkAdj() tile: G9 x 6 y 8
+[29/09 10:29:30:691 DEBUG] main: checkAdj() tileTop.visited: false
+[29/09 10:29:30:692 DEBUG] main: checkAdj() tileLeft.visited: false
+[29/09 10:29:30:692 DEBUG] main: checkAdj() tileBottom.visited: false
+[29/09 10:29:30:692 DEBUG] main: checkAdj() tileRight.visited: false
+[29/09 10:29:30:692 DEBUG] main: playerTurnPartTwo() q [0, 0, 0, 0, 0, 0]
+[29/09 10:29:33:620 DEBUG] main: <init>() q's turn is ended.
+[29/09 10:29:33:620 DEBUG] main: <init>() w's turn is started.
+[29/09 10:29:33:620 DEBUG] main: <init>() w [0, 0, 0, 0, 0, 0, 0]
+[29/09 10:29:44:021 DEBUG] main: checkAdj() tile: F11 x 5 y 10
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileTop.visited: false
+[29/09 10:29:44:022 DEBUG] main: checkAdj() Proceeding into tileTop
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tile: E11 x 4 y 10
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileTop.visited: false
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileLeft.visited: false
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileBottom.visited: true
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileRight.visited: false
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileLeft.visited: false
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileBottom.visited: false
+[29/09 10:29:44:022 DEBUG] main: checkAdj() Proceeding into tileBottom
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tile: G11 x 6 y 10
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileTop.visited: true
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileLeft.visited: false
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileBottom.visited: false
+[29/09 10:29:44:022 DEBUG] main: checkAdj() tileRight.visited: false
+[29/09 10:29:44:023 DEBUG] main: checkAdj() tileRight.visited: false
+[29/09 10:29:49:377 DEBUG] main: playerTurnPartTwo() w [0, 0, 0, 0, 0, 0]
+[29/09 10:29:51:105 DEBUG] main: <init>() w's turn is ended.
+[29/09 10:29:51:105 DEBUG] main: <init>() e's turn is started.
+[29/09 10:29:51:105 DEBUG] main: <init>() e [0, 1, 0, 0, 0, 0, 0]
+[30/09 10:30:22:805 DEBUG] main: checkAdj() tile: B7 x 1 y 6
+[30/09 10:30:22:805 DEBUG] main: checkAdj() tileTop.visited: false
+[30/09 10:30:22:805 DEBUG] main: checkAdj() tileLeft.visited: false
+[30/09 10:30:22:805 DEBUG] main: checkAdj() tileBottom.visited: false
+[30/09 10:30:22:805 DEBUG] main: checkAdj() tileRight.visited: false
+[30/09 10:30:22:805 DEBUG] main: playerTurnPartTwo() e [0, 0, 0, 0, 0, 0]
+[30/09 10:30:24:332 DEBUG] main: <init>() e's turn is ended.
+[30/09 10:30:24:332 DEBUG] main: <init>() r's turn is started.
+[30/09 10:30:24:332 DEBUG] main: <init>() r [1, 0, 0, 0, 0, 0, 0]
+[30/09 10:30:32:615 DEBUG] main: checkAdj() tile: A5 x 0 y 4
+[30/09 10:30:32:615 DEBUG] main: checkAdj() tileLeft.visited: false
+[30/09 10:30:32:615 DEBUG] main: checkAdj() tileBottom.visited: false
+[30/09 10:30:32:615 DEBUG] main: checkAdj() tileRight.visited: false
+[30/09 10:30:32:615 DEBUG] main: playerTurnPartTwo() r [0, 0, 0, 0, 0, 0]
+[30/09 10:30:34:524 DEBUG] main: <init>() r's turn is ended.
+[30/09 10:30:34:525 DEBUG] main: <init>() t's turn is started.
+[30/09 10:30:34:525 DEBUG] main: <init>() t [0, 0, 1, 0, 0, 0, 0]
+[30/09 10:30:37:687 DEBUG] main: checkAdj() tile: G8 x 6 y 7
+[30/09 10:30:37:687 DEBUG] main: checkAdj() tileTop.visited: false
+[30/09 10:30:37:687 DEBUG] main: checkAdj() tileLeft.visited: false
+[30/09 10:30:37:687 DEBUG] main: checkAdj() tileBottom.visited: false
+[30/09 10:30:37:687 DEBUG] main: checkAdj() Proceeding into tileBottom
+[30/09 10:30:37:687 DEBUG] main: checkAdj() tile: H8 x 7 y 7
+[30/09 10:30:37:687 DEBUG] main: checkAdj() tileTop.visited: true
+[30/09 10:30:37:687 DEBUG] main: checkAdj() tileLeft.visited: false
+[30/09 10:30:37:687 DEBUG] main: checkAdj() Proceeding into tileLeft
+[30/09 10:30:37:687 DEBUG] main: checkAdj() tile: H7 x 7 y 6
+[30/09 10:30:37:688 DEBUG] main: checkAdj() tileTop.visited: false
+[30/09 10:30:37:688 DEBUG] main: checkAdj() tileLeft.visited: false
+[30/09 10:30:37:688 DEBUG] main: checkAdj() tileBottom.visited: false
+[30/09 10:30:37:688 DEBUG] main: checkAdj() tileRight.visited: true
+[30/09 10:30:37:688 DEBUG] main: checkAdj() tileBottom.visited: false
+[30/09 10:30:37:688 DEBUG] main: checkAdj() tileRight.visited: false
+[30/09 10:30:42:415 DEBUG] main: checkAdj() tileRight.visited: false
+[30/09 10:30:42:416 DEBUG] main: checkAdj() Proceeding into tileRight
+[30/09 10:30:42:416 DEBUG] main: checkAdj() tile: G9 x 6 y 8
+[30/09 10:30:42:416 DEBUG] main: checkAdj() tileTop.visited: false
+[30/09 10:30:42:416 DEBUG] main: checkAdj() tileLeft.visited: true
+[30/09 10:30:42:416 DEBUG] main: checkAdj() tileBottom.visited: false
+[30/09 10:30:42:416 DEBUG] main: checkAdj() tileRight.visited: false
