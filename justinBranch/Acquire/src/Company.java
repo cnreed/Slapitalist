@@ -146,9 +146,20 @@ class Company {
 	}
 	
 	public void logPrintTiles() {
+		int numTiles = 0;
+		String message = "Company : " + companyName;
 		for(int i = 0; i < companyTiles.size(); i++) {
 			Tile tile = companyTiles.get(i);
-			log.debug(" " + tile.toString());
+			message += " " + tile.toString();
+			numTiles++;
 		}
+		log.debug(message);
+		log.debug("number of tiles: " + numTiles + " compared to: " + companySize);
+		
+	}
+
+	public int size() {
+		
+		return companySize;
 	}
 }

@@ -22,7 +22,7 @@ public class Tile {
 	Player ownerPlayer; // what player owns it
 	String status; // Current status of the tile
 	String[] statuses = { "INBAG", "INHAND", "ONBOARD", "QUARANTINED",
-			"UNPLAYABLE" };
+			"UNPLAYABLE", "INCOMPANY" };
 	// List of statuses the tile can have.
 
 	boolean safe;
