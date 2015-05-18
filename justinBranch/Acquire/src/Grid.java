@@ -26,6 +26,7 @@ public class Grid {
 		randArray = new Tile[x_size][y_size];
 		initialize();
 		randomizeGrid();
+		//randPrint();
 		initBag();
 
 	}
@@ -38,7 +39,7 @@ public class Grid {
 		for (int i = 0; i < x_size; i++) {
 			for (int j = 0; j < y_size; j++) {
 				Tile tile = new Tile(i, j, null, null, 0);
-
+				checkBoundaries(tile, i, j);
 				grid[i][j] = tile;
 				randArray[i][j] = tile;
 				inBag[i][j] = true;
@@ -70,6 +71,25 @@ public class Grid {
 			System.out.println();
 		}
 	}
+	
+	public void randPrint() {
+
+		String statusIndicator = "";
+		for (int i = 0; i < x_size; i++) {
+			for (int j = 0; j < y_size; j++) {
+				Tile thisTile = randArray[i][j];
+				if (thisTile.getStatus().equals("ONBOARD")) {
+					System.out.print("[" + ((char) (randArray[i][j].row + 65))
+							+ (randArray[i][j].col + 1) + "]\t");
+				} else {
+					System.out.print("" + ((char) (randArray[i][j].row + 65))
+							+ (randArray[i][j].col + 1) + "\t");
+				}
+			}
+			statusIndicator = "";
+			System.out.println();
+		}
+	}
 
 	/**
 	 * Checks to see if the tile is on the edge of the board. If it is, then set
@@ -86,7 +106,7 @@ public class Grid {
 		if (y <= 0) {
 			tile.left = false;
 		}
-		if (x >= 11) {
+		if (x >= 8) {
 			tile.bottom = false;
 		}
 		if (y >= 11) {
@@ -122,8 +142,8 @@ public class Grid {
 
 		Random rand = new Random();
 		int i, j;
-		for (i = 0; i < grid.length - 1; i++) {
-			for (j = 0; j < grid[i].length - 1; j++) {
+		for (i = 0; i < grid.length; i++) {
+			for (j = 0; j < grid[i].length; j++) {
 				int x = rand.nextInt(i + 1);
 				int y = rand.nextInt(j + 1);
 

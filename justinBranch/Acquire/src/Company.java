@@ -96,10 +96,7 @@ class Company {
 
 	void dissolve() { // drops all backend values to 0, which cascades to
 						// prices, etc.
-		onBoard = false; // doesn't affect people that have stock
-		isSafe = false;
-		gameEndable = false;
-		companySize = 0;
+		
 
 	}
 

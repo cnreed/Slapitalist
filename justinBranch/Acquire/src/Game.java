@@ -10,13 +10,15 @@ public class Game {
 	public static Logger log = Logger.getLogger(Game.class);
 	private static Scanner scan;
 	private static int numPlayers;
+	private static int hitOver7 = 0;
 
 	private static int companiesOnBoard; // tells Phase 2 that we can buy stock
 	private static int companiesSafe;
 	private static int companies41;
 	private static Company Rahoi, Imperial, Worldwide, Tower, American,
-			Festival, Continental;
+	Festival, Continental;
 	private static ArrayList<Company> companyList;
+	private static ArrayList<Tile> orphanTiles;
 	private static Grid board; // TODO: This board here! - Carolyn
 	private static int x, y;
 
@@ -31,7 +33,7 @@ public class Game {
 	public Game(int x, int y) {
 
 		scan = new Scanner(System.in);
-
+		orphanTiles = new ArrayList<Tile>();
 		/* initialize board */
 		board = new Grid(x, y); // TODO: This board here? - Carolyn
 
@@ -76,7 +78,7 @@ public class Game {
 
 		scan.close();
 	}
-	
+
 	private void endConditions() {
 		for(int i = 0; i < companyList.size(); i++) {
 			Company comp = companyList.get(i);
@@ -90,16 +92,35 @@ public class Game {
 			}
 		}
 		if(companiesSafe == 7) {
-			//Can end the game
-		}
-		if(companies41 > 1) {
+			System.out.println("All the companies are Safe!");
 			int choice = validator("Would you like to end the game? 1 for Yes, 0 for no", 0, 1);
 			if(choice == 1) {
+				payPlayers();
+				determineWinner();
 				System.exit(0);
 			}
-			
+		}
+		if(companies41 > 1) {
+			System.out.println("There's atleast one company over 41");
+			int choice = validator("Would you like to end the game? 1 for Yes, 0 for no", 0, 1);
+			if(choice == 1) {
+				payPlayers();
+				determineWinner();
+				System.exit(0);
+			}
+
 			//Can end game
 		}
+	}
+
+	private void payPlayers() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void determineWinner() {
+		// TODO Auto-generated method stub
+
 	}
 
 	private void testingMerge() {
@@ -171,7 +192,7 @@ public class Game {
 	}
 
 	private int playerTurnPartOne(Player player, Grid board) {
-		//TODO
+
 		ArrayList<Tile> tiles = new ArrayList<Tile>();
 		ArrayList<Company> companies = new ArrayList<Company>();
 		board.print();
@@ -213,7 +234,7 @@ public class Game {
 			int stockTotal = 0;
 			while (stockTotal < 3) {
 				System.out
-						.println("What company would you like to buy stock in?");
+				.println("What company would you like to buy stock in?");
 				// Display Stocks, their prices, and amount left to purchase.
 				int displayCount = 1;
 				ArrayList<Company> tempBuyList = new ArrayList<>();
@@ -300,11 +321,10 @@ public class Game {
 
 
 		// Check to see where we are on the board.
-		board.checkBoundaries(tile, x, y);
+
 		tile.visited = true;
-		//log.debug("tile: " + tile.toString() + " x " + x + " y " + y);
 		if (tile.getTop()) {
-			
+
 			tileTop = board.getTile(x - 1, y);
 			top = tileTop.getOwnerCompany();
 			//log.debug("tileTop.visited: " + tileTop.visited);
@@ -314,13 +334,15 @@ public class Game {
 			} else if (tileTop.getStatus().equals("ONBOARD") && 
 					tileTop.visited == false) {
 				tiles.add(tileTop);
-				//log.debug("Proceeding into tileTop");
+				if(orphanTiles.contains(tileTop)) {
+					orphanTiles.remove(tileTop);
+				}
 				checkAdj(tileTop, x-1, y, player, tiles, companies, orig);
 			}
 		}
-		
+
 		if (tile.getLeft()) {
-			
+
 			tileLeft = board.getTile(x, y - 1);
 			left = tileLeft.getOwnerCompany();
 			//log.debug("tileLeft.visited: " + tileLeft.visited);
@@ -332,12 +354,14 @@ public class Game {
 			} else if (tileLeft.getStatus().equals("ONBOARD") &&
 					tileLeft.visited == false) {
 				tiles.add(tileLeft);
-				//log.debug("Proceeding into tileLeft");
+				if(orphanTiles.contains(tileLeft)) {
+					orphanTiles.remove(tileLeft);
+				}
 				checkAdj(tileLeft, x, y-1, player, tiles, companies, orig);
 			}
 		}
 		if (tile.getBottom()) {
-			
+			//board.printBoundaries(tile);
 			tileBottom = board.getTile(x + 1, y);
 			bottom = tileBottom.getOwnerCompany();
 			//log.debug("tileBottom.visited: " + tileBottom.visited);
@@ -349,7 +373,9 @@ public class Game {
 			} else if (tileBottom.getStatus().equals("ONBOARD") &&
 					tileBottom.visited == false) {
 				tiles.add(tileBottom);
-				//log.debug("Proceeding into tileBottom");
+				if(orphanTiles.contains(tileBottom)) {
+					orphanTiles.remove(tileBottom);
+				}
 				checkAdj(tileBottom, x+1, y, player, tiles, companies, orig);
 
 			}
@@ -366,7 +392,9 @@ public class Game {
 			} else if (tileRight.getStatus().equals("ONBOARD") &&
 					tileRight.visited == false) {
 				tiles.add(tileRight);
-				//log.debug("Proceeding into tileRight");
+				if(orphanTiles.contains(tileRight)) {
+					orphanTiles.remove(tileRight);
+				}
 				checkAdj(tileRight, x, y+1, player, tiles, companies, orig);
 			}
 		}
@@ -374,19 +402,24 @@ public class Game {
 
 		// If there are multiple companies on the board MERGE!
 		if (companies.size() > 1 && tile == orig) {
+			System.out.println("I'm merging with companies: ");
+			for(int i = 0; i < companies.size(); i++) {
+				System.out.println("Company: " + companies.get(i).getCompanyName());
+			}
 			merge(companies, tile);
 			return;
 		}
 		// Adds the tiles to the company if there's only one company on the
 		// board.
-		else if (companies.size() == 1) { // This seems redundant.
-			
+
+		if (companies.size() == 1 && tile == orig) { // This seems redundant.
+
 			Company comp = companies.get(0);
 			comp.logPrintTiles();
 			tile.setOwnerCompany(comp);
 			comp.addTile(tile);
 
-			if (tiles.size() > 0) {
+			if(tiles.size() > 0) {
 				for (int i = 0; i < tiles.size(); i++) {
 					Tile aTile = tiles.get(i);
 					if (!comp.companyTiles.contains(aTile)) {
@@ -397,29 +430,36 @@ public class Game {
 						log.debug("Tiles");
 						comp.logPrintTiles();
 					}
+					return;
 				}
+				
 			}
-			return;
+
 		}
 		// Creates a new company
-		if (tiles.size() >= 1 && tiles.size() < 5 && tile == orig) {
+		if (tiles.size() >= 1 && tile == orig) {
 			if (companiesOnBoard < 7) {
 				tiles.add(tile);
 				Company results = selectCompany(tiles);
 				System.out.println("You have selected: "
 						+ results.getCompanyName());
 				addCertificate(results, 1, playerIndex);
-				
-			} else {
-				System.out
-						.println("All companies are on the board. You cannot "
-								+ "place this tile. Please select another tile.");
-				tile.statusUpdate(3);
-			}
-			return;
-		}
 
+			} else {
+
+				//if(nextToOrphan(tile)) {
+				System.out
+				.println("All companies are on the board. You cannot "
+						+ "place this tile. Please select another tile.");
+				tile.statusUpdate(3);
+
+			}
+
+		}
 	}
+
+
+
 
 	/**
 	 * 
@@ -432,10 +472,10 @@ public class Game {
 		 * setting/getting status is a little clunky, we should consider
 		 * revising.
 		 */
-		
+
 		//TODO Fix this right here. I don't know how to get it
 		if(companiesOnBoard == 7) {
-			if(isAnythingNearMe(tileInPlay)) {
+			if(!nextToOrphanPlayable(tileInPlay)) {
 				return false;
 			}
 		}
@@ -445,41 +485,102 @@ public class Game {
 		}
 		return true;
 	}
-	
-	private boolean isAnythingNearMe(Tile tile) {
+
+	private int isAnythingNearMe(Tile tile) {
 		int x = tile.getRow();
 		int y = tile.getCol();
 		Tile nearMe = null;
-		board.checkBoundaries(tile, x, y);
+		Tile check = null;
+		int count = 0;
+
+		if(tile.getSubStatus().equals("INCOMPANY")) {
+			System.out.println("The subStatus of this tile: " + tile.toString() + 
+					" Is INCOMPANY");
+		}
 		if(tile.getTop()) {
 			nearMe = board.getTile(x-1, y);
-			System.out.println(nearMe.status);
-			if(nearMe.status.equals("ONBOARD") && !nearMe.getSubStatus().equals("INCOMPANY")) {
-				return true;
+			if(nearMe.getTop()) {
+				check = board.getTile(x-2, y);
+				if(!(check.status.equals("ONBOARD") && 
+						!check.getSubStatus().equals("INCOMPANY")) && !nearMe.getStatus().equals("ONBOARD") &&
+						!nearMe.getSubStatus().equals("INCOMPANY")) {
+					nearMe.subStatusUpdate(4);
+					count++;
+				}
 			}
+			else {
+				if(!nearMe.getStatus().equals("ONBOARD") && 
+						!tile.getSubStatus().equals("INCOMPANY")) {
+					nearMe.subStatusUpdate(4);
+					count++;
+				}
+			}
+			//System.out.println(nearMe.status);
+
 		}
 		if(tile.getRight()) {
 			nearMe = board.getTile(x, y+1);
-			System.out.println(nearMe.status);
-			if(nearMe.status.equals("ONBOARD") && !nearMe.getSubStatus().equals("INCOMPANY")) {
-				return true;
+			if(nearMe.getRight()) {
+				check = board.getTile(x, y+2);
+				if(!(check.status.equals("ONBOARD") && 
+						check.getSubStatus().equals("INCOMPANY")) &&
+						!nearMe.getStatus().equals("ONBOARD") &&
+						!nearMe.getSubStatus().equals("INCOMPANY")) {
+					nearMe.subStatusUpdate(4);
+					count++;
+				}
 			}
+			else {
+				if(!nearMe.getStatus().equals("ONBOARD") && 
+						!tile.getSubStatus().equals("INCOMPANY")) {
+					nearMe.subStatusUpdate(4);
+					count++;
+				}
+			}
+			//System.out.println(nearMe.status);
 		}
 		if(tile.getBottom()) {
 			nearMe = board.getTile(x+1, y);
-			System.out.println(nearMe.status);
-			if(nearMe.status.equals("ONBOARD") && !nearMe.getSubStatus().equals("INCOMPANY")) {
-				return true;
+			//System.out.println(nearMe.status);
+			if(nearMe.getBottom()) {
+				check = board.getTile(x+2, y);
+				if(!(check.getStatus().equals("ONBOARD") && 
+						check.getSubStatus().equals("INCOMPANY")) && !nearMe.getStatus().equals("ONBOARD") &&
+						!nearMe.getSubStatus().equals("INCOMPANY")) {
+					nearMe.subStatusUpdate(4);
+					count++;
+				}
 			}
+			else {
+				if(!nearMe.getStatus().equals("ONBOARD") && 
+						!tile.getSubStatus().equals("INCOMPANY")) {
+					nearMe.subStatusUpdate(4);
+					count++;
+				}
+			}
+
 		}
 		if(tile.getLeft()) {
 			nearMe = board.getTile(x, y-1);
-			System.out.println(nearMe.status);
-			if(nearMe.status.equals("ONBOARD") && !nearMe.getSubStatus().equals("INCOMPANY")) {
-				return true;
+			if(nearMe.getLeft()) {
+				check = board.getTile(x,y-2);
+				if(!(check.status.equals("ONBOARD") && 
+						check.getSubStatus().equals("INCOMPANY")) && !nearMe.getStatus().equals("ONBOARD") &&
+						!nearMe.getSubStatus().equals("INCOMPANY")) {
+					nearMe.subStatusUpdate(4);
+					count++;
+				}
+			}
+			else {
+				if(!nearMe.getStatus().equals("ONBOARD") && 
+						!tile.getSubStatus().equals("INCOMPANY")) {
+					nearMe.subStatusUpdate(4);
+					count++;
+				}
 			}
 		}
-		return false;
+		return count;
+
 	}
 
 	/**
@@ -696,6 +797,10 @@ public class Game {
 			tile.subStatusUpdate(5);
 		}
 		companiesOnBoard++; // increment companies on board
+		if(companiesOnBoard == 7) {
+			addOrphans();
+			hitOver7++;
+		}
 		System.out.println("The company size: " + company.companySize);
 
 	}
@@ -766,10 +871,10 @@ public class Game {
 		log.debug("Doing the mergeTurn: ");
 		mergeTurn(companies, largest);
 		dissolveCompanies(companies);
-		
+
 
 	}
-	
+
 	/**
 	 * Dissolves the companies that have just been merged.
 	 * @param companies - Companies to be dissolved.
@@ -811,8 +916,8 @@ public class Game {
 			String print = "";
 			System.out.println("There are companies of equal size");
 			System.out
-					.println("Please choose which company will remain on the "
-							+ "board.");
+			.println("Please choose which company will remain on the "
+					+ "board.");
 			for (int i = 0; i < equal.size(); i++) {
 				print += (i + 1) + ": " + equal.get(i).getCompanyName() + "\n";
 			}
@@ -824,15 +929,15 @@ public class Game {
 		// scan.close();
 		return largest;
 	}
-	
+
 	/**
 	 * 
 	 * @param companies
 	 * @param winner
 	 */
 	private void mergeTurn(ArrayList<Company> companies, Company winner) {
-		
-		
+
+
 		int numTurns = 0;
 		int index = playerIndex;
 		while(numTurns < players.length) {
@@ -846,7 +951,7 @@ public class Game {
 				numTurns++;
 			}
 		}
-		
+
 	}
 
 	/**
@@ -855,8 +960,8 @@ public class Game {
 	 * @param index
 	 */
 	private void sellBackStock(Company company, int index) {
-		
-		//TODO: Update their total money!
+
+
 		int shares = sharesQuery(index, company);
 		System.out.println("This is how much stock you own: " + shares);
 		System.out.println("How much stock would you like to sell back?");
@@ -868,10 +973,10 @@ public class Game {
 		}
 		int money = company.getSharePrice(company.companySize);
 		players[index].updateCash(money*shares);
-		
-		
+
+
 	}
-	
+
 	/**
 	 * Allows a player to trade back stock when a company is being merged. 
 	 * @param company - The now defunct company.
@@ -879,7 +984,7 @@ public class Game {
 	 * @param index - 
 	 */
 	private void tradeBackStock(Company company, Company winner, int index) {
-		
+
 		//TODO: Make sure people don't cheat
 		int trade = 0;
 		System.out.println("How much stock would you like to trade back?" +
@@ -892,10 +997,10 @@ public class Game {
 			trade = scan.nextInt();
 		}
 		company.addStockBack(trade);
-//		winner.soldStock(trade/2);
+		//		winner.soldStock(trade/2);
 		addCertificate(winner, trade/2, index);
 	}
-	
+
 	/**
 	 * 
 	 * @param company
@@ -930,6 +1035,193 @@ public class Game {
 		}
 
 	}
+	/**
+	 * Checks the diagonals of an orphan tile to see if there are in companies
+	 * near it. If so set the corresponding adjacent tile to not UNPLAYABLE
+	 * @param tile
+	 */
+	private void checkDiagonals() {
+
+		Tile check = null;
+		int row = 0;
+		int col = 0;
+
+		for(int i = 0; i < orphanTiles.size(); i++) {
+			
+			Tile tile = orphanTiles.get(i);
+			log.debug("Tile: " + tile.toString());
+			row = tile.getRow();
+			col = tile.getCol();
+			if(tile.getTop() && tile.getRight()) {
+				check = board.getTile(row-1, col+1);
+				if(check.getSubStatus().equals("INCOMPANY")) {
+					check = board.getTile(row-1, col);
+					check.statusUpdate(0);
+					check = board.getTile(row, col+1);
+					check.statusUpdate(0);
+				}
+			}
+			if(tile.getTop() && tile.getLeft()) {
+				check = board.getTile(row-1, col-1);
+				if(check.getSubStatus().equals("INCOMPANY")){
+					check = board.getTile(row-1, col);
+					check.statusUpdate(0);
+					check = board.getTile(row, col+1);
+					check.statusUpdate(0);
+				}
+			}
+			if(tile.getBottom() && tile.getRight()) {
+				check = board.getTile(row+1, col+1);
+				if(check.getSubStatus().equals("INCOMPANY")) {
+					check = board.getTile(row+1, col);
+					check.statusUpdate(0);
+					check = board.getTile(row, col+1);
+					check.statusUpdate(0);
+				}
+
+			}
+			if(tile.getBottom() && tile.getLeft()) {
+				check = board.getTile(row+1, col-1);
+				if(check.getSubStatus().equals("INCOMPANY")) {
+					check = board.getTile(row+1, col);
+					check.statusUpdate(0);
+					check = board.getTile(row, col+1);
+					check.statusUpdate(0);
+				}
+			}
+		}
+	}
+
+	private boolean nextToOrphanPlayable(Tile tile) {
+		int row = tile.getRow();
+		int col = tile.getCol();
+		int count = 0;
+		Tile check = null;
+		Tile orphan = null;
+		Tile top = null;
+		Tile bottom = null;
+		Tile left = null;
+		Tile right = null;
+
+		if(tile.getTop()) {
+			top = board.getTile(row-1, col);
+			if(orphanTiles.contains(top)) {
+				if(tile.getTop() && tile.getRight()) {
+					check = board.getTile(row-1, col+1);
+					if(check.getSubStatus().equals("INCOMPANY")) {
+
+						return true;
+					}
+
+				}else if(tile.getTop() && tile.getLeft()) {
+					check = board.getTile(row-1, col-1);
+					if(check.getSubStatus().equals("INCOMPANY")){
+
+						return true;
+					}
+				}
+
+			}
+		}
+		if(tile.getRight()) {
+			right = board.getTile(row, col+1);
+			if(orphanTiles.contains(right)) {
+				if(tile.getTop() && tile.getRight()) {
+					check = board.getTile(row-1, col+1);
+					if(check.getSubStatus().equals("INCOMPANY")) {
+
+						return true;
+					}
+				} else if(tile.getBottom() && tile.getRight()) {
+					check = board.getTile(row+1, col+1);
+					if(check.getSubStatus().equals("INCOMPANY")) {
+
+						return true;
+					}
+
+				}
+
+			}
+
+		}
+		if(tile.getBottom()) {
+			bottom = board.getTile(row+1, col);
+			if(orphanTiles.contains(bottom)) {
+
+
+				if(tile.getBottom() && tile.getRight()) {
+					check = board.getTile(row+1, col+1);
+					if(check.getSubStatus().equals("INCOMPANY")) {
+						return true;
+					}
+
+				}
+				if(tile.getBottom() && tile.getLeft()) {
+					check = board.getTile(row+1, col-1);
+					if(check.getSubStatus().equals("INCOMPANY")) {
+						return true;
+					}
+				}
+			}
+
+		}
+		if(tile.getLeft()) {
+			left = board.getTile(row, col-1);
+			if(orphanTiles.contains(left)) {
+
+				if(tile.getTop() && tile.getLeft()) {
+					check = board.getTile(row-1, col-1);
+					if(check.getSubStatus().equals("INCOMPANY")){
+
+						return true;
+					}
+					if(tile.getBottom() && tile.getLeft()) {
+						check = board.getTile(row+1, col-1);
+						if(check.getSubStatus().equals("INCOMPANY")) {
+							return true;
+						}
+					}
+				}
+
+			}
+		}
+		if(!orphanTiles.contains(left) && !orphanTiles.contains(right) &&
+				!orphanTiles.contains(bottom) && !orphanTiles.contains(top)) {
+			return true;
+		}
+		return false;
+	}
+
+	private void addOrphans() {
+
+		logPrintTileStatus();
+		for(int x = 0; x < board.x_size; x++) {
+
+			for(int y = 0; y < board.y_size; y++) {
+				Tile tile = board.getTile(x, y);
+				if(tile.getStatus().equals("INHAND") || 
+						tile.getStatus().equals("INBAG") ||
+						tile.getSubStatus().equals("INCOMPANY")) {
+					continue;
+				}
+				int count = isAnythingNearMe(tile);
+				if(count == 4) {
+					orphanTiles.add(tile);
+				}
+			}
+		}
+		
+		String list = "";
+		for(int i = 0; i < orphanTiles.size(); i++) {
+			list += orphanTiles.get(i).toString() + " ";
+		}
+		log.debug("orphanTiles\n\t\t\t\t" + list);
+		logPrintTileStatus();
+		logPrintCompanyTiles();
+		checkDiagonals();
+		logPrintTileStatus();
+	}
+
 
 	/**
 	 * Prints the tiles inside of the company. This is for testing purposes
@@ -943,6 +1235,18 @@ public class Game {
 			Tile tile = comp.companyTiles.get(i);
 			System.out.println(tile.toString() + " ");
 		}
+	}
+
+	private void logPrintTileStatus() {
+		String message = "\n";
+		for(int i = 0; i < board.x_size; i++) {
+			for(int j = 0; j < board.y_size; j++) {
+				Tile tile = board.getTile(i, j);
+				message += tile.toString() + " " + tile.getSubStatus() + "\t\t";
+			}
+			message += "\n";
+		}
+		log.debug(message);
 	}
 
 	public void addCertificate(Company company, Integer amount, int playerIndex) {
@@ -1031,7 +1335,7 @@ public class Game {
 				tempP.totalCash += majorityPayout;
 			}
 			System.out
-					.println("No money will be distributed to minority shareholder(s) :(");
+			.println("No money will be distributed to minority shareholder(s) :(");
 			return;
 		}
 
@@ -1088,6 +1392,12 @@ public class Game {
 			}
 		}
 
+	}
+
+	private void logPrintCompanyTiles() {
+		for(int i = 0; i < 7; i++) {
+			companyList.get(i).logPrintTiles();;
+		}
 	}
 
 	/**
