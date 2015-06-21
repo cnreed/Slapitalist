@@ -19,6 +19,7 @@ public class Game {
 	Festival, Continental;
 	private static ArrayList<Company> companyList;
 	private static ArrayList<Tile> orphanTiles;
+	private static ArrayList<Company> safeList = new ArrayList<Company>();
 	private static Grid board; // TODO: This board here! - Carolyn
 
 	private static Player[] players;
@@ -28,6 +29,12 @@ public class Game {
 	private static boolean gameInPlay = true;
 	private static boolean testingGame = false;
 
+
+	public Game (int x, int y, boolean testing) {
+		board = new Grid(x, y);
+		orphanTiles = new ArrayList<Tile>();
+		initCompanies();
+	}
 	public Game(int x, int y) {
 
 		scan = new Scanner(System.in);
@@ -81,8 +88,11 @@ public class Game {
 		for(int i = 0; i < companyList.size(); i++) {
 			Company comp = companyList.get(i);
 			if(comp.size() == 11) {
-				log.debug("companiesSafe: "+ companiesSafe);
-				companiesSafe++;
+				if(comp != null && !safeList.contains(comp)) {
+					log.debug("companiesSafe: "+ companiesSafe);
+					companiesSafe++;
+					safeList.add(comp);
+				}
 			}
 			if(comp.size() >= 41) {
 				log.debug("Companies over 41: " + companies41);
@@ -443,6 +453,7 @@ public class Game {
 			comp.logPrintTiles();
 			tile.setOwnerCompany(comp);
 			comp.addTile(tile);
+			tile.subStatusUpdate(5);
 
 			if(tiles.size() > 0) {
 				for (int i = 0; i < tiles.size(); i++) {
@@ -451,14 +462,22 @@ public class Game {
 						aTile.setOwnerCompany(comp);
 						comp.addTile(aTile);
 						aTile.subStatusUpdate(5);
+						if(comp.isSafe) {
+							setUnplayable();
+						}
 						log.debug("Company: " + comp.getCompanyName());
 						log.debug("Tiles");
 						comp.logPrintTiles();
+						
 					}
 
 				}
+				if(companiesOnBoard == 7) {
+					checkDiagonals();
+				}
 
 			}
+
 
 		}
 		// Creates a new company
@@ -473,10 +492,229 @@ public class Game {
 			}
 
 		}
+		else if(tiles.size() == 0 && tile == orig && companiesOnBoard == 7) {
+			System.out.println("I got here!");
+			orphanTiles.add(tile);
+			isAnythingNearMe(tile);
+			checkDiagonals();
+			logPrintTileStatus();
+		}
+
 	}
 
 
 
+
+	private void setUnplayable() {
+		// TODO Auto-generated method stub
+		Company comp = null;
+		Company otherCompare = null;
+		logPrintTileStatus(board);
+		for(int i = 0; i < board.x_size; i++) {
+			for(int j = 0; j < board.y_size; j++) {
+				Tile tile = board.getTile(i,j);
+				
+				comp = tile.getOwnerCompany();
+				if(comp != null) {
+					if(comp.isSafe) {
+						if(tile.getBottom()) {
+							Tile guy = board.getTile(i+1, j);
+//							log.debug("Guy: " + guy.toString());
+							Company compare = guy.getOwnerCompany();
+//							System.out.println("Compare : " + compare);
+							
+							if(guy.getBottom()) {
+								Tile otherGuy = board.getTile(i+2, j);
+								otherCompare = otherGuy.getOwnerCompany();
+								
+							}
+							if(compare == null) {
+//							if(compare != null && compare != comp) {
+//								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+								guy.subStatusUpdate(3);
+							}
+							else if(otherCompare != null && otherCompare.isSafe && !otherCompare.getCompanyName().equals(compare.getCompanyName())) {
+								guy.subStatusUpdate(4);
+							}
+//							else /*if() */{
+////								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+//								guy.subStatusUpdate(3);
+//							}
+						}
+						if(tile.getTop()) {
+							Tile guy = board.getTile(i-1, j);
+//							log.debug("Guy: " + guy.toString());
+							Company compare = guy.getOwnerCompany();
+//							System.out.println("Compare : " + compare);
+							
+							if(guy.getTop()) {
+								Tile otherGuy = board.getTile(i-2, j);
+								otherCompare = otherGuy.getOwnerCompany();
+								
+							}
+							if(compare == null) {
+//							if(compare != null && compare != comp) {
+//								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+								guy.subStatusUpdate(3);
+							}
+							else if(otherCompare != null && otherCompare.isSafe && !otherCompare.getCompanyName().equals(compare.getCompanyName())) {
+								guy.subStatusUpdate(4);
+							}
+						}
+						if(tile.getRight()) {
+							Tile guy = board.getTile(i, j+1);
+//							log.debug("Guy: " + guy.toString());
+							Company compare = guy.getOwnerCompany();
+//							System.out.println("Compare : " + compare);
+							
+							if(guy.getRight()) {
+								Tile otherGuy = board.getTile(i, j+2);
+								otherCompare = otherGuy.getOwnerCompany();
+								
+							}
+							if(compare == null) {
+//							if(compare != null && compare != comp) {
+//								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+								guy.subStatusUpdate(3);
+							}
+							else if(otherCompare != null && otherCompare.isSafe && !otherCompare.getCompanyName().equals(compare.getCompanyName())) {
+								guy.subStatusUpdate(4);
+							}
+						}
+						if(tile.getLeft()) {
+							Tile guy = board.getTile(i, j-1);
+//							log.debug("Guy: " + guy.toString());
+							Company compare = guy.getOwnerCompany();
+//							System.out.println("Compare : " + compare);
+							
+							if(guy.getLeft()) {
+								Tile otherGuy = board.getTile(i, j-2);
+								otherCompare = otherGuy.getOwnerCompany();
+								
+							}
+							if(compare == null) {
+//							if(compare != null && compare != comp) {
+//								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+								guy.subStatusUpdate(3);
+							}
+							else if(otherCompare != null && otherCompare.isSafe && !otherCompare.getCompanyName().equals(compare.getCompanyName())) {
+								guy.subStatusUpdate(4);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		logPrintTileStatus(board);
+
+	}
+
+	public void setUnplayable(Grid board) {
+		// TODO Auto-generated method stub
+		Company comp = null;
+		Company otherCompare = null;
+		logPrintTileStatus(board);
+//		boolean booleanVals [] = {false, false, false, false};
+		for(int i = 0; i < board.x_size; i++) {
+			for(int j = 0; j < board.y_size; j++) {
+				Tile tile = board.getTile(i,j);
+				
+				comp = tile.getOwnerCompany();
+				if(comp != null) {
+					if(comp.isSafe) {
+						if(tile.getBottom()) {
+							Tile guy = board.getTile(i+1, j);
+//							log.debug("Guy: " + guy.toString());
+							Company compare = guy.getOwnerCompany();
+//							System.out.println("Compare : " + compare);
+							
+							if(guy.getBottom()) {
+								Tile otherGuy = board.getTile(i+2, j);
+								otherCompare = otherGuy.getOwnerCompany();
+								
+							}
+							if(compare == null) {
+//							if(compare != null && compare != comp) {
+//								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+								guy.subStatusUpdate(3);
+							}
+							else if(otherCompare != null && otherCompare.isSafe && !otherCompare.getCompanyName().equals(compare.getCompanyName())) {
+								guy.subStatusUpdate(4);
+							}
+//							else /*if() */{
+////								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+//								guy.subStatusUpdate(3);
+//							}
+						}
+						if(tile.getTop()) {
+							Tile guy = board.getTile(i-1, j);
+//							log.debug("Guy: " + guy.toString());
+							Company compare = guy.getOwnerCompany();
+//							System.out.println("Compare : " + compare);
+							
+							if(guy.getTop()) {
+								Tile otherGuy = board.getTile(i-2, j);
+								otherCompare = otherGuy.getOwnerCompany();
+								
+							}
+							if(compare == null) {
+//							if(compare != null && compare != comp) {
+//								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+								guy.subStatusUpdate(3);
+							}
+							else if(otherCompare != null && otherCompare.isSafe && !otherCompare.getCompanyName().equals(compare.getCompanyName())) {
+								guy.subStatusUpdate(4);
+							}
+						}
+						if(tile.getRight()) {
+							Tile guy = board.getTile(i, j+1);
+//							log.debug("Guy: " + guy.toString());
+							Company compare = guy.getOwnerCompany();
+//							System.out.println("Compare : " + compare);
+							
+							if(guy.getRight()) {
+								Tile otherGuy = board.getTile(i, j+2);
+								otherCompare = otherGuy.getOwnerCompany();
+								
+							}
+							if(compare == null) {
+//							if(compare != null && compare != comp) {
+//								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+								guy.subStatusUpdate(3);
+							}
+							else if(otherCompare != null && otherCompare.isSafe && !otherCompare.getCompanyName().equals(compare.getCompanyName())) {
+								guy.subStatusUpdate(4);
+							}
+						}
+						if(tile.getLeft()) {
+							Tile guy = board.getTile(i, j-1);
+//							log.debug("Guy: " + guy.toString());
+							Company compare = guy.getOwnerCompany();
+//							System.out.println("Compare : " + compare);
+							
+							if(guy.getLeft()) {
+								Tile otherGuy = board.getTile(i, j-2);
+								otherCompare = otherGuy.getOwnerCompany();
+								
+							}
+							if(compare == null) {
+//							if(compare != null && compare != comp) {
+//								log.debug("Tile's company: " + comp.getCompanyName() + " and Compare's company: " + compare.getCompanyName());
+								guy.subStatusUpdate(3);
+							}
+							else if(otherCompare != null && otherCompare.isSafe && !otherCompare.getCompanyName().equals(compare.getCompanyName())) {
+								guy.subStatusUpdate(4);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		logPrintTileStatus(board);
+
+	}
 
 	/**
 	 * 
@@ -503,99 +741,95 @@ public class Game {
 		return true;
 	}
 
-	private int isAnythingNearMe(Tile tile) {
+	/**
+	 * 
+	 * @param tile
+	 * @return
+	 */
+	private void isAnythingNearMe(Tile tile) {
 		int x = tile.getRow();
 		int y = tile.getCol();
 		Tile nearMe = null;
 		Tile check = null;
-		int count = 0;
 
 
 		if(tile.getTop()) {
 			nearMe = board.getTile(x-1, y);
-			if(nearMe.getTop()) {
-				check = board.getTile(x-2, y);
-				if(check.status.equals("ONBOARD") && 
-						!check.getSubStatus().equals("INCOMPANY") && !nearMe.getStatus().equals("ONBOARD") &&
-						!nearMe.getSubStatus().equals("INCOMPANY")) {
+			if(!nearMe.getStatus().equals("ONBOARD")) {
+				if(nearMe.getTop()) {
+					check = board.getTile(x-2, y);
+					if(check.getSubStatus().equals("INCOMPANY")) {
+						nearMe.subStatusUpdate(0);
+					}
+					else {
+						nearMe.subStatusUpdate(4);
+					}
+				}
+				else {
 					nearMe.subStatusUpdate(4);
-					count++;
 				}
 			}
-			else {
-				if(!nearMe.getStatus().equals("ONBOARD") && 
-						!tile.getSubStatus().equals("INCOMPANY")) {
-					nearMe.subStatusUpdate(4);
-					count++;
-				}
-			}
-			//System.out.println(nearMe.status);
-
 		}
+
+
 		if(tile.getRight()) {
 			nearMe = board.getTile(x, y+1);
-			if(nearMe.getRight()) {
-				check = board.getTile(x, y+2);
-				if(check.status.equals("ONBOARD") && 
-						!check.getSubStatus().equals("INCOMPANY") &&
-						!nearMe.getStatus().equals("ONBOARD") &&
-						!nearMe.getSubStatus().equals("INCOMPANY")) {
+			if(!nearMe.getStatus().equals("ONBOARD")) {
+				if(nearMe.getRight()) {
+					check = board.getTile(x, y+2);
+					if(check.getSubStatus().equals("INCOMPANY")) {
+						nearMe.subStatusUpdate(0);
+					}
+					else {
+						nearMe.subStatusUpdate(4);
+					}
+				}
+				else {
 					nearMe.subStatusUpdate(4);
-					count++;
 				}
 			}
-			else {
-				if(!nearMe.getStatus().equals("ONBOARD") && 
-						!tile.getSubStatus().equals("INCOMPANY")) {
-					nearMe.subStatusUpdate(4);
-					count++;
-				}
-			}
-			//System.out.println(nearMe.status);
 		}
+
+
 		if(tile.getBottom()) {
 			nearMe = board.getTile(x+1, y);
-			//System.out.println(nearMe.status);
-			if(nearMe.getBottom()) {
-				check = board.getTile(x+2, y);
-				if(check.getStatus().equals("ONBOARD") && 
-						!check.getSubStatus().equals("INCOMPANY") && 
-						!nearMe.getStatus().equals("ONBOARD") &&
-						!nearMe.getSubStatus().equals("INCOMPANY")) {
-					nearMe.subStatusUpdate(4);
-					count++;
-				}
-			}
-			else {
-				if(!nearMe.getStatus().equals("ONBOARD") && 
-						!tile.getSubStatus().equals("INCOMPANY")) {
-					nearMe.subStatusUpdate(4);
-					count++;
-				}
-			}
+			if(!nearMe.getStatus().equals("ONBOARD")) {
+				if(nearMe.getBottom()) {
+					check = board.getTile(x+2, y);
+					if(check.getSubStatus().equals("INCOMPANY")) {
+						nearMe.subStatusUpdate(0);
+					}
+					else {
+						nearMe.subStatusUpdate(4);
+					}
 
+				}
+				else {
+					nearMe.subStatusUpdate(4);
+				}
+			}
 		}
+
+
 		if(tile.getLeft()) {
 			nearMe = board.getTile(x, y-1);
-			if(nearMe.getLeft()) {
-				check = board.getTile(x,y-2);
-				if(check.status.equals("ONBOARD") && 
-						!check.getSubStatus().equals("INCOMPANY") && 
-						!nearMe.getStatus().equals("ONBOARD") &&
-						!nearMe.getSubStatus().equals("INCOMPANY")) {
-					nearMe.subStatusUpdate(4);
-					count++;
+			if(!nearMe.getStatus().equals("ONBOARD")) {
+				if(nearMe.getLeft()) {
+					check = board.getTile(x, y-2);
+					if(check.getSubStatus().equals("INCOMPANY")) {
+						nearMe.subStatusUpdate(0);
+					}
+					else {
+						nearMe.subStatusUpdate(4);
+					}
 				}
-			}
-			else {
-				if(!nearMe.getStatus().equals("ONBOARD") && 
-						!tile.getSubStatus().equals("INCOMPANY")) {
+				else {
 					nearMe.subStatusUpdate(4);
-					count++;
 				}
 			}
 		}
-		return count;
+
+
 
 	}
 
@@ -881,10 +1115,14 @@ public class Game {
 					largest.addTile(tile);
 				}
 				companiesOnBoard--;
-				if(hitOver7 >= 1) {
-					orphanTiles.clear();
-				}
+
 			}
+		}
+		if(hitOver7 >= 1) {
+			for(int j = 0; j < orphanTiles.size(); j++) {
+				orphanReset(orphanTiles.get(j));
+			}
+			orphanTiles.clear();
 		}
 		largest.addTile(mTile);
 		log.debug("Doing the mergeTurn: ");
@@ -959,6 +1197,8 @@ public class Game {
 
 		int numTurns = 0;
 		int index = playerIndex;
+		
+		logPrintAllShareQueries();
 		while(numTurns < players.length) {
 			for(int i = 0; i < companies.size(); i++) {
 				Company comp = companies.get(i);
@@ -966,7 +1206,9 @@ public class Game {
 					log.debug("Payout for player: " + players[index].getName());
 					payout(comp, winner, players[index], index);
 				}
+				index++;
 				index = index % numPlayers;
+				System.out.println("This is index: " + index);
 				numTurns++;
 			}
 		}
@@ -1030,8 +1272,9 @@ public class Game {
 
 		int choice;
 
-		System.out.println("What would you like to do?: \t(1) Hold stock\n "
-				+ "\t(2) sell stock\n \t(3) Trade in stock");
+		System.out.println("What would you like to do?: " +  player.getName() +
+				" \t(1) Hold stock\n "	+ "\t(2) sell stock\n \t(3) Trade in "
+						+ "stock");
 		choice = scan.nextInt();
 		switch (choice - 1) {
 
@@ -1112,102 +1355,108 @@ public class Game {
 	}
 
 	private boolean nextToOrphanPlayable(Tile tile) {
-		int row = tile.getRow();
-		int col = tile.getCol();
-		Tile check = null;
-		Tile top = null;
-		Tile bottom = null;
-		Tile left = null;
-		Tile right = null;
+		//		int row = tile.getRow();
+		//		int col = tile.getCol();
+		//		Tile check = null;
+		//		Tile top = null;
+		//		Tile bottom = null;
+		//		Tile left = null;
+		//		Tile right = null;
 
-		if(tile.getTop()) {
-			top = board.getTile(row-1, col);
-			if(orphanTiles.contains(top)) {
-				if(tile.getTop() && tile.getRight()) {
-					check = board.getTile(row-1, col+1);
-					if(check.getSubStatus().equals("INCOMPANY")) {
-
-						return true;
-					}
-
-				}else if(tile.getTop() && tile.getLeft()) {
-					check = board.getTile(row-1, col-1);
-					if(check.getSubStatus().equals("INCOMPANY")){
-
-						return true;
-					}
-				}
-
-			}
-		}
-		if(tile.getRight()) {
-			right = board.getTile(row, col+1);
-			if(orphanTiles.contains(right)) {
-				if(tile.getTop() && tile.getRight()) {
-					check = board.getTile(row-1, col+1);
-					if(check.getSubStatus().equals("INCOMPANY")) {
-
-						return true;
-					}
-				} else if(tile.getBottom() && tile.getRight()) {
-					check = board.getTile(row+1, col+1);
-					if(check.getSubStatus().equals("INCOMPANY")) {
-
-						return true;
-					}
-
-				}
-
-			}
-
-		}
-		if(tile.getBottom()) {
-			bottom = board.getTile(row+1, col);
-			if(orphanTiles.contains(bottom)) {
-
-
-				if(tile.getBottom() && tile.getRight()) {
-					check = board.getTile(row+1, col+1);
-					if(check.getSubStatus().equals("INCOMPANY")) {
-						return true;
-					}
-
-				}
-				if(tile.getBottom() && tile.getLeft()) {
-					check = board.getTile(row+1, col-1);
-					if(check.getSubStatus().equals("INCOMPANY")) {
-						return true;
-					}
-				}
-			}
-
-		}
-		if(tile.getLeft()) {
-			left = board.getTile(row, col-1);
-			if(orphanTiles.contains(left)) {
-
-				if(tile.getTop() && tile.getLeft()) {
-					check = board.getTile(row-1, col-1);
-					if(check.getSubStatus().equals("INCOMPANY")){
-
-						return true;
-					}
-					if(tile.getBottom() && tile.getLeft()) {
-						check = board.getTile(row+1, col-1);
-						if(check.getSubStatus().equals("INCOMPANY")) {
-							return true;
-						}
-					}
-				}
-
-			}
-		}
-		if(!orphanTiles.contains(left) && !orphanTiles.contains(right) &&
-				!orphanTiles.contains(bottom) && !orphanTiles.contains(top)) {
-			orphanTiles.add(tile);
+		if(!tile.getSubStatus().equals("UNPLAYABLE")) {
 			return true;
 		}
-		return false;
+		else {
+			return false;
+		}
+		//		if(tile.getTop()) {
+		//			top = board.getTile(row-1, col);
+		//			if(orphanTiles.contains(top)) {
+		//				if(tile.getTop() && tile.getRight()) {
+		//					check = board.getTile(row-1, col+1);
+		//					if(check.getSubStatus().equals("INCOMPANY")) {
+		//
+		//						return true;
+		//					}
+		//
+		//				}else if(tile.getTop() && tile.getLeft()) {
+		//					check = board.getTile(row-1, col-1);
+		//					if(check.getSubStatus().equals("INCOMPANY")){
+		//
+		//						return true;
+		//					}
+		//				}
+		//
+		//			}
+		//		}
+		//		if(tile.getRight()) {
+		//			right = board.getTile(row, col+1);
+		//			if(orphanTiles.contains(right)) {
+		//				if(tile.getTop() && tile.getRight()) {
+		//					check = board.getTile(row-1, col+1);
+		//					if(check.getSubStatus().equals("INCOMPANY")) {
+		//
+		//						return true;
+		//					}
+		//				} else if(tile.getBottom() && tile.getRight()) {
+		//					check = board.getTile(row+1, col+1);
+		//					if(check.getSubStatus().equals("INCOMPANY")) {
+		//
+		//						return true;
+		//					}
+		//
+		//				}
+		//
+		//			}
+		//
+		//		}
+		//		if(tile.getBottom()) {
+		//			bottom = board.getTile(row+1, col);
+		//			if(orphanTiles.contains(bottom)) {
+		//
+		//
+		//				if(tile.getBottom() && tile.getRight()) {
+		//					check = board.getTile(row+1, col+1);
+		//					if(check.getSubStatus().equals("INCOMPANY")) {
+		//						return true;
+		//					}
+		//
+		//				}
+		//				if(tile.getBottom() && tile.getLeft()) {
+		//					check = board.getTile(row+1, col-1);
+		//					if(check.getSubStatus().equals("INCOMPANY")) {
+		//						return true;
+		//					}
+		//				}
+		//			}
+		//
+		//		}
+		//		if(tile.getLeft()) {
+		//			left = board.getTile(row, col-1);
+		//			if(orphanTiles.contains(left)) {
+		//
+		//				if(tile.getTop() && tile.getLeft()) {
+		//					check = board.getTile(row-1, col-1);
+		//					if(check.getSubStatus().equals("INCOMPANY")){
+		//
+		//						return true;
+		//					}
+		//					if(tile.getBottom() && tile.getLeft()) {
+		//						check = board.getTile(row+1, col-1);
+		//						if(check.getSubStatus().equals("INCOMPANY")) {
+		//							return true;
+		//						}
+		//					}
+		//				}
+		//
+		//			}
+		//		}
+		//		if(!orphanTiles.contains(left) && !orphanTiles.contains(right) &&
+		//				!orphanTiles.contains(bottom) && !orphanTiles.contains(top)) {
+		//			orphanTiles.add(tile);
+		//			return true;
+		//		}
+
 	}
 
 	private void addOrphans() {
@@ -1218,7 +1467,7 @@ public class Game {
 				Tile tile = board.getTile(x, y);
 				if(tile.getStatus().equals("ONBOARD") && 
 						!tile.getSubStatus().equals("INCOMPANY")) {
-					int count = isAnythingNearMe(tile);
+					isAnythingNearMe(tile);
 					orphanTiles.add(tile);
 				}
 			}
@@ -1230,7 +1479,7 @@ public class Game {
 		}
 		log.debug("orphanTiles\n\t\t\t\t" + list);
 		logPrintTileStatus();
-		logPrintCompanyTiles();
+		//logPrintCompanyTiles();
 		checkDiagonals();
 		logPrintTileStatus();
 	}
@@ -1286,7 +1535,19 @@ public class Game {
 		for(int i = 0; i < board.x_size; i++) {
 			for(int j = 0; j < board.y_size; j++) {
 				Tile tile = board.getTile(i, j);
-				message += tile.toString() + " " + tile.getSubStatus() + "\t\t";
+				message += tile.toString() + " " + tile.getSubStatus() + "\t\t\t\t";
+			}
+			message += "\n";
+		}
+		log.debug(message);
+	}
+
+	public void logPrintTileStatus(Grid board) {
+		String message = "\n";
+		for(int i = 0; i < board.x_size; i++) {
+			for(int j = 0; j < board.y_size; j++) {
+				Tile tile = board.getTile(i, j);
+				message += tile.toString() + " " + tile.getSubStatus() + "\t\t\t\t";
 			}
 			message += "\n";
 		}
@@ -1339,7 +1600,7 @@ public class Game {
 
 		// Add all Maxes to a list
 		for (int i = 0; i < playerStockList.length; i++) {
-			if (playerStockList[ID][i] == max) {
+			if (playerStockList[i][ID] == max) {
 				Max.add(i);
 			}
 		}
@@ -1391,7 +1652,7 @@ public class Game {
 		for (int i = 0; i < playerStockList.length; i++) {
 			// if this number is greater than min and it's NOT in the Max list,
 			// then it's a valid min
-			int thisCheck = playerStockList[ID][i];
+			int thisCheck = playerStockList[i][ID];
 			if (min < thisCheck && !Max.contains(i)) {
 				min = thisCheck;
 			}
@@ -1436,6 +1697,18 @@ public class Game {
 			}
 		}
 
+	}
+	
+	private void logPrintAllShareQueries() {
+		String message = "\n";
+		for(int i = 0; i < playerStockList.length; i++) {
+			message += players[i].getName() + "\t\t\t [";
+			for(int j = 0; j < playerStockList[i].length; j++) {
+				 message += " " + playerStockList[i][j];
+			}
+			message += "]\n";
+		}
+		log.debug(message);
 	}
 
 	private void logPrintCompanyTiles() {

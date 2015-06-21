@@ -70,9 +70,10 @@ class Company {
 		return this.CID;
 	}
 
-	void incrementSize() {
+	public void incrementSize() {
 		companySize++;
-		if (companySize == Main.getSafeSize()) {
+		if (companySize == 11) {
+			log.debug("I AM SAFE!");
 			isSafe = true;
 			// TODO - Set unplayable
 		} // makes company safe if safe_size is achieved
