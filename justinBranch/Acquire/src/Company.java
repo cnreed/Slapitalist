@@ -56,7 +56,6 @@ class Company {
 				sharePrice[i] = 1000 + tierValue;
 		}
 	}
-	
 
 	public int getMajorityPayout() {
 		return sharePrice[this.companySize] * 10;
@@ -74,6 +73,7 @@ class Company {
 		companySize++;
 		if (companySize == 11) {
 			log.debug("I AM SAFE!");
+			log.debug("Company: " + companyName);
 			isSafe = true;
 			// TODO - Set unplayable
 		} // makes company safe if safe_size is achieved
@@ -97,7 +97,7 @@ class Company {
 
 	void dissolve() { // drops all backend values to 0, which cascades to
 						// prices, etc.
-		
+
 		onBoard = false; // doesn't affect people that have stock
 		isSafe = false;
 		gameEndable = false;
@@ -128,7 +128,7 @@ class Company {
 	public int getSharePrice(int companySize) {
 		return sharePrice[companySize];
 	}
-	
+
 	public void addStockBack(int quantity) {
 		stockCount += quantity;
 	}
@@ -145,22 +145,23 @@ class Company {
 			return false;
 		}
 	}
-	
+
 	public void logPrintTiles() {
 		int numTiles = 0;
 		String message = "Company : " + companyName;
-		for(int i = 0; i < companyTiles.size(); i++) {
+		for (int i = 0; i < companyTiles.size(); i++) {
 			Tile tile = companyTiles.get(i);
 			message += " " + tile.toString();
 			numTiles++;
 		}
 		log.debug(message);
-		log.debug("number of tiles: " + numTiles + " compared to: " + companySize);
-		
+		log.debug("number of tiles: " + numTiles + " compared to: "
+				+ companySize);
+
 	}
 
 	public int size() {
-		
+
 		return companySize;
 	}
 }
