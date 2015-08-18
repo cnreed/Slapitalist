@@ -92,6 +92,9 @@ public class Game {
 	}
 
 	private void endConditions() {
+		if (allTilesUnplayable()) {
+			System.exit(0);
+		}
 		for (int i = 0; i < companyList.size(); i++) {
 			Company comp = companyList.get(i);
 			if (comp.size() == 11) {
@@ -474,7 +477,7 @@ public class Game {
 						comp.addTile(aTile);
 						aTile.subStatusUpdate(5);
 						if (comp.isSafe) {
-							setUnplayable();
+							setUnplayable(comp);
 						}
 						log.debug("Company: " + comp.getCompanyName());
 						log.debug("Tiles");
@@ -513,6 +516,7 @@ public class Game {
 
 	}
 
+	@SuppressWarnings("unused")
 	private void setUnplayable() {
 		// TODO Auto-generated method stub
 		Company comp = null;
@@ -782,7 +786,6 @@ public class Game {
 		 * revising.
 		 */
 
-		// TODO Fix this right here. I don't know how to get it
 		if (companiesOnBoard == 7) {
 			if (!nextToOrphanPlayable(tileInPlay)) {
 				return false;
@@ -1409,7 +1412,7 @@ public class Game {
 
 	/**
 	 * Gets the tiles inbetween two or more companies that are safe. A modified
-	 * version of setUnplayable
+	 * version of the first setUnplayable
 	 * 
 	 * @return
 	 */
@@ -1449,69 +1452,201 @@ public class Game {
 
 						}
 					}
-					// if (j + 2 > y) { // Right
-					// two = board.getTile(i, j + 2);
-					// twoComp = two.getOwnerCompany();
-					// if (!twoComp.equals(temp)) {
-					// setTile = board.getTile(i, j + 1);
-					// if (twoComp.isSafe && temp.isSafe) {
-					// if (!unplayable.contains(setTile)) {
-					// unplayable.add(setTile);
-					// } else if (twoComp.isSafe || temp.isSafe) {
-					// if (!quarantined.contains(setTile)) {
-					// quarantined.add(setTile);
-					// }
-					// } else { // Neither of them are safe
-					// // Do nothing
-					// // For testing purposes only
-					// }
-					// }
-					//
-					// }
-					// if (i - 2 >= 0) {
-					// two = board.getTile(i - 2, j);
-					// twoComp = two.getOwnerCompany();
-					// if (!twoComp.equals(temp)) {
-					// setTile = board.getTile(i - 1, j);
-					// if (twoComp.isSafe && temp.isSafe) {
-					// if (!unplayable.contains(setTile)) {
-					// unplayable.add(setTile);
-					// } else if (twoComp.isSafe || temp.isSafe) {
-					// if (!quarantined.contains(setTile)) {
-					// quarantined.add(setTile);
-					// }
-					// } else { // Neither of them are safe
-					// // Do nothing
-					// // For testing purposes only
-					// }
-					// }
-					//
-					// }
-					//
-					// }
-					// if (j - 2 >= 0) {
-					// two = board.getTile(i, j - 2);
-					// twoComp = two.getOwnerCompany();
-					// if (!twoComp.equals(temp)) {
-					// setTile = board.getTile(i, j - 1);
-					// if (twoComp.isSafe && temp.isSafe) {
-					// if (!unplayable.contains(setTile)) {
-					// unplayable.add(setTile);
-					// } else if (twoComp.isSafe || temp.isSafe) {
-					// if (!quarantined.contains(setTile)) {
-					// quarantined.add(setTile);
-					// }
-					// } else { // Neither of them are safe
-					// // Do nothing
-					// // For testing purposes only
-					// }
-					// }
-					//
-					// }
-					//
-					// }
+					if (j + 2 > y) { // Right
+						two = board.getTile(i, j + 2);
+						twoComp = two.getOwnerCompany();
+						if (!twoComp.equals(temp)) {
+							setTile = board.getTile(i, j + 1);
+							if (twoComp.isSafe && temp.isSafe) {
+								if (!unplayable.contains(setTile)) {
+									unplayable.add(setTile);
+								} else if (twoComp.isSafe || temp.isSafe) {
+									if (!quarantined.contains(setTile)) {
+										quarantined.add(setTile);
+									}
+								} else { // Neither of them are safe
+									// Do nothing
+									// For testing purposes only
+								}
+							}
 
-					// }
+						}
+						if (i - 2 >= 0) {
+							two = board.getTile(i - 2, j);
+							twoComp = two.getOwnerCompany();
+							if (!twoComp.equals(temp)) {
+								setTile = board.getTile(i - 1, j);
+								if (twoComp.isSafe && temp.isSafe) {
+									if (!unplayable.contains(setTile)) {
+										unplayable.add(setTile);
+									} else if (twoComp.isSafe || temp.isSafe) {
+										if (!quarantined.contains(setTile)) {
+											quarantined.add(setTile);
+										}
+									} else { // Neither of them are safe
+										// Do nothing
+										// For testing purposes only
+									}
+								}
+
+							}
+
+						}
+						if (j - 2 >= 0) {
+							two = board.getTile(i, j - 2);
+							twoComp = two.getOwnerCompany();
+							if (!twoComp.equals(temp)) {
+								setTile = board.getTile(i, j - 1);
+								if (twoComp.isSafe && temp.isSafe) {
+									if (!unplayable.contains(setTile)) {
+										unplayable.add(setTile);
+									} else if (twoComp.isSafe || temp.isSafe) {
+										if (!quarantined.contains(setTile)) {
+											quarantined.add(setTile);
+										}
+									} else { // Neither of them are safe
+										// Do nothing
+										// For testing purposes only
+									}
+								}
+
+							}
+
+						}
+
+					}
+
+				} // if (comp.equals(temp))
+
+			}// inner for loop
+		} // outer for loop
+
+		// Quarantine go through
+		log.debug("Quarantine: ");
+		String message = "";
+		for (int i = 0; i < quarantined.size(); i++) {
+			quarantined.get(i).subStatusUpdate(3);
+			message += quarantined.get(i).toString();
+			log.debug(message + " ");
+		}
+
+		// Unplayable go through
+		log.debug("Unplayable: ");
+		for (int i = 0; i < unplayable.size(); i++) {
+			unplayable.get(i).statusUpdate(4);
+			unplayable.get(i).subStatusUpdate(4);
+			message += unplayable.get(i).toString();
+			log.debug(message);
+		}
+
+	}
+
+	/**
+	 * This is the production version of setUnplayable. It checks to see if
+	 * there is a tile inbetween the Company comp and another company. If so
+	 * then add the tile to the right arraylist.
+	 * 
+	 * @param comp
+	 */
+	private void setUnplayable(Company comp) {
+
+		int x = board.x_size;
+		int y = board.y_size;
+		Tile two = null;
+		Tile setTile = null;
+		Tile tile = null;
+		Company twoComp = null;
+		ArrayList<Tile> quarantined = new ArrayList<Tile>();
+		ArrayList<Tile> unplayable = new ArrayList<Tile>();
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				tile = board.getTile(i, j);
+				Company temp = tile.getOwnerCompany();
+				if (comp.equals(temp)) {
+					// bottom down two
+					if (i + 2 < x) {
+						two = board.getTile(i + 2, j);
+						twoComp = two.getOwnerCompany();
+						if (!twoComp.equals(temp)) {
+							setTile = board.getTile(i + 1, j);
+							if (twoComp.isSafe && temp.isSafe) {
+								if (!unplayable.contains(setTile)) {
+									unplayable.add(setTile);
+								} else if (twoComp.isSafe || temp.isSafe) {
+									if (!quarantined.contains(setTile)) {
+										quarantined.add(setTile);
+									}
+								} else { // Neither of them are safe
+											// Do nothing
+											// For testing purposes only
+								}
+							}
+
+						}
+					}
+					if (j + 2 > y) { // Right
+						two = board.getTile(i, j + 2);
+						twoComp = two.getOwnerCompany();
+						if (!twoComp.equals(temp)) {
+							setTile = board.getTile(i, j + 1);
+							if (twoComp.isSafe && temp.isSafe) {
+								if (!unplayable.contains(setTile)) {
+									unplayable.add(setTile);
+								} else if (twoComp.isSafe || temp.isSafe) {
+									if (!quarantined.contains(setTile)) {
+										quarantined.add(setTile);
+									}
+								} else { // Neither of them are safe
+									// Do nothing
+									// For testing purposes only
+								}
+							}
+
+						}
+						if (i - 2 >= 0) {
+							two = board.getTile(i - 2, j);
+							twoComp = two.getOwnerCompany();
+							if (!twoComp.equals(temp)) {
+								setTile = board.getTile(i - 1, j);
+								if (twoComp.isSafe && temp.isSafe) {
+									if (!unplayable.contains(setTile)) {
+										unplayable.add(setTile);
+									} else if (twoComp.isSafe || temp.isSafe) {
+										if (!quarantined.contains(setTile)) {
+											quarantined.add(setTile);
+										}
+									} else { // Neither of them are safe
+										// Do nothing
+										// For testing purposes only
+									}
+								}
+
+							}
+
+						}
+						if (j - 2 >= 0) {
+							two = board.getTile(i, j - 2);
+							twoComp = two.getOwnerCompany();
+							if (!twoComp.equals(temp)) {
+								setTile = board.getTile(i, j - 1);
+								if (twoComp.isSafe && temp.isSafe) {
+									if (!unplayable.contains(setTile)) {
+										unplayable.add(setTile);
+									} else if (twoComp.isSafe || temp.isSafe) {
+										if (!quarantined.contains(setTile)) {
+											quarantined.add(setTile);
+										}
+									} else { // Neither of them are safe
+										// Do nothing
+										// For testing purposes only
+									}
+								}
+
+							}
+
+						}
+
+					}
 
 				} // if (comp.equals(temp))
 
@@ -1667,6 +1802,11 @@ public class Game {
 		logPrintTileStatus();
 	}
 
+	/**
+	 * resets tile statuses from unplayable to INBAG
+	 * 
+	 * @param tile
+	 */
 	private void orphanReset(Tile tile) {
 
 		int row = tile.getRow();
@@ -1712,6 +1852,9 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Internal version of logPrintTileStatus()
+	 */
 	private void logPrintTileStatus() {
 		String message = "\n";
 		for (int i = 0; i < board.x_size; i++) {
@@ -1725,6 +1868,12 @@ public class Game {
 		log.debug(message);
 	}
 
+	/**
+	 * Logs all the subStatuses of the tiles on the board TODO: Rename this
+	 * function so it makes more sense
+	 * 
+	 * @param board
+	 */
 	public void logPrintTileStatus(Grid board) {
 		String message = "\n";
 		for (int i = 0; i < board.x_size; i++) {
@@ -1738,6 +1887,13 @@ public class Game {
 		log.debug(message);
 	}
 
+	/**
+	 * Adds a stock certificate to the player's 2D array of stock
+	 * 
+	 * @param company
+	 * @param amount
+	 * @param playerIndex
+	 */
 	public void addCertificate(Company company, Integer amount, int playerIndex) {
 		// System.out.println("LIST SIZE: " + this.playerStockList.size());
 		/* if they already have stock in this company, just add quantity */
@@ -1759,6 +1915,11 @@ public class Game {
 		return playerStockList[playerIndex][company.getCID()];
 	}
 
+	/**
+	 * Determines the min max payout to a player
+	 * 
+	 * @param company
+	 */
 	public void minMaxPayout(Company company) {
 
 		int ID = company.getCID();
@@ -1883,6 +2044,12 @@ public class Game {
 
 	}
 
+	/**
+	 * Production version of allTilesUnplayable. If all tiles on the board are
+	 * unplayable then the game should end.
+	 * 
+	 * @return
+	 */
 	private boolean allTilesUnplayable() {
 		int count = 0;
 		for (int i = 0; i < board.x_size; i++) {
@@ -1899,6 +2066,14 @@ public class Game {
 		return false;
 	}
 
+	/**
+	 * Testing version of allTilesUnplayable. This function is used for
+	 * CompanyTesting.java
+	 * 
+	 * @param board
+	 * @param tilesLeftOnBoard
+	 * @return
+	 */
 	public boolean allTilesUnplayable(Grid board, int tilesLeftOnBoard) {
 		int count = 0;
 		for (int i = 0; i < board.x_size; i++) {
@@ -1915,6 +2090,9 @@ public class Game {
 		return false;
 	}
 
+	/**
+	 * Logs all of the shares that a player currently owns
+	 */
 	private void logPrintAllShareQueries() {
 		String message = "\n";
 		for (int i = 0; i < playerStockList.length; i++) {
@@ -1927,14 +2105,18 @@ public class Game {
 		log.debug(message);
 	}
 
+	/**
+	 * Prints the tiles in the company.
+	 */
+	@SuppressWarnings("unused")
 	private void logPrintCompanyTiles() {
 		for (int i = 0; i < 7; i++) {
 			companyList.get(i).logPrintTiles();
-			;
 		}
 	}
 
 	/**
+	 * Rounds the number so we cannot deal in....blaaahhhhh I didn't write this.
 	 * 
 	 * @param number
 	 * @return
