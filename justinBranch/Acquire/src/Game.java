@@ -1772,6 +1772,7 @@ public class Game {
 			message += "\n";
 		}
 		log.debug(message);
+		log.debug(message + "Hello World");
 	}
 
 	/**
