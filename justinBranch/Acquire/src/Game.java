@@ -175,7 +175,7 @@ public class Game {
 		tile.setOwnerPlayer(players[0]);
 		tile2.setOwnerPlayer(players[0]);
 		// selectCompany(tile, tile2);
-		Company comp = tile.getOwnerCompany();
+		// Company comp = tile.getOwnerCompany();
 		// for(int i = 0; i < 3; i++) {
 		// for(int j = 0; j < 3; j++) {
 		// Tile mTile = board.getTile(i, j);
@@ -1674,106 +1674,12 @@ public class Game {
 	}
 
 	private boolean nextToOrphanPlayable(Tile tile) {
-		// int row = tile.getRow();
-		// int col = tile.getCol();
-		// Tile check = null;
-		// Tile top = null;
-		// Tile bottom = null;
-		// Tile left = null;
-		// Tile right = null;
 
 		if (!tile.getSubStatus().equals("UNPLAYABLE")) {
 			return true;
 		} else {
 			return false;
 		}
-		// if(tile.getTop()) {
-		// top = board.getTile(row-1, col);
-		// if(orphanTiles.contains(top)) {
-		// if(tile.getTop() && tile.getRight()) {
-		// check = board.getTile(row-1, col+1);
-		// if(check.getSubStatus().equals("INCOMPANY")) {
-		//
-		// return true;
-		// }
-		//
-		// }else if(tile.getTop() && tile.getLeft()) {
-		// check = board.getTile(row-1, col-1);
-		// if(check.getSubStatus().equals("INCOMPANY")){
-		//
-		// return true;
-		// }
-		// }
-		//
-		// }
-		// }
-		// if(tile.getRight()) {
-		// right = board.getTile(row, col+1);
-		// if(orphanTiles.contains(right)) {
-		// if(tile.getTop() && tile.getRight()) {
-		// check = board.getTile(row-1, col+1);
-		// if(check.getSubStatus().equals("INCOMPANY")) {
-		//
-		// return true;
-		// }
-		// } else if(tile.getBottom() && tile.getRight()) {
-		// check = board.getTile(row+1, col+1);
-		// if(check.getSubStatus().equals("INCOMPANY")) {
-		//
-		// return true;
-		// }
-		//
-		// }
-		//
-		// }
-		//
-		// }
-		// if(tile.getBottom()) {
-		// bottom = board.getTile(row+1, col);
-		// if(orphanTiles.contains(bottom)) {
-		//
-		//
-		// if(tile.getBottom() && tile.getRight()) {
-		// check = board.getTile(row+1, col+1);
-		// if(check.getSubStatus().equals("INCOMPANY")) {
-		// return true;
-		// }
-		//
-		// }
-		// if(tile.getBottom() && tile.getLeft()) {
-		// check = board.getTile(row+1, col-1);
-		// if(check.getSubStatus().equals("INCOMPANY")) {
-		// return true;
-		// }
-		// }
-		// }
-		//
-		// }
-		// if(tile.getLeft()) {
-		// left = board.getTile(row, col-1);
-		// if(orphanTiles.contains(left)) {
-		//
-		// if(tile.getTop() && tile.getLeft()) {
-		// check = board.getTile(row-1, col-1);
-		// if(check.getSubStatus().equals("INCOMPANY")){
-		//
-		// return true;
-		// }
-		// if(tile.getBottom() && tile.getLeft()) {
-		// check = board.getTile(row+1, col-1);
-		// if(check.getSubStatus().equals("INCOMPANY")) {
-		// return true;
-		// }
-		// }
-		// }
-		//
-		// }
-		// }
-		// if(!orphanTiles.contains(left) && !orphanTiles.contains(right) &&
-		// !orphanTiles.contains(bottom) && !orphanTiles.contains(top)) {
-		// orphanTiles.add(tile);
-		// return true;
-		// }
 
 	}
 
@@ -2112,6 +2018,7 @@ public class Game {
 	private void logPrintCompanyTiles() {
 		for (int i = 0; i < 7; i++) {
 			companyList.get(i).logPrintTiles();
+			System.out.println("Hello World!");
 		}
 	}
 
