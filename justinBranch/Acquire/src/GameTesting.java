@@ -20,7 +20,7 @@
 		Festival, Continental;
 		private static ArrayList<Company> companyList;
 		private static ArrayList<Tile> orphanTiles;
-		private static Grid board; // TODO: This board here! - Carolyn
+		private static Board board; // TODO: This board here! - Carolyn
 		private static int x, y;
 
 		static Player[] players;
@@ -36,7 +36,7 @@
 			scan = new Scanner(System.in);
 			orphanTiles = new ArrayList<Tile>();
 			/* initialize board */
-			board = new Grid(x, y); // TODO: This board here? - Carolyn
+			board = new Board(x, y); // TODO: This board here? - Carolyn
 
 			/* initialize players */
 			players = getPlayers();
@@ -171,7 +171,7 @@
 		 * @param board
 		 * @return
 		 */
-		private boolean getMove(Player player, Grid board) {
+		private boolean getMove(Player player, Board board) {
 
 			/* Phase 1 - Tile Placement / Company Creation / Merge */
 			int choice = playerTurnPartOne(player, board);
@@ -192,7 +192,7 @@
 
 		}
 
-		private int playerTurnPartOne(Player player, Grid board) {
+		private int playerTurnPartOne(Player player, Board board) {
 
 			ArrayList<Tile> tiles = new ArrayList<Tile>();
 			ArrayList<Company> companies = new ArrayList<Company>();
@@ -225,7 +225,7 @@
 			return choice;
 		}
 
-		private void playerTurnPartTwo(Player player, Grid board) {
+		private void playerTurnPartTwo(Player player, Board board) {
 			//log.debug(player.name + " "
 			//		+ Arrays.toString(player.getPlayerStockList().toArray()));
 			int buyYesOrNo = validator(
@@ -295,7 +295,7 @@
 
 		}
 
-		private boolean playerTurnPartThree(Player player, Grid board, int choice) {
+		private boolean playerTurnPartThree(Player player, Board board, int choice) {
 			Tile newTile = board.bagPop();
 			player.hand[choice] = newTile;
 			return true;
@@ -606,7 +606,7 @@
 		 * 
 		 * @param board
 		 */
-		private void drawStartingTiles(Grid board) {
+		private void drawStartingTiles(Board board) {
 			for (Player player : players) {
 				Player.numHand = 0;
 				for (int i = 0; i < player.handSize; i++) {
@@ -622,7 +622,7 @@
 		 * @param board
 		 * @return
 		 */
-		private int whoIsFirst(Grid board) {
+		private int whoIsFirst(Board board) {
 			int pLength = players.length;
 			Tile tempTile;
 			ArrayList<Double> distances = new ArrayList<Double>();

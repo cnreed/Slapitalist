@@ -3,9 +3,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class CompanyTesting {
-	Grid board = new Grid(9, 12);
-	Grid lBoard = new Grid(9, 12);
-	Grid unplayBoard = new Grid(9, 12);
+	Board board = new Board(9, 12);
+	Board lBoard = new Board(9, 12);
+	Board unplayBoard = new Board(9, 12);
 	Game game = new Game(9, 12, true);
 	Company comp = new Company("First", 0, null, 0, 0);
 	Company test = new Company("Test", 0, null, 3, 0);

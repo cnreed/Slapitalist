@@ -20,7 +20,7 @@ public class Player {
 	boolean my_turn;
 	boolean my_merge_turn;
 
-	public Player(String name, Grid board) {
+	public Player(String name, Board board) {
 		this.name = name;
 		this.totalCash = 6000;
 		this.hand = new Tile[handSize];

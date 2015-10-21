@@ -8,7 +8,7 @@ import org.apache.log4j.PatternLayout;
 
 public class Main {
 
-	Grid board = new Grid(9, 12);
+	Board board = new Board(9, 12);
 	static int playercount = 0;
 	private static int safeSize = 11;
 	private static ArrayList<Player> Players = new ArrayList<>();

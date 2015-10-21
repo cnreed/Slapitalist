@@ -21,7 +21,7 @@ public class Game {
 	private static ArrayList<Company> companyList;
 	private static ArrayList<Tile> orphanTiles;
 	private static ArrayList<Company> safeList = new ArrayList<Company>();
-	private static Grid board; // TODO: This board here! - Carolyn
+	private static Board board; // TODO: This board here! - Carolyn
 
 	private static Player[] players;
 	private static int playerIndex; // global who's turn is it.
@@ -34,7 +34,7 @@ public class Game {
 		tilesLeftOnBoard = x * y;
 		log.debug("Initial Tiles on the Board: " + tilesLeftOnBoard);
 		scan = new Scanner(System.in);
-		board = new Grid(x, y);
+		board = new Board(x, y);
 		orphanTiles = new ArrayList<Tile>();
 		initCompanies();
 
@@ -47,7 +47,7 @@ public class Game {
 		scan = new Scanner(System.in);
 		orphanTiles = new ArrayList<Tile>();
 		/* initialize board */
-		board = new Grid(x, y); // TODO: This board here? - Carolyn
+		board = new Board(x, y); // TODO: This board here? - Carolyn
 
 		/* initialize players */
 		players = getPlayers();
@@ -213,7 +213,7 @@ public class Game {
 	 * @param board
 	 * @return
 	 */
-	private boolean getMove(Player player, Grid board) {
+	private boolean getMove(Player player, Board board) {
 
 		/* Phase 1 - Tile Placement / Company Creation / Merge */
 		int choice = playerTurnPartOne(player, board);
@@ -235,7 +235,7 @@ public class Game {
 
 	}
 
-	private int playerTurnPartOne(Player player, Grid board) {
+	private int playerTurnPartOne(Player player, Board board) {
 
 		ArrayList<Tile> tiles = new ArrayList<Tile>();
 		ArrayList<Company> companies = new ArrayList<Company>();
@@ -267,7 +267,7 @@ public class Game {
 		return choice;
 	}
 
-	private void playerTurnPartTwo(Player player, Grid board) {
+	private void playerTurnPartTwo(Player player, Board board) {
 		// log.debug(player.name + " "
 		// + Arrays.toString(player.getPlayerStockList().toArray()));
 		int buyYesOrNo = validator(
@@ -337,7 +337,7 @@ public class Game {
 
 	}
 
-	private boolean playerTurnPartThree(Player player, Grid board, int choice) {
+	private boolean playerTurnPartThree(Player player, Board board, int choice) {
 		Tile newTile = board.bagPop();
 		player.hand[choice] = newTile;
 		return true;
@@ -645,7 +645,7 @@ public class Game {
 
 	}
 
-	public void setUnplayable(Grid board) {
+	public void setUnplayable(Board board) {
 		// TODO Auto-generated method stub
 		Company comp = null;
 		Company otherCompare = null;
@@ -900,7 +900,7 @@ public class Game {
 	 * 
 	 * @param board
 	 */
-	private void drawStartingTiles(Grid board) {
+	private void drawStartingTiles(Board board) {
 		for (Player player : players) {
 			Player.numHand = 0;
 			for (int i = 0; i < player.handSize; i++) {
@@ -917,7 +917,7 @@ public class Game {
 	 * @param board
 	 * @return
 	 */
-	private int whoIsFirst(Grid board) {
+	private int whoIsFirst(Board board) {
 		int pLength = players.length;
 		Tile tempTile;
 		ArrayList<Double> distances = new ArrayList<Double>();
@@ -1416,7 +1416,7 @@ public class Game {
 	 * 
 	 * @return
 	 */
-	public void setUnplayable(Grid board, Company comp) {
+	public void setUnplayable(Board board, Company comp) {
 
 		int x = board.x_size;
 		int y = board.y_size;
@@ -1781,7 +1781,7 @@ public class Game {
 	 * 
 	 * @param board
 	 */
-	public void logPrintTileStatus(Grid board) {
+	public void logPrintTileStatus(Board board) {
 		String message = "\n";
 		for (int i = 0; i < board.x_size; i++) {
 			for (int j = 0; j < board.y_size; j++) {
@@ -1981,7 +1981,7 @@ public class Game {
 	 * @param tilesLeftOnBoard
 	 * @return
 	 */
-	public boolean allTilesUnplayable(Grid board, int tilesLeftOnBoard) {
+	public boolean allTilesUnplayable(Board board, int tilesLeftOnBoard) {
 		int count = 0;
 		for (int i = 0; i < board.x_size; i++) {
 			for (int j = 0; j < board.y_size; j++) {

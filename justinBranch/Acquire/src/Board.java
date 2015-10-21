@@ -3,9 +3,9 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
-public class Grid {
+public class Board {
 
-	public static Logger log = Logger.getLogger(Grid.class);
+	public static Logger log = Logger.getLogger(Board.class);
 	int x_size;
 	int y_size;
 	Tile[][] grid;
@@ -18,7 +18,7 @@ public class Grid {
 	int merges; // total merges across all players
 	int companies_started; // total for game - started and re-started
 
-	public Grid(int x_size, int y_size) {
+	public Board(int x_size, int y_size) {
 		this.x_size = x_size;
 		this.y_size = y_size;
 		grid = new Tile[x_size][y_size];
