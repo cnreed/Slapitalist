@@ -13,7 +13,6 @@ public class Board {
 	LinkedList<Tile> bag = new LinkedList<Tile>();
 	Tile[][] randArray;
 
-	
 	int turns; // total turns across all players
 	int merges; // total merges across all players
 	int companies_started; // total for game - started and re-started
@@ -26,7 +25,7 @@ public class Board {
 		randArray = new Tile[x_size][y_size];
 		initialize();
 		randomizeGrid();
-		//randPrint();
+		// randPrint();
 		initBag();
 
 	}
@@ -42,7 +41,6 @@ public class Board {
 				checkBoundaries(tile, i, j);
 				grid[i][j] = tile;
 				randArray[i][j] = tile;
-				inBag[i][j] = true;
 			}
 		}
 
@@ -71,7 +69,7 @@ public class Board {
 			System.out.println();
 		}
 	}
-	
+
 	public void randPrint() {
 
 		String statusIndicator = "";
@@ -100,25 +98,29 @@ public class Board {
 	 * @param y
 	 */
 	public void checkBoundaries(Tile tile, int x, int y) {
+		log.debug("Tile: " + tile.toString() + " x_size: " + x_size + " x: "
+				+ x);
+		// log.debug("x_size: " + x_size + );
 		if (x <= 0) {
 			tile.top = false;
 		}
 		if (y <= 0) {
 			tile.left = false;
 		}
-		if (x >= 8) {
+		if (x >= x_size - 1) {
+			log.debug("x: " + x);
+			log.debug("x_size: " + x_size);
 			tile.bottom = false;
 		}
-		if (y >= 11) {
+		if (y >= y_size - 1) {
 			tile.right = false;
 		}
 	}
-	
+
 	public Tile getTile(int x, int y) {
 		Tile tile = grid[x][y];
 		return tile;
 	}
-	
 
 	/**
 	 * Prints if the corresponding move is possible according to the limits of
@@ -169,7 +171,8 @@ public class Board {
 	}
 
 	/**
-	 * Pops a Tile off the top of the bag. 
+	 * Pops a Tile off the top of the bag.
+	 * 
 	 * @return
 	 */
 	public Tile bagPop() {
