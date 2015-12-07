@@ -98,8 +98,8 @@ public class Board {
 	 * @param y
 	 */
 	public void checkBoundaries(Tile tile, int x, int y) {
-		log.debug("Tile: " + tile.toString() + " x_size: " + x_size + " x: "
-				+ x);
+		// log.debug("Tile: " + tile.toString() + " x_size: " + x_size + " x: "
+		// + x);
 		// log.debug("x_size: " + x_size + );
 		if (x <= 0) {
 			tile.top = false;
@@ -108,8 +108,6 @@ public class Board {
 			tile.left = false;
 		}
 		if (x >= x_size - 1) {
-			log.debug("x: " + x);
-			log.debug("x_size: " + x_size);
 			tile.bottom = false;
 		}
 		if (y >= y_size - 1) {

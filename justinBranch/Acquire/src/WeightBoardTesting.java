@@ -30,10 +30,10 @@ public class WeightBoardTesting {
 		Logger log = Logger.getLogger(java.sql.Driver.class);
 		log.debug("Starting Tests");
 		Board board = new Board(3, 6);
-		float num = (float) 0.1;
+		float num = 0.1f;
 		WeightBoard weight = new WeightBoard(board, num);
 		weight.printBoard();
-		// Tile tile = board.bagPop();
+
 		Tile tile = board.getTile(0, 0);
 		System.out.println(tile.toString());
 		tile.statusUpdate(2);
@@ -46,10 +46,12 @@ public class WeightBoardTesting {
 		// weight.recalculate(board);
 		// // weight.recalculateSurroundings(board, tile);
 		weight.printBoard();
+		System.out.println("Wiping Board Clean: ");
 		weight.boardWipe();
+		System.out.println("Clean Board");
 		weight.printBoard();
 		weight.recursiveRecalculate(board, tile, tile);
-		// System.out.println();
+		System.out.println();
 		weight.printBoard();
 		tile = board.getTile(1, 1);
 		System.out.println(tile.toString());
@@ -57,5 +59,6 @@ public class WeightBoardTesting {
 		tile.statusUpdate(2);
 		weight.recursiveRecalculate(board, tile, tile);
 		weight.printBoard();
+		board.print();
 	}
 }

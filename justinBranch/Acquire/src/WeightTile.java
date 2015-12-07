@@ -4,17 +4,21 @@ public class WeightTile {
 	int surroundCount;
 	int row;
 	int col;
-	double weight;
+	float weight;
 
 	public WeightTile(Tile tile, int row, int col) {
 		this.tile = tile;
 		this.surroundCount = 0;
-		this.weight = 0.0;
+		this.weight = 0.0f;
 		this.row = row;
 		this.col = col;
 	}
 
-	public void addWeight(double addend) {
+	public double getWeight() {
+		return weight;
+	}
+
+	public void addWeight(float addend) {
 		weight += addend;
 	}
 
@@ -24,6 +28,18 @@ public class WeightTile {
 
 	public void updateSurroundCount() {
 		surroundCount++;
+	}
+
+	public int getSurroundCount() {
+		return surroundCount;
+	}
+
+	public void removeSurroundCount() {
+		surroundCount = 0;
+	}
+
+	public Tile getTile() {
+		return tile;
 	}
 
 }

@@ -27,12 +27,33 @@ public class WeightBoard {
 				weightBoard[i][j] = wTile;
 			}
 		}
+		// printTileWithCoordinates();
 	}
 
 	public void printBoard() {
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
-				System.out.print(weightBoard[i][j] + "\t");
+				System.out.printf("%.2f\t", weightBoard[i][j].getWeight());
+			}
+			System.out.println();
+		}
+	}
+
+	public void printTileWithCoordinates() {
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				Tile tile = weightBoard[i][j].getTile();
+				System.out.print(tile + " (" + tile.getRow() + ", "
+						+ tile.getCol() + ")\t");
+			}
+			System.out.println();
+		}
+	}
+
+	public void printSurroundCountBoard() {
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				System.out.printf(weightBoard[i][j].getSurroundCount() + "\t");
 			}
 			System.out.println();
 		}
@@ -44,11 +65,14 @@ public class WeightBoard {
 			for (int j = 0; j < y; j++) {
 				if (board.getTile(i, j).status.equals("ONBOARD")) {
 					weightBoard[i][j].removeWeight();
-					recalculateSurroundings(board, board.getTile(i, j));
+					// recalculateSurroundings(board, board.getTile(i, j));
+					recalculateSurroundings(board, weightBoard[i][j], i, j);
 				}
 
 			}
 		}
+		System.out.println("Printing Surround Count: ");
+		printSurroundCountBoard();
 
 	}
 
@@ -87,7 +111,10 @@ public class WeightBoard {
 		}
 		tile.visited = false;
 		// if (tile.equals(orig)) {
-		recalculateSurroundings(board, tile);
+		// recalculateSurroundings(board, tile);
+		recalculateSurroundings(board, weightBoard[row][col], row, col);
+		System.out.println("\n\nSurroundCountBoard");
+		printSurroundCountBoard();
 		// }
 
 	}
@@ -109,15 +136,16 @@ public class WeightBoard {
 	private void centerTile(Tile tile, Board board) {
 		int row = tile.getRow();
 		int col = tile.getCol();
-		double addedWeight = 0;
+		float addedWeight = 0;
 		Tile top, topRight, topLeft, left, right, bottom, bottomRight, bottomLeft;
-		System.out.println("Tile: " + tile.toString());
+		System.out.println("function centTile - Tile: " + tile.toString());
 		if (tile.getTop()) {
 			log.debug("Top tile before getTile");
 			top = board.getTile(row - 1, col);
 			log.debug("Top tile: " + top.toString());
 			if (top.getStatus().equals("ONBOARD")) {
 				// System.out.println("Adding Weight");
+
 				addedWeight += weight;
 				// System.out.println("Added Weight: " + addedWeight);
 			}
@@ -187,6 +215,93 @@ public class WeightBoard {
 
 	}
 
+	private void centerTile(WeightTile wTile, Board board, int x, int y) {
+		Tile tile = wTile.getTile();
+		int row = x;
+		int col = y;
+		log.debug("Tile: " + tile.toString() + " row: " + row + " col: " + col);
+		float addedWeight = 0;
+		Tile top, topRight, topLeft, left, right, bottom, bottomRight, bottomLeft;
+		System.out.println("Tile: " + tile.toString());
+		if (tile.getTop()) {
+			log.debug("Top tile before getTile");
+			top = board.getTile(row - 1, col);
+			log.debug("Top tile: " + top.toString());
+			if (top.getStatus().equals("ONBOARD")) {
+				wTile.updateSurroundCount();
+			}
+			if (tile.getRight()) {
+				log.debug("topRight tile before getTile");
+				topRight = board.getTile(row - 1, col + 1);
+				log.debug("topRight tile: " + topRight.toString());
+				if (topRight.getStatus().equals("ONBOARD")) {
+					// addedWeight += weight;
+					wTile.updateSurroundCount();
+				}
+			}
+			if (tile.getLeft()) {
+				log.debug("topLeft tile before getTile");
+				log.debug("row: " + (row - 1) + " col: " + (col - 1));
+				topLeft = board.getTile(row - 1, col - 1);
+				log.debug("topLeft tile: " + topLeft.toString());
+				if (topLeft.getStatus().equals("ONBOARD")) {
+					// addedWeight += weight;
+					wTile.updateSurroundCount();
+				}
+			}
+		}
+		if (tile.getLeft()) {
+			log.debug("left tile before getTile");
+			left = board.getTile(row, col - 1);
+			log.debug("left tile: " + left.toString());
+			if (left.getStatus().equals("ONBOARD")) {
+				// addedWeight += weight;
+				wTile.updateSurroundCount();
+			}
+		}
+		if (tile.getRight()) {
+			log.debug("right tile before getTile");
+			right = board.getTile(row, col + 1);
+			log.debug("right tile: " + right.toString());
+			if (right.getStatus().equals("ONBOARD")) {
+				// addedWeight += weight;
+				wTile.updateSurroundCount();
+			}
+
+		}
+		if (tile.getBottom()) {
+			log.debug("tile.getBottom(): " + tile.getBottom());
+			log.debug("bottom tile before getTile");
+			bottom = board.getTile(row + 1, col);
+			log.debug("bottom tile : " + bottom.toString());
+			if (bottom.getStatus().equals("ONBOARD")) {
+				// addedWeight += weight;
+				wTile.updateSurroundCount();
+			}
+			if (tile.getRight()) {
+				log.debug("bottomRight tile before getTile");
+				bottomRight = board.getTile(row + 1, col + 1);
+				log.debug("bottomRight tile: " + bottomRight.toString());
+				if (bottomRight.getStatus().equals("ONBOARD")) {
+					// addedWeight += weight;
+					wTile.updateSurroundCount();
+				}
+			}
+			if (tile.getLeft()) {
+				log.debug("bottomLeft tile before getTile");
+				bottomLeft = board.getTile(row + 1, col - 1);
+				log.debug("bottomLeft tile: " + bottomLeft.toString());
+				if (bottomLeft.getStatus().equals("ONBOARD")) {
+					// addedWeight += weight;
+					wTile.updateSurroundCount();
+				}
+
+			}
+		}
+		wTile.addWeight(addedWeight);
+
+	}
+
 	public void centerTileStatus(Tile tile, Board board) {
 
 		if (tile.getTop()) {
@@ -245,10 +360,39 @@ public class WeightBoard {
 
 	}
 
+	public void recalculateSurroundings(Board board, WeightTile wTile, int row,
+			int col) {
+
+		// TODO: Get the right tile coordinates.
+		// [03/22 11:03:06:171 DEBUG] main: recalculateSurroundings() Tile: B2
+		// row: 1 col: 1
+		// [03/22 11:03:06:171 DEBUG] main: centerTile() Tile: B2 row: 1 col: 0
+
+		Tile tile = wTile.getTile();
+		log.debug("Tile: " + tile.toString() + " row: " + row + " col: " + col);
+		if (tile.getTop()
+				&& canCalculate(board.getTile(row - 1, col).getStatus())) {
+			centerTile(weightBoard[row - 1][col], board, row - 1, col);
+		}
+		if (tile.getLeft()
+				&& canCalculate(board.getTile(row, col - 1).getStatus())) {
+			centerTile(weightBoard[row][col - 1], board, row, col - 1);
+		}
+		if (tile.getBottom()
+				&& canCalculate(board.getTile(row + 1, col).getStatus())) {
+			centerTile(weightBoard[row + 1][col], board, row + 1, col);
+		}
+		if (tile.getRight()
+				&& canCalculate(board.getTile(row, col + 1).getStatus())) {
+			centerTile(weightBoard[row][col + 1], board, row, col + 1);
+		}
+	}
+
 	public void boardWipe() {
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
 				weightBoard[i][j].removeWeight();
+				weightBoard[i][j].removeSurroundCount();
 
 			}
 		}
