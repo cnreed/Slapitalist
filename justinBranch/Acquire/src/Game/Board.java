@@ -1,7 +1,9 @@
-import java.util.LinkedList;
-import java.util.Random;
+package Game;
 
 import org.apache.log4j.Logger;
+
+import java.util.LinkedList;
+import java.util.Random;
 
 public class Board {
 
@@ -28,6 +30,14 @@ public class Board {
 		// randPrint();
 		initBag();
 
+	}
+
+	public int getX() {
+		return x_size;
+	}
+
+	public int getY() {
+		return y_size;
 	}
 
 	/**

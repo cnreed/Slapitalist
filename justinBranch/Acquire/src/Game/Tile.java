@@ -1,4 +1,4 @@
-/**
+package Game; /**
  * Individual Tiles for the game board.
  * 
  * @author Carolyn
@@ -36,7 +36,7 @@ public class Tile {
 	}
 
 	public Tile(int row, int col, Company ownerCompany, Player ownerPlayer,
-			int statusIndex) {
+				int statusIndex) {
 		this.row = row;
 		this.col = col;
 		top = bottom = left = right = true;
