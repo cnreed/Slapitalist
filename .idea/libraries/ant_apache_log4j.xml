@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="ant-apache-log4j">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../../codingTools/eclipse/plugins/org.apache.ant_1.9.2.v201404171502/lib/ant-apache-log4j.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
